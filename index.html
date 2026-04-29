@@ -1,138 +1,1122 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="es">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asesor de Seguros | Retiro, Gastos Médicos y Fondo Universitario – Víctor Hugo</title>
+    <meta name="google-site-verification" content="6RoHxn23e9QkHqC2S8QTECuUezYrHhT3C3cJxiGIOPg" />
+    <meta name="description" content="Simula tu Plan de Retiro o Fondo Universitario sin costo. Víctor Hugo Díaz, asesor patrimonial. Diseña un plan a tu medida y protege lo que más amas.">
+<meta name="geo.region" content="MX-VER">
+<meta name="geo.placename" content="Veracruz, México">
+    <!-- Cargamos React, ReactDOM, Babel (para procesar el código) y Tailwind (para los estilos) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración básica de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        corp: {
+                            blue: '#003366',
+                            accent: '#005E9D',
+                            light: '#66B2FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @media (min-height: 600px) and (max-height: 850px) {
+            .hero-title {
+                font-size: 2.5rem !important;
+                line-height: 1.1 !important;
+            }
+
+            .simulator-card {
+                transform: scale(0.85);
+                transform-origin: top right;
+                margin-top: -1.5rem;
+            }
+
+            .hero-container {
+                padding-top: 1rem !important;
+                padding-bottom: 2rem !important;
+            }
+
+            .bottom-cards-container {
+                height: 90px !important;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="es"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Víctor Hugo Díaz | Protección Financiera&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #eaf2f7;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #1c1c1c;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.container {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>max-width: 600px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: auto;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>img {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>width: 120px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 10px 0 5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.subtitle {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #555;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 15px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 4px 12px rgba(0,0,0,0.05);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: left;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card h2 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.button {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: block;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: #1e3a5f;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-decoration: none;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px 0;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.small {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #777;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;img src="foto.jpg" alt="Víctor Hugo Díaz"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Víctor Hugo Díaz&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="subtitle"&gt;Protección financiera clara para familias que no quieren improvisar su futuro&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;a class="button" href="https://wa.me/5212291154423?text=Hola%20Vic,%20quiero%20información%20sobre%20protección%20financiera" target="_blank"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Hablar por WhatsApp</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="small"&gt;Atención personalizada. Sin compromiso.&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;No es sobre seguros&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Es sobre las decisiones que cambian el futuro de tu familia.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Soy Víctor Hugo.&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Asesor en protección financiera… y papá.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Entiendo que no buscas comprar algo.&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Buscas certeza.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Cómo puedo ayudarte&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>A tomar decisiones claras para:&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Proteger a tu familia&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Asegurar la educación de tus hijos&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Construir un retiro sólido&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Sin complicaciones. Sin presión.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Mi forma de trabajar&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Primero escucho.&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Después explico.&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Y solo entonces, recomiendo.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>Porque un seguro no se vende…&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>se entiende.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;¿Para quién es esto?&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Personas con hijos o dependientes&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Quienes quieren hacer las cosas bien desde hoy&lt;br&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>• Quienes prefieren prevenir en lugar de reaccionar</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="card" style="text-align:center;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;No es una venta&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Es una conversación.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<body class="bg-[#003366] overflow-x-hidden m-0 p-0">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- ÍCONOS SVG ---
+        const Icon = ({ path, size = 24, color = "currentColor", fill = "none", className = "", strokeWidth = 2 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {path}
+            </svg>
+        );
+
+        const Shield = (p) => <Icon {...p} path={<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />} />;
+        const ChevronDown = (p) => <Icon {...p} path={<polyline points="6 9 12 15 18 9" />} />;
+        const Heart = (p) => <Icon {...p} path={<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />} />;
+        const Briefcase = (p) => <Icon {...p} path={<><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></>} />;
+        const GraduationCap = (p) => <Icon {...p} path={<><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></>} />;
+        const Activity = (p) => <Icon {...p} path={<polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />} />;
+        const Calendar = (p) => <Icon {...p} path={<><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>} />;
+        const MessageCircle = (p) => <Icon {...p} path={<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />} />;
+        const Instagram = (p) => <Icon {...p} path={<><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></>} />;
+        const TrendingUp = (p) => <Icon {...p} path={<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></>} />;
+        const Menu = (p) => <Icon {...p} path={<><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>} />;
+        const XIcon = (p) => <Icon {...p} path={<><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>} />;
+        const CheckCircle = (p) => <Icon {...p} path={<><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></>} />;
+        const ArrowLeft = (p) => <Icon {...p} path={<><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></>} />;
+        const InfoIcon = (p) => <Icon {...p} path={<><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></>} />;
+
+        // --- DATOS DE LOS PLANES ---
+        const planesInfo = {
+            'retiro': {
+                title: 'Plan Personal de Retiro',
+                subtitle: 'Asegura tu nivel de vida para tu etapa de jubilación.',
+                img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80',
+                desc: 'Un PPR (Plan Personal de Retiro) es el instrumento financiero perfecto para garantizar que no te falte nada en tu edad de retiro, aprovechando beneficios fiscales inmediatos.',
+                benefits: [
+                    'Ahorro deducible de impuestos (Art. 151 LISR).',
+                    'Rendimientos garantizados y protegidos contra la inflación.',
+                    'Seguro de vida por fallecimiento e invalidez incluido.',
+                    'Flexibilidad en aportaciones y plazos.'
+                ]
+            },
+            'segubeca': {
+                title: 'SeguBeca',
+                subtitle: 'El mejor regalo: la educación universitaria de tus hijos.',
+                img: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80',
+                desc: 'Garantiza el fondo para pagar la universidad de tus hijos sin importar lo que pase. Construye su futuro desde hoy con aportaciones programadas.',
+                benefits: [
+                    'Garantía de entrega del fondo a sus 18 años.',
+                    'En caso de fallecimiento o invalidez, el ahorro se completa automáticamente.',
+                    'Protección para los padres desde el día 1.',
+                    'El dinero crece por encima de la inflación educativa.'
+                ]
+            },
+            'vida_mujer': {
+                title: 'Vida Mujer',
+                subtitle: 'Protección y ahorro diseñado exclusivamente para ti.',
+                img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80',
+                desc: 'El único seguro de vida que te premia en vida. Diseñado para la mujer moderna que busca protección contra padecimientos femeninos y ahorro para sus metas.',
+                benefits: [
+                    'Cobertura especial para padecimientos exclusivos de la mujer.',
+                    'Entrega de ahorro garantizado en vida.',
+                    'Apoyo por matrimonio, maternidad o adopción de un hijo.',
+                    'Seguro de vida y ahorro a largo plazo integrado.'
+                ]
+            },
+            'gastos_medicos': {
+                title: 'Gastos Médicos Mayores',
+                subtitle: 'Tu salud y tu patrimonio siempre a salvo.',
+                img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80',
+                desc: 'Un imprevisto médico puede terminar con el patrimonio de toda una vida. Obtén acceso a los mejores hospitales privados del país sin arriesgar tu economía.',
+                benefits: [
+                    'Atención en la mejor red de hospitales a nivel nacional.',
+                    'Cobertura de honorarios médicos, cirugías y medicamentos.',
+                    'Tratamientos de alta especialidad (Cirugía Fetal, Oncología, Hematología, Neurología, Neurocirugía, Cardiovasculares, entre otras).',
+                    'Maternidad y atención en el extranjero (opcional).'
+                ]
+            },
+            'seguro_vida': {
+                title: 'Seguro de Vida',
+                subtitle: 'Amor y tranquilidad incondicional para los tuyos.',
+                img: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?auto=format&fit=crop&q=80',
+                desc: 'Garantiza que el nivel de vida de tu familia no se detenga si tú llegas a faltar o si sufres una invalidez que te impida seguir generando ingresos.',
+                benefits: [
+                    'Suma asegurada garantizada por fallecimiento.',
+                    'Anticipo o pago por invalidez total y permanente.',
+                    'Planes adaptables a tu presupuesto (temporales o de por vida).',
+                    'Tranquilidad financiera absoluta.'
+                ]
+            }
+        };
+
+        // --- COMPONENTE PRINCIPAL ---
+        function App() {
+            const [activeTab, setActiveTab] = useState('inicio');
+            const [selectedPlan, setSelectedPlan] = useState(null); // Estado para el plan seleccionado
+            const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+            const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+            const [sharedAge, setSharedAge] = useState(35);
+            const [sharedAhorro, setSharedAhorro] = useState(3000);
+
+            const sendToGoogleSheets = (data) => {
+                const webhookUrl = "https://script.google.com/macros/s/AKfycbzb-Brx55J_MZOJDRnno-cNdvTDVhbn9UwB0TekL0Ga5lTgJsRtif8VwiiumQ-MsXoA/exec";
+                
+                // Usamos fetch en modo 'no-cors' enviando un string JSON como texto plano
+                // Esto permite que el backend de Google Apps Script reciba JSON y bypass de CORS.
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(data)
+                }).catch(console.error);
+            };
+
+            const colors = { blue: '#003366', accent: '#005E9D', lightAccent: '#66B2FF' };
+            const waNumber = "522291154423";
+            const waDefaultText = encodeURIComponent("Hola Víctor, me gustaría agendar una asesoría patrimonial contigo.");
+            const waLink = `https://wa.me/${waNumber}?text=${waDefaultText}`;
+
+            // Manejador de navegación para los planes
+            const handlePlanClick = (planKey) => {
+                setSelectedPlan(planKey);
+                setActiveTab('plan_detalle');
+                setIsProjectsOpen(false);
+                setIsMobileMenuOpen(false);
+            };
+
+            const renderContent = () => {
+                switch (activeTab) {
+                    case 'inicio': return <HomeView setActiveTab={setActiveTab} age={sharedAge} setAge={setSharedAge} ahorro={sharedAhorro} setAhorro={setSharedAhorro} colors={colors} waNumber={waNumber} />;
+                    case 'calculadora': return <RetirementCalculator sharedAge={sharedAge} setSharedAge={setSharedAge} sharedAhorro={sharedAhorro} setSharedAhorro={setSharedAhorro} colors={colors} waNumber={waNumber} sendToGoogleSheets={sendToGoogleSheets} />;
+                    case 'proyeccion': return <UniversityCalculator colors={colors} waNumber={waNumber} sendToGoogleSheets={sendToGoogleSheets} />;
+                    case 'plan_detalle': return <PlanDetailView planKey={selectedPlan} colors={colors} waNumber={waNumber} onBack={() => setActiveTab('inicio')} />;
+                    case 'acerca_de': return <AboutView colors={colors} waNumber={waNumber} onBack={() => setActiveTab('inicio')} />;
+                    default: return <HomeView setActiveTab={setActiveTab} age={sharedAge} setAge={setSharedAge} ahorro={sharedAhorro} setAhorro={setSharedAhorro} colors={colors} waNumber={waNumber} />;
+                }
+            };
+
+            return (
+                <div className="min-h-screen w-full flex flex-col font-sans bg-gray-100 text-gray-800">
+
+                    {/* HEADER SUPERIOR */}
+                    <header className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-white shadow-sm z-50 relative sticky top-0">
+                        <div className="flex items-center gap-2 sm:gap-3 cursor-pointer" onClick={() => setActiveTab('inicio')}>
+                            <div className="relative flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12">
+                                <Shield size={36} color={colors.blue} strokeWidth={1.5} className="w-full h-full" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-lg sm:text-xl font-bold tracking-tight leading-none" style={{ color: colors.blue }}>
+                                    VICTOR HUGO
+                                </span>
+                                <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-gray-500 uppercase mt-1">
+                                    Asesor Patrimonial
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Menú Principal */}
+                        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium uppercase tracking-wide">
+                            <div className="relative group" onMouseEnter={() => setIsProjectsOpen(true)} onMouseLeave={() => setIsProjectsOpen(false)}>
+                                <button className="flex items-center gap-1 hover:text-[#005E9D] transition-colors py-2 font-bold text-[#003366]">
+                                    PLANES <ChevronDown size={16} />
+                                </button>
+                                {isProjectsOpen && (
+                                    <div className="absolute top-full left-0 w-56 bg-white shadow-2xl rounded-lg py-2 border border-gray-100 z-50">
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('retiro'); }} className="block px-4 py-3 hover:bg-gray-50 hover:text-[#005E9D] text-xs font-bold border-b border-gray-50">Retiro</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('segubeca'); }} className="block px-4 py-3 hover:bg-gray-50 hover:text-[#005E9D] text-xs font-bold border-b border-gray-50">SeguBeca</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('vida_mujer'); }} className="block px-4 py-3 hover:bg-gray-50 hover:text-[#005E9D] text-xs font-bold border-b border-gray-50">Vida Mujer</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('gastos_medicos'); }} className="block px-4 py-3 hover:bg-gray-50 hover:text-[#005E9D] text-xs font-bold border-b border-gray-50">Gastos Médicos</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('seguro_vida'); }} className="block px-4 py-3 hover:bg-gray-50 hover:text-[#005E9D] text-xs font-bold">Seguro de Vida</a>
+                                    </div>
+                                )}
+                            </div>
+
+                            <button onClick={() => setActiveTab('calculadora')} className={`hover:text-[#005E9D] font-bold transition-colors py-2 ${activeTab === 'calculadora' ? 'border-b-2 border-[#005E9D] text-[#005E9D]' : 'text-[#003366]'}`}>CALCULADORA [RETIRO]</button>
+                            <button onClick={() => setActiveTab('proyeccion')} className={`hover:text-[#005E9D] font-bold transition-colors py-2 ${activeTab === 'proyeccion' ? 'border-b-2 border-[#005E9D] text-[#005E9D]' : 'text-[#003366]'}`}>PROYECCIÓN UNIVERSITARIA</button>
+                        </nav>
+
+                        {/* Botones de Acción */}
+                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+                            <a href="https://calendly.com/soyvictorhugo/30mins" target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center gap-2 px-4 py-2 md:py-2.5 rounded-full text-white font-bold shadow-md transition-transform hover:scale-105 text-xs sm:text-sm" style={{ backgroundColor: colors.accent }}>
+                                <Calendar size={18} /> Agendar Cita
+                            </a>
+                            <a href="https://www.instagram.com/soyvictor.hugo" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md hover:scale-105 transition-transform" title="Sígueme en Instagram">
+                                <Instagram size={18} className="md:w-5 md:h-5" />
+                            </a>
+                            <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center h-9 w-9 md:h-10 md:w-10 rounded-full bg-[#25D366] text-white shadow-md hover:bg-green-600 transition-transform hover:scale-105" title="Contáctame por WhatsApp">
+                                <MessageCircle size={18} className="md:w-[22px] md:h-[22px]" />
+                            </a>
+                            <button className="lg:hidden p-1.5 sm:p-2 text-[#003366] hover:bg-gray-100 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                                {isMobileMenuOpen ? <XIcon size={24} className="sm:w-7 sm:h-7" /> : <Menu size={24} className="sm:w-7 sm:h-7" />}
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Menú Móvil */}
+                    {isMobileMenuOpen && (
+                        <div className="lg:hidden fixed top-[60px] sm:top-[80px] left-0 w-full h-[calc(100vh-60px)] bg-white shadow-2xl border-t border-gray-100 z-40 flex flex-col py-6 px-6 overflow-y-auto">
+                            <div className="flex flex-col space-y-5 font-medium text-[#003366]">
+                                <div className="border-b border-gray-100 pb-4">
+                                    <span className="text-gray-400 text-xs font-bold mb-3 block tracking-wider">PLANES</span>
+                                    <div className="flex flex-col pl-2 space-y-3 text-sm">
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('retiro'); }} className="hover:text-[#005E9D] transition-colors font-bold">Retiro</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('segubeca'); }} className="hover:text-[#005E9D] transition-colors font-bold">SeguBeca</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('vida_mujer'); }} className="hover:text-[#005E9D] transition-colors font-bold">Vida Mujer</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('gastos_medicos'); }} className="hover:text-[#005E9D] transition-colors font-bold">Gastos Médicos</a>
+                                        <a href="#" onClick={(e) => { e.preventDefault(); handlePlanClick('seguro_vida'); }} className="hover:text-[#005E9D] transition-colors font-bold">Seguro de Vida</a>
+                                    </div>
+                                </div>
+                                <button onClick={() => { setActiveTab('calculadora'); setIsMobileMenuOpen(false); }} className={`text-left font-bold pb-4 border-b border-gray-100 transition-colors ${activeTab === 'calculadora' ? 'text-[#005E9D]' : 'hover:text-[#005E9D]'}`}>CALCULADORA [RETIRO]</button>
+                                <button onClick={() => { setActiveTab('proyeccion'); setIsMobileMenuOpen(false); }} className={`text-left font-bold pb-4 border-b border-gray-100 transition-colors ${activeTab === 'proyeccion' ? 'text-[#005E9D]' : 'hover:text-[#005E9D]'}`}>PROYECCIÓN UNIVERSITARIA</button>
+
+                                <div className="pt-4 flex flex-col gap-3">
+                                    <a href="https://calendly.com/soyvictorhugo/30mins" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-white font-bold text-sm bg-[#005E9D]">
+                                        <Calendar size={18} /> Agendar Cita
+                                    </a>
+                                    <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-white font-bold text-sm bg-[#25D366]">
+                                        <MessageCircle size={18} /> Enviar WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    <main className="flex-grow relative w-full flex flex-col overflow-y-auto overflow-x-hidden">
+                        {renderContent()}
+                    </main>
+                </div>
+            );
+        }
+
+        // --- VISTA DE INICIO ---
+        function HomeView({ setActiveTab, age, setAge, ahorro, setAhorro, colors, waNumber }) {
+            const edad = age;
+            const setEdad = setAge;
+            const ahorroLocal = ahorro;
+            const setAhorroLocal = setAhorro;
+            const [fondoProyectado, setFondoProyectado] = useState(0);
+
+            useEffect(() => {
+                const n = (65 - edad) * 12;
+                const r = 0.08 / 12;
+                const vf = ahorroLocal * ((Math.pow(1 + r, n) - 1) / r);
+                setFondoProyectado(vf > 0 ? vf : 0);
+            }, [edad, ahorroLocal]);
+
+            const formatCurrency = (val) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(val);
+
+            const handleCalculateClick = () => {
+                setActiveTab('calculadora');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const waDirectLink = `https://wa.me/${waNumber}?text=${encodeURIComponent("Hola Víctor, me interesa recibir asesoría patrimonial. Vengo de tu página web.")}`;
+
+            return (
+                <div className="relative w-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-between pb-4 lg:pb-0">
+                    {/* Fondo Dividido */}
+                    <div className="absolute inset-0 z-0 flex overflow-hidden pointer-events-none">
+                        <div className="w-full lg:w-1/2 h-full absolute lg:relative left-0 bg-cover bg-[center_top] opacity-80" style={{ backgroundImage: "url('./victor_profile.jpg')" }} />
+                        <div className="hidden lg:block w-1/2 h-full bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80')" }} />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#003366]/95 lg:via-[#003366]/80 to-[#003366]/70"></div>
+                    </div>
+
+                    <div className="relative z-10 w-full max-w-7xl flex flex-col lg:flex-row px-4 sm:px-6 py-6 lg:py-8 flex-grow pb-28 lg:pb-[140px] xl:pb-[160px] hero-container">
+                        <div className="w-full lg:w-[55%] flex flex-col justify-center mb-8 lg:mb-0 lg:pr-6">
+                            <div className="max-w-xl">
+                                <h3 className="text-sm md:text-base lg:text-lg font-bold tracking-wide mb-2 uppercase text-[#66B2FF]">Asesoría Patrimonial Exclusiva</h3>
+                                <h1 className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mb-4 lg:mb-5 hero-title fade-in">
+                                    TU FUTURO PROTEGIDO,<br />
+                                    <span style={{ color: colors.lightAccent }}>TUS METAS ASEGURADAS.</span>
+                                </h1>
+                                <p className="text-sm sm:text-base lg:text-base xl:text-lg text-gray-200 mb-6 lg:mb-8 leading-relaxed">
+                                    Especialista en Plan Personal de Retiro, fondos Universitarios y Gastos Médicos. Diseñando un plan junto a ti y a tu medida para proteger lo que más amas.
+                                </p>
+                                <div className="flex flex-wrap items-center gap-3">
+                                    <a href={waDirectLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 rounded-full text-white font-bold text-sm md:text-base shadow-lg hover:bg-green-500 hover:scale-105 transition-all bg-[#25D366]">
+                                        <MessageCircle size={20} className="mr-2" /> ENVIAR WHATSAPP
+                                    </a>
+                                    <button onClick={() => setActiveTab('acerca_de')} className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 rounded-full bg-[#003366]/50 text-[#66B2FF] font-bold text-sm md:text-base shadow-lg hover:bg-[#005E9D]/80 hover:text-white hover:scale-105 transition-all border border-[#005E9D]/50 backdrop-blur-sm">
+                                        <InfoIcon size={20} className="mr-2" /> QUIÉN ES VÍCTOR HUGO
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* MINI SIMULADOR */}
+                        <div className="w-full lg:w-[45%] flex items-center justify-center lg:justify-end z-20">
+                            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-4 lg:p-5 rounded-2xl shadow-2xl w-full max-w-md relative my-auto simulator-card">
+                                <div className="flex items-center justify-center gap-2 mb-3 lg:mb-4">
+                                    <TrendingUp size={20} className="text-[#D4AF37]" />
+                                    <h2 className="text-lg lg:text-xl font-bold text-white text-center uppercase tracking-wide">Simulador de Retiro</h2>
+                                </div>
+                                <form className="space-y-4">
+                                    <div className="bg-white/95 p-3 rounded-lg shadow-inner">
+                                        <div className="flex justify-between items-center mb-2"><label className="text-xs lg:text-sm font-bold text-[#003366]">Edad Actual:</label><span className="text-sm lg:text-base font-bold text-[#005E9D]">{edad} años</span></div>
+                                        <input type="range" min="18" max="60" value={edad} onChange={(e) => setEdad(Number(e.target.value))} className="w-full accent-[#005E9D] h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+                                    </div>
+                                    <div className="bg-white/95 p-3 rounded-lg shadow-inner">
+                                        <div className="flex justify-between items-center mb-2"><label className="text-xs lg:text-sm font-bold text-[#003366]">Ahorro Mensual:</label><span className="text-sm lg:text-base font-bold text-[#005E9D]">{formatCurrency(ahorroLocal)}</span></div>
+                                        <input type="range" min="1000" max="50000" step="500" value={ahorroLocal} onChange={(e) => setAhorroLocal(Number(e.target.value))} className="w-full accent-[#005E9D] h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+                                    </div>
+                                    <div className="p-4 bg-[#003366]/90 rounded-xl text-center border border-[#66B2FF]/30 mt-2 shadow-lg">
+                                        <p className="text-[10px] lg:text-xs text-[#66B2FF] mb-1 font-medium tracking-wide">Fondo Proyectado a tus 65 años</p>
+                                        <p className="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#D4AF37] tracking-tight">{formatCurrency(fondoProyectado)}</p>
+                                    </div>
+                                    <button type="button" onClick={handleCalculateClick} className="w-full py-3.5 mt-2 rounded-xl text-white font-bold text-xs lg:text-sm shadow-lg hover:bg-opacity-90 transition-all transform hover:scale-[1.02] bg-[#005E9D]">
+                                        VER PROYECCIÓN COMPLETA
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tarjetas Inferiores */}
+                    <div className="relative lg:absolute bottom-0 left-0 w-full lg:w-[70%] xl:w-[65%] bg-white lg:rounded-tr-3xl shadow-[0px_-5px_20px_rgba(0,0,0,0.15)] z-30 mt-auto bottom-cards-container">
+                        <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory px-2 py-4 lg:p-6">
+                            <div className="flex-none w-[140px] md:flex-1 flex flex-col items-center text-center border-r border-gray-100 px-2 snap-center cursor-pointer hover:scale-105 transition-transform group">
+                                <Heart size={32} color={colors.blue} className="mb-2 group-hover:text-[#005E9D] transition-colors lg:w-9 lg:h-9" />
+                                <h4 className="font-bold text-[#003366] mb-1 text-xs lg:text-sm">Seguros de Vida</h4>
+                                <p className="text-[10px] lg:text-xs text-gray-500">Protección para tu familia.</p>
+                            </div>
+                            <div className="flex-none w-[140px] md:flex-1 flex flex-col items-center text-center border-r border-gray-100 px-2 snap-center cursor-pointer hover:scale-105 transition-transform group">
+                                <Briefcase size={32} color={colors.blue} className="mb-2 group-hover:text-[#005E9D] transition-colors lg:w-9 lg:h-9" />
+                                <h4 className="font-bold text-[#003366] mb-1 text-xs lg:text-sm">Retiro Seguro</h4>
+                                <p className="text-[10px] lg:text-xs text-gray-500">Independencia financiera.</p>
+                            </div>
+                            <div className="flex-none w-[140px] md:flex-1 flex flex-col items-center text-center border-r border-gray-100 px-2 snap-center cursor-pointer hover:scale-105 transition-transform group">
+                                <GraduationCap size={32} color={colors.blue} className="mb-2 group-hover:text-[#005E9D] transition-colors lg:w-9 lg:h-9" />
+                                <h4 className="font-bold text-[#003366] mb-1 text-xs lg:text-sm">Ahorro Universidad</h4>
+                                <p className="text-[10px] lg:text-xs text-gray-500">Educación de tus hijos.</p>
+                            </div>
+                            <div className="flex-none w-[140px] md:flex-1 flex flex-col items-center text-center px-2 snap-center cursor-pointer hover:scale-105 transition-transform group">
+                                <Activity size={32} color={colors.blue} className="mb-2 group-hover:text-[#005E9D] transition-colors lg:w-9 lg:h-9" />
+                                <h4 className="font-bold text-[#003366] mb-1 text-xs lg:text-sm">Seguro de Salud</h4>
+                                <p className="text-[10px] lg:text-xs text-gray-500">Gastos Médicos Mayores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 1. CALCULADORA DE RETIRO (NUEVO DISEÑO AVANZADO) ---
+        function RetirementCalculator({ sharedAge, setSharedAge, sharedAhorro, setSharedAhorro, colors, waNumber, sendToGoogleSheets }) {
+            const currentAge = sharedAge;
+            const setCurrentAge = setSharedAge;
+            const monthlySave = sharedAhorro;
+            const setMonthlySave = setSharedAhorro;
+            const [nombre, setNombre] = useState('');
+            const [telefono, setTelefono] = useState('');
+            const [visualizeAge, setVisualizeAge] = useState(65);
+            const [isCalculated, setIsCalculated] = useState(false);
+
+            const [results, setResults] = useState({ totalAhorrado: 0, ahorroFiscal: 0, fondoTotal: 0, sumaAsegurada: 0, visualAhorrado: 0, visualFondo: 0 });
+
+            // Ensure visualizeAge is at least currentAge
+            useEffect(() => {
+                if (visualizeAge < currentAge) setVisualizeAge(currentAge);
+            }, [currentAge]);
+
+            useEffect(() => {
+                // Base at 65
+                const yearsTo65 = Math.max(65 - currentAge, 0);
+                const mosTo65 = yearsTo65 * 12;
+                const tasaMensual = 0.08 / 12;
+
+                const totalAhorrado = monthlySave * mosTo65;
+                const ahorroFiscal = (monthlySave * 12) * 0.30;
+                const fondoTotal = mosTo65 > 0 ? monthlySave * ((Math.pow(1 + tasaMensual, mosTo65) - 1) / tasaMensual) : 0;
+                const sumaAsegurada = monthlySave * 746;
+
+                // Visual at visualizeAge
+                const yearsVisual = Math.max(visualizeAge - currentAge, 0);
+                const mosVisual = yearsVisual * 12;
+                const visualAhorrado = monthlySave * mosVisual;
+                const visualFondo = mosVisual > 0 ? monthlySave * ((Math.pow(1 + tasaMensual, mosVisual) - 1) / tasaMensual) : 0;
+
+                setResults({ totalAhorrado, ahorroFiscal, fondoTotal, sumaAsegurada, visualAhorrado, visualFondo });
+            }, [currentAge, monthlySave, visualizeAge]);
+
+            const format = (v) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(v);
+            const showVal = (val) => isCalculated ? format(val) : format(0);
+
+            const handleCalculate = () => {
+                if (!nombre || !telefono || telefono.length !== 10) {
+                    alert("Por favor ingresa un Nombre y un Teléfono válido de 10 dígitos para ver tu proyección completa.");
+                    return;
+                }
+
+                if (/^(\d)\1{9}$/.test(telefono)) {
+                    alert("Por favor ingresa un número de teléfono válido. Números repetidos no son permitidos.");
+                    return;
+                }
+
+                setIsCalculated(true);
+
+                const data = {
+                    fechaStr: new Date().toLocaleDateString(),
+                    nombre: nombre,
+                    whatsapp: telefono,
+                    edadActual: currentAge,
+                    ahorroMensual: monthlySave,
+                    añosAhorro: Math.max(65 - currentAge, 0),
+                    proyeccionTotal: results.fondoTotal,
+                    pensionEstimada: results.fondoTotal / (20 * 12) // Estimación a 20 años
+                };
+
+                sendToGoogleSheets(data);
+            };
+
+            const sendWhatsApp = () => {
+                const msg = `Hola Víctor, acabo de usar tu Simulador de Retiro. Tengo ${currentAge} años. Me llamo ${nombre} (${telefono}). Ahorrando ${format(monthlySave)} mensuales, vi que podría tener un fondo de ${format(results.fondoTotal)}. ¿Me puedes asesorar sobre la estrategia PPR?`;
+                window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            // Utilities para la gráfica de barras en Panel 2
+            const maxVal = results.fondoTotal > 0 ? results.fondoTotal : 1;
+            const tradPct = isCalculated ? ((results.visualAhorrado / maxVal) * 100).toFixed(1) : 0;
+            const pprPct = isCalculated ? ((results.visualFondo / maxVal) * 100).toFixed(1) : 0;
+
+            const extraCapital = isCalculated ? (results.fondoTotal - results.totalAhorrado) : 0;
+
+            return (
+                <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-10 bg-[#0b1120] py-12 font-sans overflow-x-hidden">
+                    <h2 className="text-3xl lg:text-4xl font-black text-white mb-8 text-center tracking-wide">Calculadora de <span className="text-[#66B2FF]">Retiro</span></h2>
+
+                    <div className="max-w-[1300px] w-full flex flex-col lg:flex-row gap-6">
+
+                        {/* PANEL 1: Tus Datos */}
+                        <div className="w-full lg:w-[25%] bg-white rounded-2xl p-6 flex flex-col relative z-20" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                                <div className="p-1.5 bg-blue-50 text-[#003366] rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" stroke="currentColor" strokeWidth="0.5" viewBox="0 0 16 16"><path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" /><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514Z" /></svg>
+                                </div>
+                                <h3 className="text-[#003366] font-bold text-lg">Tus Datos</h3>
+                            </div>
+
+                            {!isCalculated && (
+                                <div className="bg-red-50/80 text-red-400 text-xs font-semibold p-3 text-center mb-6 rounded-lg border border-red-100">
+                                    ↓ Ingresa tus datos aquí para ver tu proyección
+                                </div>
+                            )}
+
+                            <div className="space-y-4 flex-grow">
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Edad Actual</label>
+                                    <input type="number" min="18" max="60" value={currentAge} onChange={(e) => setCurrentAge(Number(e.target.value))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Ej. 28" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Ahorro Mensual ($)</label>
+                                    <input type="number" min="1000" step="500" value={monthlySave} onChange={(e) => setMonthlySave(Number(e.target.value))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Ej. 3000" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Nombre Completo</label>
+                                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Tu Nombre" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Teléfono</label>
+                                    <input type="tel" maxLength="10" value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, ''))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="10 Dígitos" />
+                                </div>
+                            </div>
+
+                            <button onClick={handleCalculate} className="w-full py-3.5 mt-4 rounded-lg bg-[#0f172a] text-white font-bold text-sm shadow-xl hover:bg-[#1e293b] transition-colors flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-11z" /><path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-3zM5 7v2h5V7H5z" /></svg>
+                                Calcular Proyección
+                            </button>
+                        </div>
+
+                        {/* Contenedor de Paneles 2 y 3 difuminable */}
+                        <div className={`w-full lg:w-[75%] flex flex-col lg:flex-row gap-6 transition-all duration-[800ms] ease-in-out relative ${!isCalculated ? 'blur-[5px] opacity-90' : 'blur-none opacity-100'}`}>
+
+                            {/* Overlay de Bloqueo Flotante */}
+                            {!isCalculated && (
+                                <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
+                            )}
+
+                            {/* PANEL 2: Crecimiento de tu Capital */}
+                            <div className="w-full lg:w-[65%] bg-white rounded-2xl flex flex-col p-6 lg:p-8 relative" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                <div className="flex items-center justify-center gap-2 mb-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#2b6cb0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                                    <h3 className="text-[#003366] font-extrabold text-xl lg:text-2xl tracking-tight">Crecimiento de tu Capital</h3>
+                                </div>
+
+                                {/* Box Slider */}
+                                <div className="bg-blue-50/30 rounded-2xl p-6 border border-gray-100 mb-8 border border-blue-50">
+                                    <div className="flex justify-between items-end mb-4">
+                                        <span className="text-gray-500 font-bold text-sm tracking-widest uppercase">VISUALIZAR EDAD: <span className="text-2xl font-black text-[#005E9D] mx-1">{visualizeAge}</span> AÑOS</span>
+                                    </div>
+                                    <input type="range" min={currentAge} max="65" value={visualizeAge} onChange={(e) => { if (isCalculated) setVisualizeAge(Number(e.target.value)) }} className={`w-full accent-[#005E9D] h-2.5 bg-gray-200 rounded-full appearance-none ${isCalculated ? 'cursor-pointer' : 'cursor-default'} relative z-20`} disabled={!isCalculated} />
+                                    <div className="flex justify-between mt-2 text-xs font-bold text-gray-400">
+                                        <span>{currentAge} (Actual)</span>
+                                        <span>65 (Retiro)</span>
+                                    </div>
+                                </div>
+
+                                {/* Gráficas de Barras */}
+                                <div className="space-y-6 mb-10 w-full pr-10">
+                                    <div>
+                                        <div className="flex justify-between mb-1">
+                                            <span className="text-sm font-bold text-gray-500">Tradicional</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-6 bg-[#ff7b42] rounded-lg transition-all duration-1000 ease-out" style={{ width: `${Math.max(tradPct, 2)}%` }}></div>
+                                            <span className="font-extrabold text-gray-600 text-sm md:text-base">{showVal(results.visualAhorrado)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between mb-1">
+                                            <span className="text-sm font-bold text-[#005E9D]">Estrategia PPR</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-6 bg-[#2e8c32] rounded-lg transition-all duration-1000 ease-out shadow-sm" style={{ width: `${Math.max(pprPct, 2)}%` }}></div>
+                                            <span className="font-extrabold text-[#005E9D] text-sm md:text-base">{showVal(results.visualFondo)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Box Eventualidad Grave */}
+                                <div className="bg-orange-50/40 rounded-2xl p-5 border border-orange-100 relative mt-auto">
+                                    <div className="text-center mb-6">
+                                        <h4 className="text-[#db6522] font-black lg:text-md flex items-center justify-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+                                            ¿Qué pasaría si hoy a los <span className="underline">{currentAge}</span> años ocurriera una eventualidad grave?
+                                        </h4>
+                                        <p className="text-gray-500 text-[11px] lg:text-xs font-semibold mt-2 px-4">Protección garantizada de <span className="text-[#005E9D] font-bold">100,000 UDIS</span> tanto para Fallecimiento como para Invalidez Total y Permanente.</p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        {/* Tarjeta Tradicional */}
+                                        <div className="flex-1 bg-white border border-red-200/60 rounded-xl p-4 text-center shadow-sm">
+                                            <h5 className="text-red-500 font-bold text-[10px] tracking-widest mb-3 uppercase">Tradicional</h5>
+                                            <p className="text-gray-500 text-xs font-medium">Solo entregamos saldo:</p>
+                                            <p className="text-lg font-black text-red-500 my-1">{showVal(results.totalAhorrado)}</p>
+                                            <span className="inline-block bg-orange-100 text-orange-600 text-[9px] font-bold px-2 py-0.5 rounded shadow-sm mb-2">⚠️ Sin Seguro</span>
+                                            <p className="text-[8px] text-red-500/80 mt-2 leading-tight">*Tu dinero perderá valor adquisitivo cada año debido a la <strong>inflación</strong>.</p>
+                                        </div>
+
+                                        {/* Tarjeta PPR */}
+                                        <div className="flex-1 bg-white border-2 border-[#2e8c32] rounded-xl p-4 shadow-md text-left">
+                                            <h5 className="text-[#2e8c32] font-black text-[10px] tracking-widest mb-3 uppercase">ESTRATEGIA PPR</h5>
+                                            <div className="mb-2">
+                                                <p className="text-gray-600 text-[10px] font-bold">Fallecimiento:</p>
+                                                <p className="text-base font-black text-[#2e8c32]">{showVal(results.sumaAsegurada)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-600 text-[10px] font-bold">Invalidez:</p>
+                                                <p className="text-base font-black text-[#2e8c32]">{showVal(results.sumaAsegurada)}</p>
+                                                <p className="text-xs font-bold text-gray-500">+ Plan Pagado</p>
+                                            </div>
+                                            <p className="text-[8px] text-gray-400 mt-2 leading-tight">*Por la cobertura <strong>BIT</strong>, Seguros Monterrey pagará tu plan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* PANEL 3: Resumen */}
+                            <div className="w-full lg:w-[35%] bg-white rounded-2xl p-6 lg:p-8 flex flex-col items-center relative" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                <div className="flex items-center gap-2 mb-8 self-start border-b border-gray-100 w-full pb-4">
+                                    <div className="p-1.5 bg-blue-50 text-[#003366] rounded-md"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /><path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" /></svg></div>
+                                    <h3 className="text-[#003366] font-bold text-lg">Resumen</h3>
+                                </div>
+
+                                <div className="w-full flex justify-between items-center mb-6">
+                                    <span className="text-gray-500 font-bold text-sm">Aportaciones</span>
+                                    <span className="text-gray-600 font-black">{showVal(results.totalAhorrado)}</span>
+                                </div>
+
+                                <div className="w-full bg-[#f1f8e9] rounded-xl p-4 flex justify-between items-center mb-8 border border-[#dcedc8]" style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
+                                    <span className="text-[#33691e] font-bold text-[10px] tracking-widest leading-tight">ACUMULADO<br />PPR</span>
+                                    <span className="text-[#2e8c32] font-black text-xl lg:text-2xl">{showVal(results.fondoTotal)}</span>
+                                </div>
+
+                                <hr className="w-full border-t border-dashed border-gray-300 mb-6" />
+
+                                <div className="text-center w-full mb-6 relative">
+                                    <h4 className="text-gray-400 font-black text-[10px] tracking-widest uppercase mb-2">SALDO FINAL AL RETIRO</h4>
+                                    <p className="text-[#0ea5e9] font-black text-4xl lg:text-5xl my-4 text-shadow-sm">{showVal(results.fondoTotal)}</p>
+                                </div>
+
+                                <div className="bg-blue-50/80 border-l-[3px] border-[#005E9D] p-3 w-full mb-6 relative shadow-sm">
+                                    <p className="text-[#003366] text-[11px] font-medium italic leading-relaxed">
+                                        "Al elegir un <strong className="font-extrabold text-[#005E9D]">PPR</strong> en lugar de un ahorro tradicional, has generado <strong className="font-extrabold text-[#005E9D]">{showVal(extraCapital)}</strong> extra de capital gracias a los beneficios fiscales y rendimientos compuestos."
+                                    </p>
+                                </div>
+
+                                {/* Resumen Inferior */}
+                                <div className="w-full bg-[#f0f4f8] rounded-lg p-3 flex flex-col items-center mb-6 border border-gray-200/60">
+                                    <span className="text-[#005E9D] text-[11px] font-bold flex items-center gap-1 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" /><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" /></svg> Deducción Fiscal Anual:</span>
+                                    <span className="text-[#005E9D] font-black text-lg">{showVal(results.ahorroFiscal)}</span>
+                                </div>
+
+                                <button onClick={sendWhatsApp} className={`w-full py-4 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-[0_5px_15px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 transition-all mt-auto ${isCalculated ? 'bg-[#4ade80] hover:bg-green-500 hover:scale-[1.02]' : 'bg-[#a3e6aa] cursor-not-allowed opacity-80'}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+                                    AGENDAR ASESORÍA
+                                </button>
+
+                                <p className="text-[8px] text-gray-400 mt-4 leading-tight italic text-justify px-1">
+                                    Nota: Esta información es meramente ilustrativa y basada en proyecciones estimadas. No representa un contrato legal ni garantiza rendimientos futuros. Para obtener información detallada, real y personalizada a tu perfil, por favor agenda una cita conmigo presionando el botón de arriba.
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 2. DETALLE DEL PLAN SELECCIONADO (NUEVO DISEÑO) ---
+        function PlanDetailView({ planKey, colors, waNumber, onBack }) {
+            const plan = planesInfo[planKey];
+            if (!plan) return <div className="p-10 text-center text-xl">Plan no encontrado.</div>;
+
+            const sendWhatsApp = () => {
+                const msg = `Hola Víctor, estuve leyendo en tu página sobre el plan "${plan.title}" y me interesa cotizarlo. ¿Podemos platicar?`;
+                window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            return (
+                <div className="w-full min-h-screen flex flex-col items-center bg-gray-50 py-10 px-4 sm:px-6 fade-in">
+
+                    {/* Botón regresar */}
+                    <div className="max-w-6xl w-full mb-6 flex">
+                        <button onClick={onBack} className="flex items-center gap-2 text-[#005E9D] font-bold hover:text-[#003366] transition-colors bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                            <ArrowLeft size={18} /> Volver al Inicio
+                        </button>
+                    </div>
+
+                    <div className="max-w-6xl w-full bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col lg:flex-row border border-gray-100">
+
+                        {/* TEXTO (Izquierda) */}
+                        <div className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
+                            <h3 className="text-xs font-black text-[#66B2FF] tracking-widest uppercase mb-2">Conoce el Plan</h3>
+                            <h2 className="text-3xl sm:text-4xl font-black text-[#003366] leading-tight mb-4">{plan.title}</h2>
+                            <p className="text-xl font-medium text-gray-500 mb-6">{plan.subtitle}</p>
+
+                            <div className="w-16 h-1.5 bg-[#005E9D] mb-8 rounded-full"></div>
+
+                            <p className="text-base text-gray-600 mb-8 leading-relaxed">
+                                {plan.desc}
+                            </p>
+
+                            <h4 className="text-sm font-black text-[#003366] uppercase tracking-wider mb-4">¿Qué incluye tu plan?</h4>
+                            <ul className="space-y-4 mb-10">
+                                {plan.benefits.map((benefit, index) => (
+                                    <li key={index} className="flex items-start gap-3">
+                                        <CheckCircle size={20} className="text-[#25D366] flex-shrink-0 mt-0.5" />
+                                        <span className="text-gray-700 font-medium text-sm leading-snug">{benefit}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <button onClick={sendWhatsApp} className="w-max px-8 py-4 rounded-full bg-[#005E9D] text-white font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-lg flex items-center gap-2">
+                                <Calendar size={18} /> CONOCER MAS
+                            </button>
+                        </div>
+
+                        {/* IMAGEN (Derecha) */}
+                        <div className="w-full lg:w-1/2 min-h-[300px] lg:min-h-full bg-cover bg-center order-1 lg:order-2 relative" style={{ backgroundImage: `url('${plan.img}')` }}>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/80 via-transparent to-transparent lg:bg-gradient-to-l"></div>
+                            <div className="absolute bottom-6 left-6 lg:bottom-12 lg:left-12 right-6">
+                                <p className="text-white font-black text-2xl lg:text-3xl leading-tight opacity-90">Protege tu futuro<br />y el de tu familia.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        // --- VISTA ACERCA DE ---
+        function AboutView({ colors, waNumber, onBack }) {
+            const sendWhatsApp = () => {
+                const msg = `Hola Víctor, leí tu perfil y me gustaría tener una plática contigo sobre mis metas.`;
+                window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            return (
+                <div className="w-full min-h-screen flex flex-col items-center bg-gray-50 py-10 px-4 sm:px-6 fade-in">
+                    <div className="max-w-6xl w-full mb-6 flex">
+                        <button onClick={onBack} className="flex items-center gap-2 text-[#005E9D] font-bold hover:text-[#003366] transition-colors bg-white px-4 py-2 rounded-full shadow-sm border border-gray-100">
+                            <ArrowLeft size={18} /> Volver al Inicio
+                        </button>
+                    </div>
+
+                    <div className="max-w-6xl w-full bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col lg:flex-row border border-gray-100">
+                        {/* TEXTO (Izquierda) */}
+                        <div className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
+                            <h3 className="text-xs font-black text-[#66B2FF] tracking-widest uppercase mb-2">Conóceme</h3>
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#003366] leading-tight mb-4">¿Quién es<br/>Víctor Hugo?</h2>
+                            <p className="text-lg lg:text-xl font-medium text-gray-500 mb-6">Protegiendo lo que más amas y valoras.</p>
+                            
+                            <div className="w-16 h-1.5 bg-[#005E9D] mb-8 rounded-full"></div>
+
+                            <p className="text-[16px] lg:text-[18px] text-gray-700 mb-6 leading-relaxed">
+                                Soy Víctor Hugo Díaz Martínez de Escobar (Vic, en resumen), mi vocación es proteger lo que más amas y valoras. Entiendo profundamente que una de las prioridades de las personas es asegurar el futuro, brindarle tranquilidad y la calidad de vida a la familia, garantizar el ingreso y/o blindar el negocio.
+                            </p>
+                            <p className="text-[16px] lg:text-[18px] text-gray-700 mb-6 leading-relaxed">
+                                Más que ofrecer un instrumento financiero, me dedico a escuchar tus metas para diseñar estrategias a la medida. Ya sea que busques planear un retiro digno, garantizar la educación de tus hijos o crear un blindaje patrimonial sólido, te acompaño en cada paso con total transparencia, claridad y un enfoque genuinamente humano.
+                            </p>
+                            <div className="border-l-4 border-[#005E9D] pl-6 my-8 py-2 bg-blue-50/50 rounded-r-xl">
+                                <p className="text-[17px] lg:text-[19px] font-bold text-[#003366] italic leading-relaxed">
+                                    "Mi compromiso, mi lealtad y mi filosofía de trabajo se resumen en un principio muy claro: <span className="text-[#0ea5e9]">No represento a una compañía, te represento a ti.</span>"
+                                </p>
+                            </div>
+
+                            <button onClick={sendWhatsApp} className="w-max px-8 py-4 rounded-full bg-[#005E9D] text-white font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-lg flex items-center gap-2 mt-4">
+                                <MessageCircle size={18} /> PLATIQUEMOS
+                            </button>
+                        </div>
+
+                        {/* IMAGEN (Derecha) */}
+                        <div className="w-full lg:w-1/2 min-h-[400px] lg:min-h-full bg-cover bg-center order-1 lg:order-2 relative" style={{ backgroundImage: `url('./victor_profile.jpg')`, backgroundPosition: 'center 10%' }}>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#003366]/80 via-[#003366]/10 to-transparent lg:bg-gradient-to-l"></div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function UniversityCalculator({ colors, waNumber, sendToGoogleSheets }) {
+            const [childAge, setChildAge] = useState(5);
+            const [childName, setChildName] = useState('');
+            const [parentName, setParentName] = useState('');
+            const [parentPhone, setParentPhone] = useState('');
+            const [university, setUniversity] = useState('Tec de Monterrey');
+            const [isCalculated, setIsCalculated] = useState(false);
+
+            const [results, setResults] = useState({
+                metaUdisInicial: 0,
+                metaUdisFinal: 0,
+                primaAnualUdis: 0,
+                costoHoyMxn: 0,
+                costoProyectadoMxn: 0,
+                primaAnualActualMxn: 0,
+                pointsFondo: '',
+                pointsAportado: '',
+                maxGraphY: 0
+            });
+
+            const udiCurrent = 8.82;
+            const inflationGen = 0.045; // 4.5% inflación en MXN
+            const inflationEdu = 0.03;  // 3% inflación educativa sobre UDIS
+            const monthsRemaining = Math.max(18 - childAge, 1) * 12;
+
+            useEffect(() => {
+                const yearsRemaining = Math.max(18 - childAge, 1);
+                const mosCount = yearsRemaining * 12;
+
+                // Ajustado a parámetros reales de SeguBeca (Seguros Monterrey)
+                // Tec aprox 200,000 UDIS - UDLAP aprox 120,000 UDIS
+                const baseMeta = university === 'Tec de Monterrey' ? 200000 : 120000;
+
+                // La suma asegurada contratada es estática en UDIS, es la UDI la que crece en Pesos.
+                const metaFinalUdis = baseMeta;
+
+                // Prima nivelada ANUAL en UDIS (Aprox total anualizado directo Suma / Años)
+                const primaAnualUdis = baseMeta / yearsRemaining;
+
+                // Costo al día de hoy en pesos 
+                const hoyMxn = baseMeta * udiCurrent;
+
+                // Proyección a los 18 en Pesos (UDI creciendo nominalmente a un 4.5% general promedio)
+                const udiA18 = udiCurrent * Math.pow(1 + inflationGen, yearsRemaining);
+                const proy18Mxn = metaFinalUdis * udiA18;
+
+                // Prima primer año (hoy) en Pesos
+                const primaAnualMxnActual = primaAnualUdis * udiCurrent;
+
+                // DATA para gráfica interactiva (SVG Points)
+                let tempAportado = 0;
+                let data = [];
+                let maxApo = 0; let maxFon = 0;
+
+                for (let i = 0; i <= yearsRemaining; i++) {
+                    const currentUdiVal = udiCurrent * Math.pow(1 + inflationGen, i);
+
+                    if (i > 0) {
+                        const aporteAnualMxn = primaAnualUdis * currentUdiVal;
+                        tempAportado += aporteAnualMxn;
+                    }
+
+                    // Fondo "Teórico" al año i
+                    const udisAcumuladas = primaAnualUdis * i;
+                    const fondoValorLíquido = udisAcumuladas * currentUdiVal;
+
+                    data.push({ x: childAge + i, aportado: tempAportado, fondo: fondoValorLíquido });
+
+                    if (fondoValorLíquido > maxFon) maxFon = fondoValorLíquido;
+                    if (tempAportado > maxApo) maxApo = tempAportado;
+                }
+                const maxGraphY = Math.max(maxApo, maxFon, proy18Mxn) * 1.1; // 10% margen
+
+                // Mapear coordinates X Y (200x120 SVG viewport)
+                const w = 400; const h = 160;
+                const mappedPointsFondo = data.map((d, index) => {
+                    const posX = (index / yearsRemaining) * w;
+                    // Prevenir división por cero si maxGraphY es 0
+                    const posY = maxGraphY > 0 ? h - ((d.fondo / maxGraphY) * h) : h;
+                    return `${posX},${posY}`;
+                }).join(' ');
+
+                const mappedPointsAportado = data.map((d, index) => {
+                    const posX = (index / yearsRemaining) * w;
+                    const posY = maxGraphY > 0 ? h - ((d.aportado / maxGraphY) * h) : h;
+                    return `${posX},${posY}`;
+                }).join(' ');
+
+                setResults({
+                    metaUdisInicial: baseMeta,
+                    metaUdisFinal: metaFinalUdis,
+                    primaAnualUdis: primaAnualUdis,
+                    costoHoyMxn: hoyMxn,
+                    costoProyectadoMxn: proy18Mxn,
+                    primaAnualActualMxn: primaAnualMxnActual,
+                    pointsFondo: mappedPointsFondo,
+                    pointsAportado: mappedPointsAportado,
+                    maxGraphY
+                });
+            }, [childAge, university]);
+
+            const format = (v) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(v);
+            const formatUDI = (v) => new Intl.NumberFormat('es-MX', { maximumFractionDigits: 0 }).format(v) + ' UDIS';
+            const showMxn = (val) => isCalculated ? format(val) : format(0);
+            const showUdi = (val) => isCalculated ? formatUDI(val) : formatUDI(0);
+
+            const handleCalculate = () => {
+                if (!parentName || !parentPhone || parentPhone.length !== 10) { alert("Por favor ingresa tu Nombre y Teléfono a 10 dígitos para acceder a la proyección."); return; }
+                if (/^(\d)\1{9}$/.test(parentPhone)) { alert("Por favor ingresa un número de teléfono válido. Números repetidos no son permitidos."); return; }
+                setIsCalculated(true);
+
+                const data = {
+                    fechaStr: new Date().toLocaleDateString(),
+                    nombre: `${parentName} (Hijo/a: ${childName || 's/n'})`,
+                    whatsapp: parentPhone,
+                    edadActual: childAge,
+                    ahorroMensual: results.primaAnualActualMxn / 12, // Convertir prima anual a mensual estimado
+                    añosAhorro: Math.max(18 - childAge, 1),
+                    proyeccionTotal: results.costoProyectadoMxn,
+                    pensionEstimada: 0
+                };
+
+                sendToGoogleSheets(data);
+            };
+
+            const sendWhatsApp = () => {
+                const msg = `Hola Víctor. Hice una proyección para la Universidad de mi hijo/a ${childName} 🎓. Con ${childAge} años, apuntamos a ${university}. Vi que hoy cuesta ${format(results.costoHoyMxn)} y la meta proyectada será de ${format(results.costoProyectadoMxn)}. Mi prima sugerida inicia en ${format(results.primaAnualActualMxn)} anuales en pesos (Equivale a ${formatUDI(results.primaAnualUdis)} nivelados). ¡Necesito tu asesoría!`;
+                window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            const yearsTotal = Math.max(18 - childAge, 1);
+
+            return (
+                <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-10 bg-[#f8fafc] py-12 font-sans overflow-x-hidden">
+                    <h2 className="text-3xl lg:text-4xl font-black text-[#003366] mb-8 text-center tracking-wide">Fondo <span className="text-[#0ea5e9]">Universitario</span> (SeguBeca)</h2>
+
+                    <div className="max-w-[1300px] w-full flex flex-col lg:flex-row gap-6">
+
+                        {/* PANEL 1: CONFIG Y LEADS */}
+                        <div className="w-full lg:w-[25%] bg-white rounded-2xl p-6 flex flex-col relative z-20 border border-gray-200 shadow-xl">
+                            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                                <div className="p-1.5 bg-[#f0f4f8] text-[#0ea5e9] rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
+                                </div>
+                                <h3 className="text-[#003366] font-bold text-lg">Parámetros</h3>
+                            </div>
+
+                            {!isCalculated && (
+                                <div className="bg-amber-50/80 text-amber-600 text-xs font-semibold p-3 text-center mb-6 rounded-lg border border-amber-100">
+                                    ↓ Registra los datos para desbloquear el simulador.
+                                </div>
+                            )}
+
+                            <div className="space-y-4 flex-grow">
+                                <div className="p-3 bg-blue-50/40 rounded-xl border border-blue-50">
+                                    <h4 className="text-[10px] uppercase font-black tracking-widest text-[#005E9D] mb-3">Datos del Beneficiario</h4>
+
+                                    <div className="group mb-4">
+                                        <label className="text-xs font-bold text-gray-500 block mb-1">Nombre (Opcional)</label>
+                                        <input type="text" value={childName} onChange={(e) => setChildName(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-1 focus:ring-[#005E9D] outline-none text-sm transition-all" placeholder="Ej. Camila" />
+                                    </div>
+                                    <div className="group">
+                                        <label className="text-xs font-bold text-gray-500 block mb-2 flex justify-between">Edad Actual <span className="text-[#0ea5e9] font-black underline">{childAge} años</span></label>
+                                        <input type="range" min="1" max="10" value={childAge} onChange={(e) => setChildAge(Number(e.target.value))} className="w-full h-1.5 bg-gray-200 rounded-full accent-[#0ea5e9] cursor-pointer" />
+                                    </div>
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-xs font-bold text-gray-600 block mb-1">Universidad Meta</label>
+                                    <select value={university} onChange={(e) => setUniversity(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] outline-none bg-white text-sm">
+                                        <option value="Tec de Monterrey">Tec de Monterrey (Alta Exigencia)</option>
+                                        <option value="UDLAP">UDLAP (Estándar Premium)</option>
+                                    </select>
+                                </div>
+
+                                <hr className="border-gray-100 my-4" />
+
+                                <div className="group">
+                                    <label className="text-xs font-bold text-gray-600 block mb-1">Tu Nombre</label>
+                                    <input type="text" value={parentName} onChange={(e) => setParentName(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#0ea5e9] outline-none text-sm" placeholder="Madre / Padre" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-xs font-bold text-gray-600 block mb-1">Tu Teléfono (WhatsApp)</label>
+                                    <input type="tel" maxLength="10" value={parentPhone} onChange={(e) => setParentPhone(e.target.value.replace(/\D/g, ''))} className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-[#0ea5e9] outline-none text-sm" placeholder="10 Dígitos" />
+                                </div>
+                            </div>
+
+                            <button onClick={handleCalculate} className="w-full py-3.5 mt-8 rounded-lg bg-[#0ea5e9] text-white font-bold text-sm shadow-[0_4px_15px_rgba(14,165,233,0.3)] hover:bg-[#0284c7] hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                                Calcular Proyecto
+                            </button>
+                        </div>
+
+                        {/* PANELES DE DATOS Y GRAFICAS (DIFUMINADOS) */}
+                        <div className={`w-full lg:w-[75%] flex flex-col lg:flex-row gap-6 transition-all duration-[800ms] ease-in-out relative ${!isCalculated ? 'blur-[5px] opacity-80' : 'blur-none opacity-100'}`}>
+
+                            {!isCalculated && <div className="absolute inset-0 z-10 cursor-not-allowed"></div>}
+
+                            {/* PANEL 2: Análisis Actuarial */}
+                            <div className="w-full lg:w-[60%] bg-white rounded-2xl flex flex-col p-6 lg:p-8 shadow-xl border border-gray-100">
+                                <div className="flex items-center gap-2 mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#0ea5e9" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></svg>
+                                    <h3 className="text-[#003366] font-extrabold text-xl tracking-tight">Análisis Actuarial: {university}</h3>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4 mb-8">
+                                    <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 text-center">
+                                        <p className="text-gray-400 text-[10px] font-black tracking-widest uppercase mb-1">Costo Estimado Hoy</p>
+                                        <p className="text-[#003366] text-xl lg:text-2xl font-black">{showMxn(results.costoHoyMxn)}</p>
+                                        <p className="text-gray-400 text-[10px] mt-1 font-bold">({showUdi(results.metaUdisInicial)})</p>
+                                    </div>
+                                    <div className="bg-sky-50 border border-sky-100 rounded-xl p-4 text-center relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 bg-[#0ea5e9] text-white text-[8px] font-black px-2 py-0.5 rounded-bl-lg shadow-sm">+ Inflación</div>
+                                        <p className="text-sky-700 text-[10px] font-black tracking-widest uppercase mb-1">Valor Proyectado (18 Años)</p>
+                                        <p className="text-[#0ea5e9] text-xl lg:text-2xl font-black">{showMxn(results.costoProyectadoMxn)}</p>
+                                        <p className="text-sky-500 text-[10px] my-1 font-bold">Valor UDI Proyectada</p>
+                                    </div>
+                                </div>
+
+                                {/* Gráfico SVG 2D */}
+                                <div className="bg-[#0b1120] rounded-2xl p-6 relative flex-grow flex flex-col border border-gray-800 shadow-inner overflow-hidden min-h-[220px]">
+                                    <h4 className="flex items-center gap-2 text-gray-300 font-bold text-[11px] uppercase tracking-widest mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M18 9l-5 5-4-4-5 5" /></svg>
+                                        Aportaciones vs Valor Asegurado
+                                    </h4>
+
+                                    <div className="w-full h-[160px] relative">
+                                        {/* Ejes y guías */}
+                                        <div className="absolute inset-0 flex flex-col justify-between">
+                                            {[1, 2, 3, 4].map(i => <div key={i} className="w-full h-px bg-gray-800/40"></div>)}
+                                        </div>
+
+                                        {/* SVG LINES */}
+                                        <svg viewBox="0 0 400 160" preserveAspectRatio="none" className={`w-full h-full static ${!isCalculated ? 'hidden' : 'fade-in'}`}>
+                                            {/* Linea Aportado */}
+                                            <polyline points={results.pointsAportado} fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeLinejoin="round" />
+                                            <polygon fill="rgba(245, 158, 11, 0.15)" points={`0,160 ${results.pointsAportado} 400,160`} />
+
+                                            {/* Linea Proyectado */}
+                                            <polyline points={results.pointsFondo} fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinejoin="round" />
+                                            <polygon fill="rgba(14, 165, 233, 0.2)" points={`0,160 ${results.pointsFondo} 400,160`} />
+                                        </svg>
+
+                                    </div>
+
+                                    <div className="flex justify-between mt-3 text-[9px] text-gray-400 font-bold border-t border-gray-800 pt-3 uppercase tracking-wider">
+                                        <span>Año {childAge} (Actual)</span>
+                                        <div className="flex gap-4">
+                                            <span className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></div> Aportado MXN</span>
+                                            <span className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#0ea5e9]"></div> Valor SeguBeca</span>
+                                        </div>
+                                        <span>Cumpleaños (18)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* PANEL 3: Primas y Brecha */}
+                            <div className="w-full lg:w-[40%] bg-white rounded-2xl p-6 lg:p-8 flex flex-col items-center border border-gray-100 shadow-xl">
+                                <div className="w-full border-b border-gray-100 pb-4 mb-6">
+                                    <span className="bg-[#0ea5e9]/10 text-[#0ea5e9] text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded">Estructura Nivelada (UDIS)</span>
+                                </div>
+
+                                <div className="text-center w-full mb-6">
+                                    <p className="text-gray-500 text-xs font-bold mb-1">Ahorro Estimado Anual</p>
+                                    <p className="text-[#005E9D] font-black text-3xl my-2">{showUdi(results.primaAnualUdis)}</p>
+                                    <p className="text-xs text-gray-400 mt-2 flex items-center justify-center gap-1 bg-gray-50 py-1.5 rounded-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8" /><line x1="8" y1="12" x2="8" y2="8" stroke="white" strokeWidth="2" /><circle cx="8" cy="4" r="1.5" fill="white" /></svg>
+                                        Equivale aprox a: <strong className="text-[#003366]">{showMxn(results.primaAnualActualMxn)}</strong> hoy.
+                                    </p>
+                                </div>
+
+                                <div className="w-full bg-[#f8fafc] border border-gray-200 rounded-xl p-4 mb-6 shadow-sm">
+                                    <h4 className="text-gray-600 font-bold text-[10px] uppercase tracking-widest border-b border-gray-200 pb-2 mb-3 flex justify-between">
+                                        Plazo del Plan <span>{yearsTotal} Años</span>
+                                    </h4>
+                                    <p className="text-[11px] text-gray-600 space-y-3 mt-3">
+                                        <span className="block leading-snug"><strong>✔️ Garantía Universal:</strong> Si el titular fallece o sufre invalidez, SeguBeca aportará lo restante y se entregará a sus 18 años el 100%.</span>
+                                        <span className="block leading-snug"><strong>✔️ Protección UDI:</strong> El costo de una universidad crece 7% anual, la UDI absorbe la devaluación salvando tus ahorros.</span>
+                                    </p>
+                                </div>
+
+                                {/* Análisis Brecha */}
+                                <div className="bg-red-50/80 border-l-[3px] border-red-400 p-3 w-full mb-6">
+                                    <p className="text-red-700 text-[10px] font-medium leading-relaxed text-justify">
+                                        <strong>Riesgo de Ahorro Tradicional:</strong> Si ahorraras en el colchón estos {yearsTotal} años, tendrías apenas <strong>{showMxn(results.primaAnualActualMxn * yearsTotal)}</strong>, que ya no ajustará por la implacable devaluación del peso contra la educación.
+                                    </p>
+                                </div>
+
+                                <button onClick={sendWhatsApp} className={`w-full py-4 mt-auto rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-lg flex items-center justify-center gap-2 transition-all ${isCalculated ? 'bg-[#25D366] hover:bg-[#20bd5a] hover:scale-[1.02] shadow-[#25D366]/40' : 'bg-[#e2e8f0] cursor-not-allowed opacity-80 shadow-none text-gray-400'}`} disabled={!isCalculated}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+                                    COTIZACIÓN OFICIAL
+                                </button>
+                                <p className="text-[9.5px] text-gray-400 mt-4 text-center leading-tight">
+                                    Información ilustrativa y basada en proyecciones estimadas. No representa un contrato legal. Para obtener información detallada, real y personalizada a ti y tu hija o hijo, por favor agenda una cita conmigo presionando el botón de arriba.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
+
 </html>
