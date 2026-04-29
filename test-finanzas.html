@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Finanzas Personales | Víctor Hugo Díaz</title>
+    <style>
+        :root { 
+            --navy: #003366; 
+            --cyan: #00AEFF; 
+            --gray: #f4f7f6; 
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            background-color: var(--gray); 
+            margin: 0; 
+            padding: 20px; 
+            color: #333;
+        }
+        .app-container { 
+            max-width: 650px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+            overflow: hidden; 
+        }
+        .header { 
+            background: var(--navy); 
+            color: white; 
+            padding: 25px 20px; 
+            text-align: center; 
+        }
+        .header h1 { margin: 0; font-size: 24px; }
+        .header p { margin: 8px 0 0; font-style: italic; opacity: 0.9; font-size: 15px; }
+        
+        .tabs { display: flex; background: #eaeff3; }
+        .tab-btn { 
+            flex: 1; padding: 15px 5px; border: none; cursor: pointer; 
+            font-weight: 600; color: #555; transition: 0.3s; font-size: 14px;
+            background: transparent;
+        }
+        .tab-btn.active { 
+            background: white; color: var(--navy); border-bottom: 3px solid var(--cyan); 
+        }
+        .content { padding: 25px; display: none; }
+        .content.active { display: block; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy); font-size: 14px; }
+        .helper-text { font-size: 12px; color: #666; margin-bottom: 8px; display: block; }
+        input[type="number"], input[type="text"], select { 
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; 
+            box-sizing: border-box; font-size: 16px; transition: border 0.3s;
+            background-color: white;
+            cursor: pointer;
+        }
+        input:focus, select:focus { border-color: var(--cyan); outline: none; }
+        
+        /* Tablas y Resultados */
+        .result-card { 
+            background: #f8fbff; padding: 20px; border-radius: 8px; 
+            border-left: 5px solid var(--cyan); margin-top: 20px; 
+        }
+        .table-resumen { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .table-resumen th, .table-resumen td { padding: 8px 0; border-bottom: 1px solid #eee; text-align: right; }
+        .table-resumen th:first-child, .table-resumen td:first-child { text-align: left; }
+        .table-resumen th { color: var(--navy); }
+        
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+        .bg-success { background: #d4edda; color: var(--success); }
+        .bg-warning { background: #fff3cd; color: #856404; }
+        
+        .comparative-box { 
+            display: flex; gap: 15px; margin-top: 15px;
+        }
+        .box-colchon { 
+            flex: 1; padding: 15px; background: #fff; border: 1px solid #ddd; border-radius: 8px; text-align: center;
+        }
+        .box-ppr { 
+            flex: 1; padding: 15px; background: var(--navy); color: white; border-radius: 8px; text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 174, 255, 0.2);
+        }
+        .box-ppr h4 { color: var(--cyan); margin: 0 0 10px 0;}
+        .box-colchon h4 { color: #666; margin: 0 0 10px 0;}
+        .amount { font-size: 22px; font-weight: bold; margin: 10px 0; }
+        
+        /* Opciones Protección */
+        .radio-option {
+            display: flex; align-items: center; padding: 15px; border: 1px solid #eee; 
+            border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .radio-option:hover { background: #f9f9f9; border-color: var(--cyan); }
+        .radio-option input { margin-right: 15px; width: auto; transform: scale(1.2); }
+        .radio-option label { margin: 0; cursor: pointer; width: 100%; font-size: 15px; }
+
+        .btn-send { 
+            background: var(--navy); color: white; border: none; padding: 16px; 
+            width: 100%; border-radius: 8px; font-size: 18px; font-weight: bold; 
+            cursor: pointer; margin-top: 25px; transition: 0.3s;
+        }
+        .btn-send:hover { background: #002244; transform: translateY(-2px); }
+
+        @media (max-width: 500px) {
+            .comparative-box { flex-direction: column; }
+            .tab-btn { font-size: 13px; padding: 12px 2px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>Diagnóstico Finanzas Personales</h1>
+        <p>"No represento a una compañía, te represento a ti."</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. Diagnóstico</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Retiro</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">3. Protección</button>
+    </div>
+
+    <!-- Formulario conectado a FormSubmit -->
+    <form id="finanzasForm" action="https://formsubmit.co/vhdiazme@gmail.com" method="POST">
+        <!-- Configuraciones FormSubmit -->
+        <input type="hidden" name="_subject" value="Nuevo Diagnóstico Financiero (Web App)">
+        <input type="hidden" name="_captcha" value="false">
+        <!-- Campos ocultos para capturar toda la info en el correo -->
+        <input type="hidden" name="Analisis_Gastos" id="hidden_gastos">
+        <input type="hidden" name="Analisis_Retiro" id="hidden_retiro">
+
+        <!-- TAB 1: DIAGNÓSTICO -->
+        <div id="tab1" class="content active">
+            <h3 style="color: var(--navy); margin-top:0;">Tu Dinero Hoy (Regla 50/30/20)</h3>
+            
+            <div class="form-group">
+                <label>Ingreso Mensual Aprox.</label>
+                <select name="Ingreso_Mensual" id="ingreso" onchange="calcFinanzas()">
+                    <option value="20000">Menos de $25,000</option>
+                    <option value="32500">$25,000 a $40,000</option>
+                    <option value="57500" selected>$40,000 a $75,000</option>
+                    <option value="90000">Más de $75,000</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Gastos Fijos Mensuales</label>
+                <span class="helper-text">Renta/Hipoteca, colegiaturas, despensa, servicios básicos.</span>
+                <select name="Gastos_Fijos" id="fijos" onchange="calcFinanzas()">
+                    <option value="10000">Menos de $15,000</option>
+                    <option value="22500" selected>$15,000 a $30,000</option>
+                    <option value="40000">$30,000 a $50,000</option>
+                    <option value="60000">Más de $50,000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Diversión y Gustos</label>
+                <span class="helper-text">Cenas, salidas, viajes, aplicaciones (Netflix, Spotify), ropa.</span>
+                <select name="Gastos_Diversion" id="gustos" onchange="calcFinanzas()">
+                    <option value="3000">Menos de $5,000</option>
+                    <option value="10000" selected>$5,000 a $15,000</option>
+                    <option value="20000">$15,000 a $25,000</option>
+                    <option value="30000">Más de $25,000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ahorro y Prevención Actual</label>
+                <span class="helper-text">Seguros, inversiones, ahorro en banco.</span>
+                <select name="Ahorro_Actual" id="ahorro" onchange="calcFinanzas()">
+                    <option value="0">Nada por el momento ($0)</option>
+                    <option value="1500">Menos de $3,000</option>
+                    <option value="5500" selected>$3,000 a $8,000</option>
+                    <option value="10000">Más de $8,000</option>
+                </select>
+            </div>
+
+            <div class="result-card">
+                <div style="display:flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin:0;">Indicador:</h3>
+                    <span id="diag-badge" class="badge bg-success">Calculando...</span>
+                </div>
+                
+                <table class="table-resumen">
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Tu Realidad</th>
+                            <th>El Ideal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gastos Fijos (50%)</td>
+                            <td id="pct-fijos">--%</td>
+                            <td id="ideal-fijos">$0</td>
+                        </tr>
+                        <tr>
+                            <td>Diversión (30%)</td>
+                            <td id="pct-gustos">--%</td>
+                            <td id="ideal-gustos">$0</td>
+                        </tr>
+                        <tr>
+                            <td>Ahorro (20%)</td>
+                            <td id="pct-ahorro">--%</td>
+                            <td id="ideal-ahorro">$0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 2: RETIRO -->
+        <div id="tab2" class="content">
+            <h3 style="color: var(--navy); margin-top:0;">Tu Proyección de Retiro</h3>
+            
+            <div style="display:flex; gap:15px;">
+                <div class="form-group" style="flex:1;">
+                    <label>Tu Edad Actual</label>
+                    <input type="number" name="Edad_Actual" id="edad" value="35" oninput="calcRetiro()">
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label>Edad de Retiro Ideal</label>
+                    <input type="number" name="Edad_Retiro" id="retiro" value="65" oninput="calcRetiro()">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mensualidad deseada (Durante el retiro)</label>
+                <span class="helper-text">Calculado basado en una esperanza de vida de 80 años.</span>
+                <input type="number" name="Mensualidad_Retiro_Deseada" id="mensualidad" value="15000" oninput="calcRetiro()">
+            </div>
+
+            <div class="result-card" style="background: transparent; padding:0; border:none; margin-top: 10px;">
+                <h4 style="margin:0 0 10px 0; color:var(--navy);">Meta Total: <span id="meta-total" style="color:var(--cyan);">$0</span></h4>
+                <p style="font-size: 14px; margin:0 0 15px 0;">Para llegar a esta meta, así se ve el esfuerzo mensual requerido:</p>
+                
+                <div class="comparative-box">
+                    <div class="box-colchon">
+                        <h4>Ahorro Tradicional</h4>
+                        <p style="font-size:12px; margin:0;">Bajo el colchón o banco</p>
+                        <div class="amount" id="ahorro-colchon">$0</div>
+                        <p style="font-size:11px; margin:0; color:#888;">Asume 100% del riesgo</p>
+                    </div>
+                    <div class="box-ppr">
+                        <h4>Ahorro con PPR</h4>
+                        <p style="font-size:12px; margin:0;">Rendimiento Compuesto*</p>
+                        <div class="amount" id="ahorro-ppr">$0</div>
+                        <p style="font-size:11px; margin:0; opacity:0.8;">Ahorras menos, logras más</p>
+                    </div>
+                </div>
+                <p style="font-size: 10px; color:#999; margin-top:10px; text-align:center;">*Proyección estimada. Un PPR hace que tu dinero trabaje, reduciendo drásticamente tu aportación mensual real.</p>
+            </div>
+        </div>
+
+        <!-- TAB 3: PROTECCIÓN -->
+        <div id="tab3" class="content">
+            <h3 style="color: var(--navy); margin-top:0;">Tu Prioridad Actual</h3>
+            
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" name="Nombre_Prospecto" placeholder="Ej. Juan Pérez" required>
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono (WhatsApp)</label>
+                <input type="text" name="Telefono" placeholder="Ej. 55 1234 5678" required>
+            </div>
+
+            <p style="font-weight: 600; color: var(--navy); margin-top: 25px;">Si tuvieras que elegir hoy, ¿Cuál es tu principal prioridad financiera?</p>
+            
+            <div class="radio-option">
+                <input type="radio" id="p1" name="Prioridad_Principal" value="Salud / Enfermedad Grave" required>
+                <label for="p1">Salud / Riesgo de una Enfermedad Grave</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="p2" name="Prioridad_Principal" value="Ausencia / Fallecimiento">
+                <label for="p2">Ausencia / Protección de mi familia si falto</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="p3" name="Prioridad_Principal" value="Ahorrar para Retiro">
+                <label for="p3">Ahorrar y Garantizar mi Retiro</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="p4" name="Prioridad_Principal" value="Universidad Hijos">
+                <label for="p4">Fondo para la Universidad de mis hijos</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="p5" name="Prioridad_Principal" value="Deducir Impuestos">
+                <label for="p5">Estrategias para Deducir Impuestos</label>
+            </div>
+
+            <button type="submit" class="btn-send">Agendar mi Asesoría Inicial</button>
+            <p style="font-size: 12px; color: #666; text-align: center; margin-top: 15px;">Al enviar, tus respuestas llegarán a Víctor Hugo Díaz para preparar tu proyección personalizada antes de la sesión. Tus datos personales estan protegidos.</p>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Navegación de pestañas
+    function openTab(evt, tabName) {
+        let content = document.getElementsByClassName("content");
+        for (let i = 0; i < content.length; i++) { content[i].style.display = "none"; }
+        let tablinks = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tablinks.length; i++) { tablinks[i].className = tablinks[i].className.replace(" active", ""); }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Formato de moneda
+    const formatMoney = (amount) => {
+        return "$" + Math.round(amount).toLocaleString('en-US');
+    };
+
+    // Lógica Diagnóstico 50/30/20
+    function calcFinanzas() {
+        let ingSelect = document.getElementById('ingreso');
+        let fijSelect = document.getElementById('fijos');
+        let gusSelect = document.getElementById('gustos');
+        let ahoSelect = document.getElementById('ahorro');
+
+        let ing = parseFloat(ingSelect.value) || 0;
+        let fij = parseFloat(fijSelect.value) || 0;
+        let gus = parseFloat(gusSelect.value) || 0;
+        let aho = parseFloat(ahoSelect.value) || 0;
+
+        if(ing <= 0) return;
+
+        let pctFijos = (fij / ing) * 100;
+        let pctGus = (gus / ing) * 100;
+        let pctAho = (aho / ing) * 100;
+
+        document.getElementById('pct-fijos').innerText = pctFijos.toFixed(1) + "%";
+        document.getElementById('pct-gustos').innerText = pctGus.toFixed(1) + "%";
+        document.getElementById('pct-ahorro').innerText = pctAho.toFixed(1) + "%";
+
+        document.getElementById('ideal-fijos').innerText = formatMoney(ing * 0.5);
+        document.getElementById('ideal-gustos').innerText = formatMoney(ing * 0.3);
+        document.getElementById('ideal-ahorro').innerText = formatMoney(ing * 0.2);
+
+        let badge = document.getElementById('diag-badge');
+        if(pctFijos <= 55) {
+            badge.innerText = "¡FINANZAS SANAS!";
+            badge.className = "badge bg-success";
+        } else {
+            badge.innerText = "BALANCEAR FINANZAS";
+            badge.className = "badge bg-warning";
+        }
+
+        // Obtener los textos de los rangos para el correo
+        let ingText = ingSelect.options[ingSelect.selectedIndex].text;
+        let fijText = fijSelect.options[fijSelect.selectedIndex].text;
+        let gusText = gusSelect.options[gusSelect.selectedIndex].text;
+        let ahoText = ahoSelect.options[ahoSelect.selectedIndex].text;
+
+        // Guardar para el correo con el texto legible
+        document.getElementById('hidden_gastos').value = 
+            `Ingreso: ${ingText} | Fijos: ${fijText} (${pctFijos.toFixed(0)}%) | Gustos: ${gusText} | Ahorro: ${ahoText} | Estatus: ${badge.innerText}`;
+    }
+
+    // Lógica Retiro con "Magia" del Interés Compuesto para PPR
+    function calcRetiro() {
+        let edad = parseFloat(document.getElementById('edad').value) || 0;
+        let ret = parseFloat(document.getElementById('retiro').value) || 0;
+        let mens = parseFloat(document.getElementById('mensualidad').value) || 0;
+        
+        let añosFaltantes = ret - edad;
+        if(añosFaltantes <= 0 || mens <= 0) return;
+
+        // Meta: (80 años de esperanza de vida - Edad Retiro) * 12 meses * Mensualidad
+        let esperanzaVida = 80;
+        let añosRetiro = esperanzaVida - ret;
+        let metaTotal = añosRetiro * 12 * mens;
+        
+        // Ahorro bajo el colchón (Crudo)
+        let mesesFaltantes = añosFaltantes * 12;
+        let ahorroColchon = metaTotal / mesesFaltantes;
+
+        // Ahorro con PPR (Asumiendo un 7% anual conservador)
+        // Fórmula de valor futuro de anualidad despejando el Pago (PMT)
+        let tasaAnual = 0.07;
+        let rMensual = tasaAnual / 12;
+        let ahorroPPR = (metaTotal * rMensual) / (Math.pow(1 + rMensual, mesesFaltantes) - 1);
+
+        document.getElementById('meta-total').innerText = formatMoney(metaTotal);
+        document.getElementById('ahorro-colchon').innerText = formatMoney(ahorroColchon);
+        document.getElementById('ahorro-ppr').innerText = formatMoney(ahorroPPR);
+
+        // Guardar para el correo
+        document.getElementById('hidden_retiro').value = 
+            `Edad: ${edad} a ${ret} | Meta: ${formatMoney(metaTotal)} | Ahorro Tradicional Req: ${formatMoney(ahorroColchon)} | Ahorro PPR Req: ${formatMoney(ahorroPPR)}`;
+    }
+
+    // Inicializar
+    calcFinanzas();
+    calcRetiro();
+</script>
+
+</body>
+</html>
