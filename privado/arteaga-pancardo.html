@@ -1,1 +1,578 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Financiero: Proyecto Máximo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para la gráfica interactiva -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons para íconos modernos y limpios -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#FBBF24',
+                            500: '#D4AF37',
+                            600: '#B4942D',
+                        },
+                        tot: {
+                            900: '#0B1121', // Dark premium background
+                            800: '#151E32', // Panel background
+                            700: '#1F2943', // Borders & hovers
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+        
+        body {
+            background-color: #0B1121;
+            background-image: radial-gradient(circle at 50% -20%, #1a2744 0%, #0B1121 50%);
+            color: #F8FAFC;
+        }
+
+        /* Custom Scrollbar for inner table */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        /* Toggle Switch Custom CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #D4AF37; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #D4AF37; }
+        .toggle-checkbox { right: 0; z-index: 1; border-color: #475569; transition: all 0.3s; }
+        .toggle-label { background-color: #475569; transition: all 0.3s; }
+
+        .glass-panel {
+            background: rgba(21, 30, 50, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes pulse-gold {
+            0% { color: #D4AF37; transform: scale(1.05); }
+            100% { color: inherit; transform: scale(1); }
+        }
+        .update-anim { animation: pulse-gold 0.6s ease-out; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden font-sans flex items-center justify-center p-4 lg:p-6 text-sm">
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="w-full max-w-[1600px] h-full max-h-[900px] flex flex-col lg:flex-row gap-6">
+
+        <!-- PANEL IZQUIERDO: Contexto y CTA (30%) -->
+        <aside class="w-full lg:w-[30%] flex flex-col gap-4 h-full">
+            
+            <div class="glass-panel rounded-3xl p-8 flex-1 flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                
+                <p class="text-gold-500 font-semibold tracking-widest uppercase text-xs mb-2">Proyecto Privado</p>
+                <h1 class="font-serif text-4xl lg:text-5xl font-bold leading-tight mb-6">
+                    El Futuro de <br><span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Máximo</span>
+                </h1>
+                
+                <p class="text-slate-300 leading-relaxed mb-6">
+                    Dante y Mili: Este dashboard consolida su visión. El paso financiero que den hoy garantiza que, pase lo que pase, los sueños de su hijo no tendrán límites para el año 2043.
+                </p>
+
+                <!-- Variables Macroeconómicas -->
+                <div class="bg-tot-900/80 rounded-2xl p-5 border border-white/5 mb-6">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 flex items-center">
+                        <i class="ph ph-chart-line-up text-gold-500 text-lg mr-2"></i> Variables del Fondo
+                    </h3>
+                    <div class="flex justify-between items-center mb-3 pb-3 border-b border-white/10">
+                        <span class="text-slate-300">Valor UDI Hoy</span>
+                        <span class="font-bold text-white text-lg">$8.84 <span class="text-xs text-slate-500 font-normal">MXN</span></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-300">Inflación proyectada</span>
+                        <span class="font-bold text-gold-400">4.5% <span class="text-xs text-slate-500 font-normal">Anual</span></span>
+                    </div>
+                </div>
+
+                <!-- Asesor y Contacto -->
+                <div class="mt-auto">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-tot-900 font-bold text-xl shadow-lg">
+                            VD
+                        </div>
+                        <div>
+                            <p class="font-bold text-white">Víctor Hugo Díaz</p>
+                            <p class="text-xs text-gold-400">Asesor - MDRT</p>
+                        </div>
+                    </div>
+                    
+                    <a href="https://wa.me/522291154423?text=Hola%20Victor,%20estoy%20revisando%20el%20dashboard%20de%20M%C3%A1ximo.%20Me%20gustar%C3%ADa%20platicar%20sobre%20las%20proyecciones." 
+                       target="_blank"
+                       class="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE57] text-tot-900 font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] shadow-[0_0_20px_rgba(37,211,102,0.3)]">
+                        <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                        Confirmar Proyecto por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- PANEL DERECHO: Datos Dinámicos y Gráfica (70%) -->
+        <main class="w-full lg:w-[70%] flex flex-col gap-4 h-full">
+            
+            <!-- HEADER: Toggle Switch y Add-on Prepa -->
+            <div class="glass-panel rounded-3xl p-5 flex items-center justify-between z-10">
+                <!-- Toggle Switch -->
+                <div class="flex items-center gap-4 bg-tot-900/50 p-2 rounded-2xl border border-white/5">
+                    <span id="labelFlexible" class="text-sm font-bold text-gold-400 transition-colors">Universidad Flexible</span>
+                    
+                    <div class="relative inline-block w-14 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="scenarioToggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer top-1 right-8" onchange="updateDashboard()"/>
+                        <label for="scenarioToggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                    
+                    <span id="labelTec" class="text-sm font-medium text-slate-500 transition-colors">Nivel TEC de Mty</span>
+                </div>
+
+                <!-- Addon Prepa (Fijo) -->
+                <div class="flex items-center gap-3 bg-tot-900/50 p-3 rounded-xl border border-gold-500/20">
+                    <i class="ph-fill ph-plus-circle text-gold-500 text-2xl"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white uppercase">Upgrade Prepa (35k UDI)</p>
+                        <p class="text-xs text-slate-400">+ 2,500 UDI ($22,100 MXN) anuales</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETAS DE MÉTRICAS (Kpis) -->
+            <div class="grid grid-cols-3 gap-4">
+                <div class="glass-panel rounded-3xl p-6 relative overflow-hidden group">
+                    <i class="ph-duotone ph-target absolute -right-4 -bottom-4 text-7xl text-white/5 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Meta Asegurada (2043)</p>
+                    <div class="flex items-baseline gap-2">
+                        <span id="valTargetUdi" class="text-4xl font-bold text-white">100,000</span>
+                        <span class="text-gold-400 font-semibold">UDI</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-6 relative overflow-hidden group">
+                    <i class="ph-duotone ph-coins absolute -right-4 -bottom-4 text-7xl text-white/5 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Aportación Anual</p>
+                    <div class="flex items-baseline gap-2">
+                        <span id="valAnnualUdi" class="text-4xl font-bold text-white">5,800.54</span>
+                        <span class="text-gold-400 font-semibold">UDI</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl p-6 relative overflow-hidden group border-b-4 border-b-gold-500">
+                    <i class="ph-duotone ph-currency-circle-dollar absolute -right-4 -bottom-4 text-7xl text-gold-500/10 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Inversión Hoy (Pesos)</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-2xl text-slate-300">$</span>
+                        <span id="valAnnualMxn" class="text-4xl font-bold text-gold-400">51,287</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">Aprox. mensual: $<span id="valMonthlyMxn">4,274</span> MXN</p>
+                </div>
+            </div>
+
+            <!-- GRÁFICA INTERACTIVA -->
+            <div class="glass-panel rounded-3xl p-6 flex-1 flex flex-col relative min-h-0">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h2 class="text-lg font-bold text-white mb-1">Proyección de Crecimiento a 17 Años</h2>
+                        <div class="flex gap-4 text-xs font-medium">
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-slate-500"></div> Aportación Acumulada</div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-gold-500"></div> Valor Garantizado</div>
+                        </div>
+                    </div>
+                    
+                    <!-- BOTÓN DINÁMICO DE DESGLOSE -->
+                    <button onclick="toggleModal()" class="flex items-center gap-2 bg-tot-700 hover:bg-tot-800 border border-gold-500/30 text-gold-400 px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-lg hover:shadow-gold-500/20">
+                        <i class="ph-bold ph-table text-base"></i> Ver Desglose Financiero
+                    </button>
+                </div>
+                
+                <!-- Contenedor del Canvas -->
+                <div class="relative flex-1 w-full h-full min-h-0 mt-2">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <!-- BLINDAJE (FOOTER DERECHO) -->
+            <div class="glass-panel rounded-3xl p-4 flex justify-between items-center bg-gradient-to-r from-tot-800 to-tot-900 border-gold-500/30">
+                <div class="flex items-center gap-3 px-4 border-r border-white/10 w-1/4">
+                    <i class="ph-fill ph-file-text text-2xl text-gold-400"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Exención PIM CT</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Fondo pagado en caso de invalidez o fallecimiento.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 px-4 border-r border-white/10 w-1/4">
+                    <i class="ph-fill ph-shield-check text-2xl text-gold-400"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Cobertura CPA</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Suma Asegurada extra para Mili por fallecimiento.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 px-4 border-r border-white/10 w-1/4">
+                    <i class="ph-fill ph-wheelchair text-2xl text-gold-400"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Invalidez BAIT</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Pago en vida por Invalidez Total de Dante.</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 px-4 w-1/4">
+                    <i class="ph-fill ph-heartbeat text-2xl text-gold-400"></i>
+                    <div>
+                        <p class="text-xs font-bold text-white">Salud Incluida</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Asistencia Médica y Apoyo en Vida sin costo.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL DE DESGLOSE FINANCIERO (Oculto por defecto) -->
+    <div id="projectionModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Overlay oscuro blur -->
+        <div class="absolute inset-0 bg-tot-900/90 backdrop-blur-md" onclick="toggleModal()"></div>
+        
+        <!-- Contenedor del Modal -->
+        <div class="relative glass-panel bg-tot-800 border-gold-500/50 rounded-3xl w-full max-w-5xl max-h-[85vh] flex flex-col shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
+            
+            <!-- Cabecera del Modal -->
+            <div class="flex justify-between items-center p-6 border-b border-white/10">
+                <div>
+                    <h2 class="text-2xl font-serif font-bold text-white flex items-center gap-3">
+                        <i class="ph-fill ph-chart-bar text-gold-500"></i>
+                        Desglose a 17 Años <span id="modalTitleScenario" class="text-gold-400 text-lg font-sans ml-2">(Universidad Flexible)</span>
+                    </h2>
+                    <p class="text-sm text-slate-400 mt-1">Estimación considerando inflación de 4.5% anual.</p>
+                </div>
+                <button onclick="toggleModal()" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors">
+                    <i class="ph-bold ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <!-- KPIs de Impacto (El gancho TOT) -->
+            <div class="grid grid-cols-2 gap-6 p-6 bg-tot-900/30">
+                <div class="bg-tot-900 p-5 rounded-2xl border border-slate-700 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-slate-600"></div>
+                    <p class="text-sm text-slate-400 font-semibold mb-1 uppercase tracking-wider">Aportación Total Estimada (Dante)</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-2xl text-slate-500">$</span>
+                        <span id="modalTotalAportadoMxn" class="text-4xl font-bold text-white">0</span>
+                        <span class="text-slate-400 font-medium ml-2">MXN</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">Equivalente a: <span id="modalTotalAportadoUdi" class="font-bold text-slate-300">0</span> UDI aportadas.</p>
+                </div>
+
+                <div class="bg-tot-900 p-5 rounded-2xl border border-gold-500/30 relative overflow-hidden shadow-[0_0_30px_rgba(212,175,55,0.1)]">
+                    <div class="absolute top-0 right-0 w-2 h-full bg-gold-500"></div>
+                    <p class="text-sm text-gold-500 font-semibold mb-1 uppercase tracking-wider">Lo que recibe Máximo (2043)</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-2xl text-gold-600">$</span>
+                        <span id="modalTotalRecibirMxn" class="text-4xl font-bold text-gold-400">0</span>
+                        <span class="text-gold-600 font-medium ml-2">MXN</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">Valor garantizado: <span id="modalTargetUdi" class="font-bold text-white">0</span> UDI.</p>
+                </div>
+            </div>
+
+            <!-- Tabla de datos con scroll interno -->
+            <div class="flex-1 overflow-y-auto p-6 pt-0 custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead class="sticky top-0 bg-tot-800 z-10 shadow-md">
+                        <tr class="text-xs uppercase tracking-wider text-slate-400 border-b border-white/10">
+                            <th class="py-3 px-4">Año</th>
+                            <th class="py-3 px-4">Edad</th>
+                            <th class="py-3 px-4 text-right">Valor UDI Estimado</th>
+                            <th class="py-3 px-4 text-right">Aportación en Pesos</th>
+                            <th class="py-3 px-4 text-right text-gold-400 bg-gold-500/5 rounded-t-lg">Aportación Acumulada (MXN)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="text-sm text-slate-200">
+                        <!-- Generado por JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="p-4 text-center border-t border-white/5 bg-tot-900/50 rounded-b-3xl">
+                <p class="text-[11px] text-slate-500">*Proyección ilustrativa. El valor futuro en pesos dependerá de la inflación real acumulada.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LÓGICA DEL DASHBOARD -->
+    <script>
+        // Formateadores
+        const formatMXN = (num) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(num);
+        const formatNumber = (num) => new Intl.NumberFormat('es-MX').format(Math.round(num));
+        const formatUDI = (num) => new Intl.NumberFormat('es-MX', { minimumFractionDigits: 6, maximumFractionDigits: 6 }).format(num);
+        const formatDecimal = (num) => new Intl.NumberFormat('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(num);
+
+        // Variables Macroeconómicas Constantes (Basadas en la imagen del usuario)
+        const baseUdiRate = 8.841878;
+        const inflationRate = 0.045; // 4.5%
+        const startYear = 2026;
+        const years = 17;
+
+        // Datos Dinámicos
+        const data = {
+            flexible: { name: "Universidad Flexible", target: 100000, annualUdi: 5800.54, totalAportadoUdi: 98609 },
+            tec: { name: "Nivel TEC de Monterrey", target: 220000, annualUdi: 12241.00, totalAportadoUdi: 208099 } // Ajustado a enteros como en la imagen
+        };
+
+        // Elementos del DOM
+        const toggle = document.getElementById('scenarioToggle');
+        const valTarget = document.getElementById('valTargetUdi');
+        const valAnnualUdi = document.getElementById('valAnnualUdi');
+        const valAnnualMxn = document.getElementById('valAnnualMxn');
+        const valMonthlyMxn = document.getElementById('valMonthlyMxn');
+
+        // Modal DOM
+        const modal = document.getElementById('projectionModal');
+        const modalContent = document.getElementById('modalContent');
+        
+        let growthChart;
+        let isModalOpen = false;
+
+        // --- FUNCIONES MATEMÁTICAS (Generación de Tabla) ---
+        function generateTableData(scenario) {
+            let tableHTML = '';
+            let totalAportadoMXN = 0;
+            let currentUdiValue = baseUdiRate;
+            let accumulatedMxnArray = []; // Para la grafica
+
+            for(let i = 1; i <= years; i++) {
+                let currentYear = startYear + (i - 1);
+                let age = i;
+                
+                // Calculo de la inflación
+                if (i > 1) {
+                    currentUdiValue = currentUdiValue * (1 + inflationRate);
+                }
+
+                let aportacionMXN = scenario.annualUdi * currentUdiValue;
+                totalAportadoMXN += aportacionMXN;
+                accumulatedMxnArray.push(totalAportadoMXN);
+
+                // Highlight para la fila final
+                let rowClass = (i === years) ? 'bg-gold-500/10 font-bold border-b border-gold-500/30' : 'border-b border-white/5 hover:bg-white/5';
+                let textClass = (i === years) ? 'text-gold-400' : 'text-slate-200';
+
+                tableHTML += `
+                    <tr class="${rowClass} transition-colors">
+                        <td class="py-3 px-4">${currentYear}</td>
+                        <td class="py-3 px-4">${age}</td>
+                        <td class="py-3 px-4 text-right font-mono text-xs">$${formatUDI(currentUdiValue)}</td>
+                        <td class="py-3 px-4 text-right">${formatMXN(aportacionMXN)}</td>
+                        <td class="py-3 px-4 text-right bg-gold-500/5 ${textClass}">${formatMXN(totalAportadoMXN)}</td>
+                    </tr>
+                `;
+            }
+
+            // Calculo final de lo que recibe a los 17 (Target UDI * Valor UDI Año 17)
+            let totalRecibirMXN = scenario.target * currentUdiValue;
+
+            return {
+                html: tableHTML,
+                totalAportadoMXN: totalAportadoMXN,
+                totalRecibirMXN: totalRecibirMXN,
+                accumulatedMxnArray: accumulatedMxnArray
+            };
+        }
+
+        // --- CONTROL DEL MODAL ---
+        window.toggleModal = function() {
+            isModalOpen = !isModalOpen;
+            if(isModalOpen) {
+                // Actualizar datos antes de abrir
+                const currentData = toggle.checked ? data.tec : data.flexible;
+                const calculation = generateTableData(currentData);
+                
+                document.getElementById('modalTitleScenario').innerText = `(${currentData.name})`;
+                document.getElementById('modalTotalAportadoMxn').innerText = formatNumber(calculation.totalAportadoMXN);
+                document.getElementById('modalTotalAportadoUdi').innerText = formatNumber(currentData.totalAportadoUdi);
+                
+                document.getElementById('modalTotalRecibirMxn').innerText = formatNumber(calculation.totalRecibirMXN);
+                document.getElementById('modalTargetUdi').innerText = formatNumber(currentData.target);
+                
+                document.getElementById('tableBody').innerHTML = calculation.html;
+
+                // Animaciones de entrada
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            } else {
+                // Animaciones de salida
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+            }
+        }
+
+        // --- INICIALIZACIÓN DE LA GRÁFICA ---
+        function initChart() {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            
+            const gradientGold = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientGold.addColorStop(0, 'rgba(212, 175, 55, 0.4)'); 
+            gradientGold.addColorStop(1, 'rgba(212, 175, 55, 0.0)'); 
+
+            const gradientSlate = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientSlate.addColorStop(0, 'rgba(100, 116, 139, 0.2)'); 
+            gradientSlate.addColorStop(1, 'rgba(100, 116, 139, 0.0)'); 
+
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.font.family = 'Inter';
+            
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Año 1', 'Año 5', 'Año 10', 'Año 15', 'Año 17'],
+                    datasets: [
+                        {
+                            label: 'Valor Garantizado (UDI)',
+                            data: [0,0,0,0,0], // Se llena dinamicamente
+                            borderColor: '#D4AF37',
+                            backgroundColor: gradientGold,
+                            borderWidth: 4,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#0B1121',
+                            pointBorderColor: '#D4AF37',
+                            pointBorderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        },
+                        {
+                            label: 'Aportación Acumulada (UDI)',
+                            data: [0,0,0,0,0], // Se llena dinamicamente
+                            borderColor: '#64748B',
+                            backgroundColor: gradientSlate,
+                            borderWidth: 3,
+                            borderDash: [5, 5],
+                            fill: true,
+                            tension: 0.1,
+                            pointBackgroundColor: '#0B1121',
+                            pointBorderColor: '#64748B',
+                            pointBorderWidth: 2,
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleColor: '#D4AF37',
+                            titleFont: { size: 14, family: 'Inter', weight: 'bold' },
+                            bodyFont: { size: 13, family: 'Inter' },
+                            padding: 12,
+                            borderColor: 'rgba(212, 175, 55, 0.3)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${new Intl.NumberFormat('es-MX').format(context.parsed.y)} UDI`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.05)', drawBorder: false },
+                            ticks: { callback: function(value) { return value / 1000 + 'k'; }, font: { size: 11 } }
+                        },
+                        x: { grid: { display: false, drawBorder: false }, ticks: { font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function animateValue(element, targetValue, isDecimal = false) {
+            element.classList.remove('update-anim');
+            void element.offsetWidth; // Trigger reflow
+            element.classList.add('update-anim');
+            element.innerText = isDecimal ? formatDecimal(targetValue) : formatNumber(targetValue);
+        }
+
+        // --- ACTUALIZACIÓN PRINCIPAL (TOGGLE) ---
+        window.updateDashboard = function() {
+            const isTec = toggle.checked;
+            const currentData = isTec ? data.tec : data.flexible;
+
+            // 1. Estilos del Toggle
+            const lblFlex = document.getElementById('labelFlexible');
+            const lblTec = document.getElementById('labelTec');
+            if(isTec) {
+                lblFlex.classList.replace('text-gold-400', 'text-slate-500');
+                lblFlex.classList.replace('font-bold', 'font-medium');
+                lblTec.classList.replace('text-slate-500', 'text-gold-400');
+                lblTec.classList.replace('font-medium', 'font-bold');
+            } else {
+                lblTec.classList.replace('text-gold-400', 'text-slate-500');
+                lblTec.classList.replace('font-bold', 'font-medium');
+                lblFlex.classList.replace('text-slate-500', 'text-gold-400');
+                lblFlex.classList.replace('font-medium', 'font-bold');
+            }
+
+            // 2. Animar Tarjetas Principales
+            let mxnAnnual = currentData.annualUdi * baseUdiRate;
+            animateValue(valTarget, currentData.target);
+            animateValue(valAnnualUdi, currentData.annualUdi, true);
+            animateValue(valAnnualMxn, mxnAnnual);
+            animateValue(valMonthlyMxn, mxnAnnual / 12);
+
+            // 3. Actualizar Gráfica (Con puntos clave simplificados para UDI)
+            // Años 1, 5, 10, 15, 17
+            let chartAportado = [
+                currentData.annualUdi * 1,
+                currentData.annualUdi * 5,
+                currentData.annualUdi * 10,
+                currentData.annualUdi * 15,
+                currentData.totalAportadoUdi
+            ];
+            
+            // Crecimiento garantizado progresivo visual
+            let target = currentData.target;
+            let chartGarantizado = [
+                chartAportado[0] + 1000, 
+                chartAportado[1] + 5000, 
+                chartAportado[2] + 20000, 
+                chartAportado[3] + 25000, 
+                target
+            ];
+
+            growthChart.data.datasets[0].data = chartGarantizado;
+            growthChart.data.datasets[1].data = chartAportado;
+            growthChart.options.scales.y.max = isTec ? 250000 : 120000;
+            growthChart.update();
+        }
+
+        // Iniciar
+        window.onload = () => {
+            initChart();
+            updateDashboard(); // Fuerza la carga inicial de "Flexible"
+        };
+    </script>
+</body>
+</html>
+
