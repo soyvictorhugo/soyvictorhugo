@@ -82,13 +82,13 @@
             <div class="glass-panel rounded-3xl p-6 lg:p-8 flex-1 flex flex-col relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
                 
-                <p class="text-gold-500 font-semibold tracking-widest uppercase text-xs mb-2">Proyecto Confidencial</p>
+                <p class="text-gold-500 font-semibold tracking-widest uppercase text-xs mb-2">Proyecto Privado</p>
                 <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 lg:mb-6">
                     El Futuro de <br><span class="italic text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Máximo</span>
                 </h1>
                 
                 <p class="text-slate-300 text-sm lg:text-base leading-relaxed mb-6">
-                    Dante y Mili: Este dashboard consolida su visión. El paso financiero que den hoy garantiza que, pase lo que pase, los sueños de su hijo no tendrán límites para el año 2043.
+                    Mili y Dante: Este dashboard consolida su visión. El paso financiero que den hoy garantiza que, pase lo que pase, los sueños de su hijo no tendrán límites para el año 2043.
                 </p>
 
                 <!-- Variables Macroeconómicas -->
@@ -101,7 +101,7 @@
                         <span class="font-bold text-white text-base lg:text-lg">$8.84 <span class="text-xs text-slate-500 font-normal">MXN</span></span>
                     </div>
                     <div class="flex justify-between items-center">
-                        <span class="text-slate-300 text-sm">Inflación Proyectada</span>
+                        <span class="text-slate-300 text-sm">Inflación proyectada</span>
                         <span class="font-bold text-gold-400 text-base">4.5% <span class="text-xs text-slate-500 font-normal">Anual</span></span>
                     </div>
                 </div>
@@ -548,12 +548,14 @@
             ];
             
             let target = currentData.target;
+            // Curva matemática realista de Valores Garantizados (SeguBeca)
+            // Empieza absorbiendo el costo del seguro y cruza la aportación en el año 14-15
             let chartGarantizado = [
-                chartAportado[0] + 1000, 
-                chartAportado[1] + 5000, 
-                chartAportado[2] + 20000, 
-                chartAportado[3] + 25000, 
-                target
+                chartAportado[0] * 0.50, // Año 1
+                chartAportado[1] * 0.80, // Año 5
+                chartAportado[2] * 0.95, // Año 10
+                chartAportado[3] * 1.05, // Año 15 (Ya superó lo aportado, ej: 91,358 UDI)
+                target                   // Año 17 (Logro exacto de la meta)
             ];
 
             growthChart.data.datasets[0].data = chartGarantizado;
