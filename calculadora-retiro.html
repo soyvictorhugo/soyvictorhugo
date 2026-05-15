@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Retiro | Víctor Hugo</title>
+    <!-- Cargamos React, ReactDOM, Babel y Tailwind -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        corp: {
+                            blue: '#003366',
+                            accent: '#005E9D',
+                            light: '#66B2FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[#0b1120] m-0 p-0 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function RetirementCalculator({ sharedAge, setSharedAge, sharedAhorro, setSharedAhorro, colors, waNumber, sendToGoogleSheets }) {
+            const currentAge = sharedAge;
+            const setCurrentAge = setSharedAge;
+            const monthlySave = sharedAhorro;
+            const setMonthlySave = setSharedAhorro;
+            const [nombre, setNombre] = useState('');
+            const [telefono, setTelefono] = useState('');
+            const [visualizeAge, setVisualizeAge] = useState(65);
+            const [isCalculated, setIsCalculated] = useState(false);
+
+            const [results, setResults] = useState({ totalAhorrado: 0, ahorroFiscal: 0, fondoTotal: 0, sumaAsegurada: 0, visualAhorrado: 0, visualFondo: 0 });
+
+            useEffect(() => {
+                if (visualizeAge < currentAge) setVisualizeAge(currentAge);
+            }, [currentAge]);
+
+            useEffect(() => {
+                const yearsTo65 = Math.max(65 - currentAge, 0);
+                const mosTo65 = yearsTo65 * 12;
+                const tasaMensual = 0.08 / 12;
+
+                const totalAhorrado = monthlySave * mosTo65;
+                const ahorroFiscal = (monthlySave * 12) * 0.30;
+                const fondoTotal = mosTo65 > 0 ? monthlySave * ((Math.pow(1 + tasaMensual, mosTo65) - 1) / tasaMensual) : 0;
+                const sumaAsegurada = monthlySave * 746;
+
+                const yearsVisual = Math.max(visualizeAge - currentAge, 0);
+                const mosVisual = yearsVisual * 12;
+                const visualAhorrado = monthlySave * mosVisual;
+                const visualFondo = mosVisual > 0 ? monthlySave * ((Math.pow(1 + tasaMensual, mosVisual) - 1) / tasaMensual) : 0;
+
+                setResults({ totalAhorrado, ahorroFiscal, fondoTotal, sumaAsegurada, visualAhorrado, visualFondo });
+            }, [currentAge, monthlySave, visualizeAge]);
+
+            const format = (v) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(v);
+            const showVal = (val) => isCalculated ? format(val) : format(0);
+
+            const handleCalculate = () => {
+                if (!nombre || !telefono || telefono.length !== 10) {
+                    alert("Por favor ingresa un Nombre y un Teléfono válido de 10 dígitos para ver tu proyección completa.");
+                    return;
+                }
+                if (/^(\d)\1{9}$/.test(telefono)) {
+                    alert("Por favor ingresa un número de teléfono válido. Números repetidos no son permitidos.");
+                    return;
+                }
+
+                setIsCalculated(true);
+
+                const data = {
+                    fechaStr: new Date().toLocaleDateString(),
+                    nombre: nombre,
+                    whatsapp: telefono,
+                    edadActual: currentAge,
+                    ahorroMensual: monthlySave,
+                    añosAhorro: Math.max(65 - currentAge, 0),
+                    proyeccionTotal: results.fondoTotal,
+                    pensionEstimada: results.fondoTotal / (20 * 12)
+                };
+
+                sendToGoogleSheets(data);
+            };
+
+            const sendWhatsApp = () => {
+                const msg = `Hola Víctor, acabo de usar tu Simulador de Retiro. Tengo ${currentAge} años. Me llamo ${nombre} (${telefono}). Ahorrando ${format(monthlySave)} mensuales, vi que podría tener un fondo de ${format(results.fondoTotal)}. ¿Me puedes asesorar sobre la estrategia PPR?`;
+                window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            const maxVal = results.fondoTotal > 0 ? results.fondoTotal : 1;
+            const tradPct = isCalculated ? ((results.visualAhorrado / maxVal) * 100).toFixed(1) : 0;
+            const pprPct = isCalculated ? ((results.visualFondo / maxVal) * 100).toFixed(1) : 0;
+
+            const extraCapital = isCalculated ? (results.fondoTotal - results.totalAhorrado) : 0;
+
+            return (
+                <div className="w-full min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-10 bg-[#0b1120] py-12 font-sans overflow-x-hidden">
+                    <h2 className="text-3xl lg:text-4xl font-black text-white mb-8 text-center tracking-wide">Calculadora de <span className="text-[#66B2FF]">Retiro</span></h2>
+
+                    <div className="max-w-[1300px] w-full flex flex-col lg:flex-row gap-6">
+
+                        {/* PANEL 1: Tus Datos */}
+                        <div className="w-full lg:w-[25%] bg-white rounded-2xl p-6 flex flex-col relative z-20" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                            <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                                <div className="p-1.5 bg-blue-50 text-[#003366] rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" stroke="currentColor" strokeWidth="0.5" viewBox="0 0 16 16"><path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" /><path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514Z" /></svg>
+                                </div>
+                                <h3 className="text-[#003366] font-bold text-lg">Tus Datos</h3>
+                            </div>
+
+                            {!isCalculated && (
+                                <div className="bg-red-50/80 text-red-400 text-xs font-semibold p-3 text-center mb-6 rounded-lg border border-red-100">
+                                    ↓ Ingresa tus datos aquí para ver tu proyección
+                                </div>
+                            )}
+
+                            <div className="space-y-4 flex-grow">
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Edad Actual</label>
+                                    <input type="number" min="18" max="60" value={currentAge} onChange={(e) => setCurrentAge(Number(e.target.value))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Ej. 28" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Ahorro Mensual ($)</label>
+                                    <input type="number" min="1000" step="500" value={monthlySave} onChange={(e) => setMonthlySave(Number(e.target.value))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Ej. 3000" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Nombre Completo</label>
+                                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="Tu Nombre" />
+                                </div>
+
+                                <div className="group">
+                                    <label className="text-sm font-bold text-gray-600 block mb-1 group-focus-within:text-[#005E9D] transition-colors">Teléfono</label>
+                                    <input type="tel" maxLength="10" value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, ''))} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-[#005E9D] focus:ring-2 focus:ring-[#005E9D]/20 outline-none text-gray-800 font-medium transition-all" placeholder="10 Dígitos" />
+                                </div>
+                            </div>
+
+                            <button onClick={handleCalculate} className="w-full py-3.5 mt-4 rounded-lg bg-[#0f172a] text-white font-bold text-sm shadow-xl hover:bg-[#1e293b] transition-colors flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zM2.5 2a.5.5 0 0 0-.5.5v11a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5h-11z" /><path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-3zM5 7v2h5V7H5z" /></svg>
+                                Calcular Proyección
+                            </button>
+                        </div>
+
+                        {/* Contenedor de Paneles 2 y 3 difuminable */}
+                        <div className={`w-full lg:w-[75%] flex flex-col lg:flex-row gap-6 transition-all duration-[800ms] ease-in-out relative ${!isCalculated ? 'blur-[5px] opacity-90' : 'blur-none opacity-100'}`}>
+
+                            {/* Overlay de Bloqueo Flotante */}
+                            {!isCalculated && (
+                                <div className="absolute inset-0 z-10 cursor-not-allowed"></div>
+                            )}
+
+                            {/* PANEL 2: Crecimiento de tu Capital */}
+                            <div className="w-full lg:w-[65%] bg-white rounded-2xl flex flex-col p-6 lg:p-8 relative" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                <div className="flex items-center justify-center gap-2 mb-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#2b6cb0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                                    <h3 className="text-[#003366] font-extrabold text-xl lg:text-2xl tracking-tight">Crecimiento de tu Capital</h3>
+                                </div>
+
+                                {/* Box Slider */}
+                                <div className="bg-blue-50/30 rounded-2xl p-6 border border-gray-100 mb-8 border border-blue-50">
+                                    <div className="flex justify-between items-end mb-4">
+                                        <span className="text-gray-500 font-bold text-sm tracking-widest uppercase">VISUALIZAR EDAD: <span className="text-2xl font-black text-[#005E9D] mx-1">{visualizeAge}</span> AÑOS</span>
+                                    </div>
+                                    <input type="range" min={currentAge} max="65" value={visualizeAge} onChange={(e) => { if (isCalculated) setVisualizeAge(Number(e.target.value)) }} className={`w-full accent-[#005E9D] h-2.5 bg-gray-200 rounded-full appearance-none ${isCalculated ? 'cursor-pointer' : 'cursor-default'} relative z-20`} disabled={!isCalculated} />
+                                    <div className="flex justify-between mt-2 text-xs font-bold text-gray-400">
+                                        <span>{currentAge} (Actual)</span>
+                                        <span>65 (Retiro)</span>
+                                    </div>
+                                </div>
+
+                                {/* Gráficas de Barras */}
+                                <div className="space-y-6 mb-10 w-full pr-10">
+                                    <div>
+                                        <div className="flex justify-between mb-1">
+                                            <span className="text-sm font-bold text-gray-500">Tradicional</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-6 bg-[#ff7b42] rounded-lg transition-all duration-1000 ease-out" style={{ width: `${Math.max(tradPct, 2)}%` }}></div>
+                                            <span className="font-extrabold text-gray-600 text-sm md:text-base">{showVal(results.visualAhorrado)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between mb-1">
+                                            <span className="text-sm font-bold text-[#005E9D]">Estrategia PPR</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-6 bg-[#2e8c32] rounded-lg transition-all duration-1000 ease-out shadow-sm" style={{ width: `${Math.max(pprPct, 2)}%` }}></div>
+                                            <span className="font-extrabold text-[#005E9D] text-sm md:text-base">{showVal(results.visualFondo)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Box Eventualidad Grave */}
+                                <div className="bg-orange-50/40 rounded-2xl p-5 border border-orange-100 relative mt-auto">
+                                    <div className="text-center mb-6">
+                                        <h4 className="text-[#db6522] font-black lg:text-md flex items-center justify-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+                                            ¿Qué pasaría si hoy a los <span className="underline">{currentAge}</span> años ocurriera una eventualidad grave?
+                                        </h4>
+                                        <p className="text-gray-500 text-[11px] lg:text-xs font-semibold mt-2 px-4">Protección garantizada de <span className="text-[#005E9D] font-bold">100,000 UDIS</span> tanto para Fallecimiento como para Invalidez Total y Permanente.</p>
+                                    </div>
+
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        {/* Tarjeta Tradicional */}
+                                        <div className="flex-1 bg-white border border-red-200/60 rounded-xl p-4 text-center shadow-sm">
+                                            <h5 className="text-red-500 font-bold text-[10px] tracking-widest mb-3 uppercase">Tradicional</h5>
+                                            <p className="text-gray-500 text-xs font-medium">Solo entregamos saldo:</p>
+                                            <p className="text-lg font-black text-red-500 my-1">{showVal(results.totalAhorrado)}</p>
+                                            <span className="inline-block bg-orange-100 text-orange-600 text-[9px] font-bold px-2 py-0.5 rounded shadow-sm mb-2">⚠️ Sin Seguro</span>
+                                            <p className="text-[8px] text-red-500/80 mt-2 leading-tight">*Tu dinero perderá valor adquisitivo cada año debido a la <strong>inflación</strong>.</p>
+                                        </div>
+
+                                        {/* Tarjeta PPR */}
+                                        <div className="flex-1 bg-white border-2 border-[#2e8c32] rounded-xl p-4 shadow-md text-left">
+                                            <h5 className="text-[#2e8c32] font-black text-[10px] tracking-widest mb-3 uppercase">ESTRATEGIA PPR</h5>
+                                            <div className="mb-2">
+                                                <p className="text-gray-600 text-[10px] font-bold">Fallecimiento:</p>
+                                                <p className="text-base font-black text-[#2e8c32]">{showVal(results.sumaAsegurada)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-600 text-[10px] font-bold">Invalidez:</p>
+                                                <p className="text-base font-black text-[#2e8c32]">{showVal(results.sumaAsegurada)}</p>
+                                                <p className="text-xs font-bold text-gray-500">+ Plan Pagado</p>
+                                            </div>
+                                            <p className="text-[8px] text-gray-400 mt-2 leading-tight">*Por la cobertura <strong>BIT</strong>, Seguros Monterrey pagará tu plan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* PANEL 3: Resumen */}
+                            <div className="w-full lg:w-[35%] bg-white rounded-2xl p-6 lg:p-8 flex flex-col items-center relative" style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                <div className="flex items-center gap-2 mb-8 self-start border-b border-gray-100 w-full pb-4">
+                                    <div className="p-1.5 bg-blue-50 text-[#003366] rounded-md"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /><path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z" /></svg></div>
+                                    <h3 className="text-[#003366] font-bold text-lg">Resumen</h3>
+                                </div>
+
+                                <div className="w-full flex justify-between items-center mb-6">
+                                    <span className="text-gray-500 font-bold text-sm">Aportaciones</span>
+                                    <span className="text-gray-600 font-black">{showVal(results.totalAhorrado)}</span>
+                                </div>
+
+                                <div className="w-full bg-[#f1f8e9] rounded-xl p-4 flex justify-between items-center mb-8 border border-[#dcedc8]" style={{ boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)' }}>
+                                    <span className="text-[#33691e] font-bold text-[10px] tracking-widest leading-tight">ACUMULADO<br />PPR</span>
+                                    <span className="text-[#2e8c32] font-black text-xl lg:text-2xl">{showVal(results.fondoTotal)}</span>
+                                </div>
+
+                                <hr className="w-full border-t border-dashed border-gray-300 mb-6" />
+
+                                <div className="text-center w-full mb-6 relative">
+                                    <h4 className="text-gray-400 font-black text-[10px] tracking-widest uppercase mb-2">SALDO FINAL AL RETIRO</h4>
+                                    <p className="text-[#0ea5e9] font-black text-4xl lg:text-5xl my-4 text-shadow-sm">{showVal(results.fondoTotal)}</p>
+                                </div>
+
+                                <div className="bg-blue-50/80 border-l-[3px] border-[#005E9D] p-3 w-full mb-6 relative shadow-sm">
+                                    <p className="text-[#003366] text-[11px] font-medium italic leading-relaxed">
+                                        "Al elegir un <strong className="font-extrabold text-[#005E9D]">PPR</strong> en lugar de un ahorro tradicional, has generado <strong className="font-extrabold text-[#005E9D]">{showVal(extraCapital)}</strong> extra de capital gracias a los beneficios fiscales y rendimientos compuestos."
+                                    </p>
+                                </div>
+
+                                {/* Resumen Inferior */}
+                                <div className="w-full bg-[#f0f4f8] rounded-lg p-3 flex flex-col items-center mb-6 border border-gray-200/60">
+                                    <span className="text-[#005E9D] text-[11px] font-bold flex items-center gap-1 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" /><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" /></svg> Deducción Fiscal Anual:</span>
+                                    <span className="text-[#005E9D] font-black text-lg">{showVal(results.ahorroFiscal)}</span>
+                                </div>
+
+                                <button onClick={sendWhatsApp} className={`w-full py-4 rounded-xl text-white font-black text-sm uppercase tracking-widest shadow-[0_5px_15px_rgba(37,211,102,0.4)] flex items-center justify-center gap-2 transition-all mt-auto ${isCalculated ? 'bg-[#4ade80] hover:bg-green-500 hover:scale-[1.02]' : 'bg-[#a3e6aa] cursor-not-allowed opacity-80'}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+                                    AGENDAR ASESORÍA
+                                </button>
+
+                                <p className="text-[8px] text-gray-400 mt-4 leading-tight italic text-justify px-1">
+                                    Nota: Esta información es meramente ilustrativa y basada en proyecciones estimadas. No representa un contrato legal ni garantiza rendimientos futuros. Para obtener información detallada, real y personalizada a tu perfil, por favor agenda una cita conmigo presionando el botón de arriba.
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            const [sharedAge, setSharedAge] = useState(35);
+            const [sharedAhorro, setSharedAhorro] = useState(3000);
+            const colors = { blue: '#003366', accent: '#005E9D', lightAccent: '#66B2FF' };
+            const waNumber = "522291154423";
+
+            const sendToGoogleSheets = (data) => {
+                const webhookUrl = "https://script.google.com/macros/s/AKfycbzb-Brx55J_MZOJDRnno-cNdvTDVhbn9UwB0TekL0Ga5lTgJsRtif8VwiiumQ-MsXoA/exec";
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify(data)
+                }).catch(console.error);
+            };
+
+            return (
+                <RetirementCalculator 
+                    sharedAge={sharedAge} 
+                    setSharedAge={setSharedAge} 
+                    sharedAhorro={sharedAhorro} 
+                    setSharedAhorro={setSharedAhorro} 
+                    colors={colors} 
+                    waNumber={waNumber} 
+                    sendToGoogleSheets={sendToGoogleSheets} 
+                />
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
