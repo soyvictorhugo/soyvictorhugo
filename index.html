@@ -185,7 +185,9 @@
 
         // --- COMPONENTE PRINCIPAL ---
         function App() {
-            const [activeTab, setActiveTab] = useState('inicio');
+            const [activeTab, setActiveTab] = useState(() => {
+    return window.location.hash === '#universidad' ? 'proyeccion' : 'inicio';
+});
             const [selectedPlan, setSelectedPlan] = useState(null); // Estado para el plan seleccionado
             const [isProjectsOpen, setIsProjectsOpen] = useState(false);
             const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
