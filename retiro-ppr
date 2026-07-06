@@ -1,1 +1,64 @@
+<div id="simulador-diaz-aceval" class="contenedor-simulador">
+  <img src="tu-logo-oficial.png" alt="Díaz Aceval Asesores" class="logo-oficial">
+  
+  <h3>Proyecta tu Retiro con Imagina Ser 65</h3>
+  
+  <div class="formulario">
+    <label>Tu Nombre:</label>
+    <input type="text" id="nombre" placeholder="Mínimo 3 letras">
 
+    <label>Edad Actual:</label>
+    <input type="number" id="edad" min="18" max="55" value="30">
+    
+    <label>Aportación Mensual Deseada ($):</label>
+    <input type="number" id="aportacion" min="2000" value="2000">
+    
+    <label>Años a Aportar:</label>
+    <select id="plazo">
+      <option value="10">10 Años</option>
+      <option value="15">15 Años</option>
+    </select>
+
+    <label>WhatsApp:</label>
+    <input type="tel" id="whatsapp" placeholder="10 dígitos">
+    
+    <button onclick="calcularRetiro()">Generar Mi Cotización</button>
+  </div>
+  
+  <div id="resultados" style="display: none;">
+    <p>Aportación Total Estimada: <span id="total-aportado"></span></p>
+    <h2>TOTAL A RECIBIR GARANTIZADO: <span id="total-garantizado"></span></h2>
+    <p class="nota">Protección Inicial Vida/Invalidez desde el día 1.</p>
+  </div>
+</div>
+
+<script>
+function calcularRetiro() {
+  const edad = parseInt(document.getElementById('edad').value);
+  const aportacion = parseFloat(document.getElementById('aportacion').value);
+  const plazo = parseInt(document.getElementById('plazo').value);
+  
+  // Variables proyectadas en UDIs (aproximación para el simulador web)
+  const inflacion = 0.04; 
+  const rendimientoTecnico = 0.04; 
+  
+  let totalAportado = 0;
+  let totalGarantizado = 0;
+  
+  for(let i = 0; i < plazo; i++) {
+    // La aportación crece con la inflación cada año
+    let aportacionAnual = (aportacion * 12) * Math.pow(1 + inflacion, i);
+    totalAportado += aportacionAnual;
+    
+    // El dinero se invierte y crece hasta los 65 años
+    let añosCrecimiento = (65 - edad) - i;
+    totalGarantizado += aportacionAnual * Math.pow(1 + rendimientoTecnico, añosCrecimiento);
+  }
+  
+  document.getElementById('total-aportado').innerText = "$" + totalAportado.toLocaleString('es-MX', {maximumFractionDigits: 0});
+  document.getElementById('total-garantizado').innerText = "$" + totalGarantizado.toLocaleString('es-MX', {maximumFractionDigits: 0});
+  document.getElementById('resultados').style.display = 'block';
+  
+  // Aquí puedes agregar la función para enviar los datos a Google Sheets
+}
+</script>
