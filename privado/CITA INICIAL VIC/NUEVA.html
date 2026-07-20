@@ -14,12 +14,12 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- React & ReactDOM (versionados) -->
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- Babel for JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Babel for JSX (pinneado a v7, NUNCA quitar la version) -->
+    <script src="https://unpkg.com/@babel/standalone@7.27.6/babel.min.js"></script>
     
     <!-- Framer Motion -->
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
@@ -59,7 +59,6 @@
             background-size: 20px 20px;
             opacity: 0.1;
         }
-        /* Custom scrollbar for inner content if needed */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
@@ -70,10 +69,54 @@
     <div id="root" class="h-full w-full"></div>
 
     <script type="text/babel" data-type="module">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useCallback } = React;
         const { motion, AnimatePresence } = window.Motion;
 
-        // Componentes de UI
+        // ==========================================================
+        // CONFIG: pega aqui tu URL de Google Apps Script Web App
+        // (Extensiones > Apps Script en tu hoja de calculo > Implementar
+        // > Nueva implementacion > Aplicacion web > acceso "Cualquier persona")
+        // ==========================================================
+        const GAS_WEB_APP_URL = "PON_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT";
+
+        function getCitaId() {
+            const params = new URLSearchParams(window.location.search);
+            const fromUrl = params.get('cita');
+            if (fromUrl) return fromUrl;
+            let id = localStorage.getItem('anf_cita_id');
+            if (!id) {
+                id = 'cita_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('anf_cita_id', id);
+            }
+            return id;
+        }
+
+        async function saveToSheet(citaId, formData) {
+            if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.startsWith("PON_AQUI")) {
+                console.warn("Falta configurar GAS_WEB_APP_URL. No se guardo nada.");
+                return { ok: false, reason: "no-config" };
+            }
+            try {
+                await fetch(GAS_WEB_APP_URL, {
+                    method: "POST",
+                    mode: "no-cors", // Apps Script no siempre responde con CORS; enviamos "a ciegas"
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        cita_id: citaId,
+                        timestamp: new Date().toISOString(),
+                        ...formData
+                    })
+                });
+                return { ok: true };
+            } catch (e) {
+                console.error("Error guardando en Sheets:", e);
+                return { ok: false, reason: e.message };
+            }
+        }
+
+        // ==========================================================
+        // Componentes de UI compartidos
+        // ==========================================================
         const SlideContainer = ({ children, bgClass = "bg-white" }) => (
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -86,6 +129,74 @@
                     {children}
                 </div>
             </motion.div>
+        );
+
+        // Slide "documento" tipo ANF: imagen grande a la izquierda, panel de preguntas a la derecha
+        const DocSlideContainer = ({ children, imageSrc, imageTitle }) => (
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 flex flex-col md:flex-row bg-slate-50 overflow-hidden"
+            >
+                <div className="w-full md:w-1/2 h-1/3 md:h-full p-6 flex items-center justify-center bg-white">
+                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-xl border border-slate-100 flex items-center justify-center">
+                        {imageSrc
+                            ? <img src={imageSrc} alt={imageTitle} className="w-full h-full object-cover" />
+                            : <span className="font-heading text-4xl text-corporate-navy tracking-widest">{imageTitle}</span>}
+                    </div>
+                </div>
+                <div className="w-full md:w-1/2 h-2/3 md:h-full overflow-y-auto p-6 sm:p-10 space-y-5">
+                    {children}
+                </div>
+            </motion.div>
+        );
+
+        // Campo VISIBLE para el cliente (pregunta del ANF que se responde en vivo)
+        const ClientField = ({ id, label, value, onChange, type = "text", placeholder = "" }) => (
+            <div>
+                <label className="block text-sm font-bold text-corporate-navy mb-2">{label}</label>
+                {type === "textarea" ? (
+                    <textarea
+                        value={value || ""}
+                        onChange={(e) => onChange(id, e.target.value)}
+                        placeholder={placeholder}
+                        rows={3}
+                        className="w-full border-2 border-slate-200 rounded-xl p-3 text-slate-700 focus:border-corporate-cyan focus:outline-none transition-colors"
+                    />
+                ) : (
+                    <input
+                        type={type}
+                        value={value || ""}
+                        onChange={(e) => onChange(id, e.target.value)}
+                        placeholder={placeholder}
+                        className="w-full border-2 border-slate-200 rounded-xl p-3 text-slate-700 focus:border-corporate-cyan focus:outline-none transition-colors"
+                    />
+                )}
+            </div>
+        );
+
+        // Campo OCULTO al cliente, solo visible cuando "Modo asesor" esta activo
+        const AdvisorField = ({ id, label, value, onChange, advisorMode }) => {
+            if (!advisorMode) return null;
+            return (
+                <div className="p-4 bg-amber-50 border-2 border-dashed border-amber-300 rounded-xl">
+                    <label className="flex items-center gap-2 text-xs font-bold tracking-wider text-amber-700 uppercase mb-2">
+                        <i className="fa-solid fa-lock text-[10px]"></i> {label} · solo tu la ves
+                    </label>
+                    <textarea
+                        value={value || ""}
+                        onChange={(e) => onChange(id, e.target.value)}
+                        rows={2}
+                        className="w-full border-2 border-amber-200 rounded-xl p-3 bg-white focus:border-amber-400 focus:outline-none"
+                    />
+                </div>
+            );
+        };
+
+        const SlideTag = ({ children }) => (
+            <h2 className="text-corporate-cyan font-bold tracking-widest uppercase text-xs mb-1">{children}</h2>
         );
 
         // Slide 1: Hero
@@ -123,16 +234,52 @@
             </SlideContainer>
         );
 
+        // Slide 1.5: Los tres acuerdos
+        const SlideAcuerdos = ({ onNext }) => {
+            const [checked, setChecked] = useState([false, false, false]);
+            const toggle = (i) => setChecked(prev => prev.map((c, idx) => idx === i ? !c : c));
+
+            const acuerdos = [
+                "Esta reunión va a ser dinámica. Voy a respetarte el tiempo, así que vamos directo al punto.",
+                "Al finalizar, te vas a llevar información muy valiosa, independientemente de si decidimos trabajar juntos o no.",
+                "Si cumplo los dos primeros, al cerrar te voy a pedir un favor: ayudarme a llegar a personas que tú aprecias y que también podrían beneficiarse."
+            ];
+
+            return (
+                <SlideContainer bgClass="bg-white">
+                    <div className="max-w-2xl mx-auto w-full">
+                        <h2 className="text-corporate-cyan font-bold tracking-widest uppercase text-sm mb-6 text-center">Antes de empezar</h2>
+                        <div className="glass-panel rounded-3xl p-10 shadow-xl">
+                            <h3 className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-8">Los tres acuerdos</h3>
+                            <div className="space-y-8">
+                                {acuerdos.map((texto, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }}
+                                        onClick={() => toggle(i)}
+                                        className="flex items-start gap-5 cursor-pointer group"
+                                    >
+                                        <div className={`w-8 h-8 mt-1 flex-shrink-0 rounded-lg border-2 flex items-center justify-center transition-colors ${checked[i] ? 'bg-corporate-cyan border-corporate-cyan' : 'border-slate-300 group-hover:border-corporate-cyan'}`}>
+                                            {checked[i] && <i className="fa-solid fa-check text-white text-sm"></i>}
+                                        </div>
+                                        <p className="text-xl text-corporate-navy leading-relaxed">{texto}</p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </SlideContainer>
+            );
+        };
+
         // Slide 2: About
         const SlideAbout = () => (
             <SlideContainer>
                 <div className="flex flex-col md:flex-row items-center gap-12">
                     <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="w-full md:w-5/12 relative flex flex-col items-center">
-                        {/* Retrato principal */}
                         <div className="w-full rounded-2xl shadow-xl overflow-hidden border-4 border-white bg-white z-10 relative">
                             <img src="retrato_victor.jpg" alt="Víctor Hugo Díaz" className="w-full h-auto object-contain" />
                         </div>
-                        {/* Credencial superpuesta abajo */}
                         <motion.div 
                             initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}
                             className="w-3/5 rounded-xl shadow-2xl overflow-hidden border-4 border-white bg-white transform -rotate-6 hover:rotate-0 transition-transform -mt-16 md:-mt-24 z-20 relative mr-auto ml-8"
@@ -181,7 +328,6 @@
                     </div>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-12 w-full max-w-5xl mx-auto">
-                        {/* Pirámide interactiva */}
                         <div className="w-full md:w-1/2 flex flex-col items-center gap-1">
                             {levels.map((lvl) => (
                                 <motion.div 
@@ -197,7 +343,6 @@
                             ))}
                         </div>
 
-                        {/* Panel de detalles */}
                         <div className="w-full md:w-1/2 min-h-[300px] flex items-center justify-center">
                             <AnimatePresence mode="wait">
                                 {activeLevel ? (
@@ -239,7 +384,6 @@
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* SMNYL */}
                     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }} className="glass-panel rounded-2xl p-8 relative overflow-hidden group border-t-4 border-t-blue-600 shadow-lg">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-bl-full -z-10 transition-transform group-hover:scale-150"></div>
                         <h4 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Sobre <span className="text-blue-600">Seguros Monterrey</span></h4>
@@ -255,7 +399,6 @@
                         </div>
                     </motion.div>
 
-                    {/* NYL */}
                     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="glass-panel rounded-2xl p-8 relative overflow-hidden group border-t-4 border-t-corporate-cyan shadow-lg">
                         <h4 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Sobre <span className="text-corporate-cyan">New York Life</span></h4>
                         
@@ -265,7 +408,6 @@
                             <p>Enfocado en soluciones específicamente para personas.</p>
                         </div>
 
-                        {/* Calificaciones */}
                         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <h5 className="text-sm font-bold text-slate-500 uppercase mb-3">Calificaciones de Riesgo</h5>
                             <div className="grid grid-cols-2 gap-2 text-sm">
@@ -345,7 +487,130 @@
             );
         };
 
-        // Slide 6: Referidos
+        // ==========================================================
+        // NUEVAS SLIDES: Cuestionario ANF en vivo (Coach Patrimonia)
+        // Reciben formData / onFieldChange / advisorMode desde App
+        // ==========================================================
+
+        // Slide ANF: Datos generales
+        const SlideANFDatos = ({ formData, onFieldChange, advisorMode }) => (
+            <DocSlideContainer imageTitle="CUESTIONARIO ANF">
+                <SlideTag>Análisis de Necesidades Financieras</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-2">Datos generales</h3>
+                <p className="text-slate-500 mb-6">Tu información nos ayudará a conocerte mejor y diseñar la estrategia ideal para ti.</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ClientField id="anf_nombre" label="Nombre completo" value={formData.anf_nombre} onChange={onFieldChange} />
+                    <ClientField id="anf_fecha_nacimiento" label="Fecha de nacimiento" type="date" value={formData.anf_fecha_nacimiento} onChange={onFieldChange} />
+                </div>
+                <ClientField id="anf_fuma" label="¿Fuma?" value={formData.anf_fuma} onChange={onFieldChange} placeholder="Sí / No" />
+                <ClientField
+                    id="anf_logros_futuro"
+                    label='Si nos adelantáramos 10 o 15 años y todo hubiera salido como te gustaría, ¿qué te encantaría haber logrado para ti y tu familia?'
+                    type="textarea"
+                    value={formData.anf_logros_futuro}
+                    onChange={onFieldChange}
+                />
+                <ClientField
+                    id="anf_preocupaciones"
+                    label="Y al revés: cuando piensas en ese futuro que estás construyendo, ¿hay algo que te preocupe o que sientas que podría poner en riesgo esos planes?"
+                    type="textarea"
+                    value={formData.anf_preocupaciones}
+                    onChange={onFieldChange}
+                />
+            </DocSlideContainer>
+        );
+
+        // Slide ANF: Retiro
+        const SlideANFRetiro = ({ formData, onFieldChange, advisorMode }) => (
+            <DocSlideContainer imageTitle="RETIRO">
+                <SlideTag>Nivel: Retiro</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Plan de retiro</h3>
+
+                <ClientField id="retiro_edad" label='¿A qué edad le gustaría "retirarse financieramente"?' value={formData.retiro_edad} onChange={onFieldChange} />
+                <ClientField id="retiro_plan" label="¿Qué planea hacer en esta etapa?" type="textarea" value={formData.retiro_plan} onChange={onFieldChange} />
+                <ClientField id="retiro_monto_mensual" label="En pesos actuales, ¿cuánto considera suficiente para vivir decorosamente su retiro al mes?" value={formData.retiro_monto_mensual} onChange={onFieldChange} />
+                <ClientField id="retiro_acumulado" label="¿Cuánto tiene acumulado exclusivamente para su retiro?" value={formData.retiro_acumulado} onChange={onFieldChange} />
+                <ClientField id="retiro_tiempo_acumulo" label="¿En cuánto tiempo lo acumuló?" value={formData.retiro_tiempo_acumulo} onChange={onFieldChange} />
+                <ClientField id="retiro_capital_necesario" label="¿Ya calculó el capital necesario para jubilarse? ¿Cuánto?" type="textarea" value={formData.retiro_capital_necesario} onChange={onFieldChange} />
+                <ClientField id="retiro_interes_fiscal" label="¿Te interesaría una solución para tu retiro que tenga beneficios fiscales?" value={formData.retiro_interes_fiscal} onChange={onFieldChange} />
+
+                <AdvisorField id="retiro_motivacion" label="Motivación detectada" value={formData.retiro_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
+                <AdvisorField id="retiro_observaciones" label="Observaciones" value={formData.retiro_observaciones} onChange={onFieldChange} advisorMode={advisorMode} />
+            </DocSlideContainer>
+        );
+
+        // Slide ANF: Acumulación / Educación (dos columnas)
+        const SlideANFAcumulacionEducacion = ({ formData, onFieldChange, advisorMode }) => (
+            <DocSlideContainer imageTitle="ACUMULACIÓN / EDUCACIÓN">
+                <SlideTag>Niveles: Acumulación y Educación</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Acumulación / Educación</h3>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold tracking-widest text-corporate-cyan uppercase">Acumulación</h4>
+                        <ClientField id="acum_sistema_ahorro" label="¿Tiene un sistema disciplinado y constante de ahorro a largo plazo? ¿Cómo?" type="textarea" value={formData.acum_sistema_ahorro} onChange={onFieldChange} />
+                        <ClientField id="acum_desde_cuando" label="¿Desde hace cuánto? ¿Promedio mensual?" value={formData.acum_desde_cuando} onChange={onFieldChange} />
+                        <ClientField id="acum_instrumentos" label="¿Qué tipo de instrumentos utiliza?" value={formData.acum_instrumentos} onChange={onFieldChange} />
+                        <ClientField id="acum_monto_ahorrado" label="¿Monto ahorrado para esto?" value={formData.acum_monto_ahorrado} onChange={onFieldChange} />
+                        <ClientField id="acum_proyecto_personal" label="¿Cuál es su proyecto personal?" value={formData.acum_proyecto_personal} onChange={onFieldChange} />
+                        <ClientField id="acum_esquema" label="¿En qué tipo de esquema lo ahorra?" value={formData.acum_esquema} onChange={onFieldChange} />
+                    </div>
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold tracking-widest text-corporate-cyan uppercase">Educación</h4>
+                        <ClientField id="edu_universidad" label="¿Qué universidad desearía para sus hijos?" value={formData.edu_universidad} onChange={onFieldChange} />
+                        <ClientField id="edu_costo" label="¿Conoce lo que costará la educación profesional de cada hijo? ¿Cuánto en promedio?" type="textarea" value={formData.edu_costo} onChange={onFieldChange} />
+                    </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 space-y-4">
+                    <ClientField id="acum_que_cambiar" label="¿Qué debería cambiar para poder ahorrar lo suficiente y alcanzar sus metas?" type="textarea" value={formData.acum_que_cambiar} onChange={onFieldChange} />
+                    <ClientField id="acum_consec_sin_capital" label="¿Qué consecuencias habría si no contara con ese capital?" type="textarea" value={formData.acum_consec_sin_capital} onChange={onFieldChange} />
+                    <ClientField id="acum_consec_sin_recursos" label="¿Qué consecuencias habría si por alguna razón no contara con los recursos cuando llegue el momento?" type="textarea" value={formData.acum_consec_sin_recursos} onChange={onFieldChange} />
+                    <ClientField id="edu_fallecimiento" label="Si llegara a fallecer o incapacitarse repentinamente, ¿qué le gustaría que sucediera con la educación de sus hijos?" type="textarea" value={formData.edu_fallecimiento} onChange={onFieldChange} />
+                </div>
+
+                <AdvisorField id="acum_edu_motivacion" label="Motivación detectada" value={formData.acum_edu_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
+                <AdvisorField id="acum_edu_observaciones" label="Observaciones" value={formData.acum_edu_observaciones} onChange={onFieldChange} advisorMode={advisorMode} />
+            </DocSlideContainer>
+        );
+
+        // Slide ANF: Compromiso monetario
+        const SlideANFCompromiso = ({ formData, onFieldChange, advisorMode }) => (
+            <DocSlideContainer imageTitle="COMPROMISO MONETARIO">
+                <SlideTag>Cierre del diagnóstico</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Compromiso monetario</h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ClientField id="compromiso_mensual" label="Monto mensual (MXN)" type="number" value={formData.compromiso_mensual} onChange={onFieldChange} />
+                    <ClientField id="compromiso_anual" label="Monto anual (MXN)" type="number" value={formData.compromiso_anual} onChange={onFieldChange} />
+                </div>
+
+                <AdvisorField id="compromiso_comentarios" label="Comentarios" value={formData.compromiso_comentarios} onChange={onFieldChange} advisorMode={advisorMode} />
+            </DocSlideContainer>
+        );
+
+        // Slide ANF: Próxima cita
+        const SlideANFProximaCita = ({ formData, onFieldChange, advisorMode }) => (
+            <DocSlideContainer imageTitle="PRÓXIMA CITA">
+                <SlideTag>Siguiente paso</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Próxima cita</h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ClientField id="cita_fecha" label="Fecha y hora" type="datetime-local" value={formData.cita_fecha} onChange={onFieldChange} />
+                    <ClientField id="cita_lugar" label="Lugar / modalidad" value={formData.cita_lugar} onChange={onFieldChange} placeholder="Zoom, oficina, café..." />
+                </div>
+                <ClientField id="cita_notas" label="Notas para la próxima cita" type="textarea" value={formData.cita_notas} onChange={onFieldChange} placeholder="Ej. Confirmar asistencia de la pareja" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <ClientField id="cita_relacion" label="Relación (decisor)" value={formData.cita_relacion} onChange={onFieldChange} placeholder="Pareja / esposo(a)" />
+                    <ClientField id="cita_decisor_nombre" label="Nombre (opcional)" value={formData.cita_decisor_nombre} onChange={onFieldChange} />
+                </div>
+
+                <AdvisorField id="cita_comentarios" label="Comentarios" value={formData.cita_comentarios} onChange={onFieldChange} advisorMode={advisorMode} />
+            </DocSlideContainer>
+        );
+
+        // Slide 6 (antes 6, ahora al final): Referidos
         const SlideReferidos = () => {
             const [rating, setRating] = useState(0);
 
@@ -397,7 +662,6 @@
                             </div>
                         </div>
 
-                        {/* Footer / Redes Sociales */}
                         <div className="flex flex-col sm:flex-row items-center justify-between border-t border-slate-300 pt-8">
                             <div className="flex items-center gap-4 mb-4 sm:mb-0">
                                 <div>
@@ -424,24 +688,45 @@
             );
         };
 
-
         // App Principal
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
-            
+            const [formData, setFormData] = useState({});
+            const [advisorMode, setAdvisorMode] = useState(false);
+            const [saveStatus, setSaveStatus] = useState("idle"); // idle | saving | ok | error
+            const citaId = React.useMemo(() => getCitaId(), []);
+
+            const onFieldChange = useCallback((id, value) => {
+                setFormData(prev => ({ ...prev, [id]: value }));
+            }, []);
+
+            const handleGuardar = async () => {
+                setSaveStatus("saving");
+                const res = await saveToSheet(citaId, formData);
+                setSaveStatus(res.ok ? "ok" : "error");
+                setTimeout(() => setSaveStatus("idle"), 2500);
+            };
+
             const slides = [
                 SlideHero,
+                SlideAcuerdos,
                 SlideAbout,
                 SlidePiramide,
                 SlideEmpresa,
                 SlidePrioridades,
+                SlideANFDatos,
+                SlideANFRetiro,
+                SlideANFAcumulacionEducacion,
+                SlideANFCompromiso,
+                SlideANFProximaCita,
                 SlideReferidos
             ];
+
+            const anfSlideIndexes = [6, 7, 8, 9, 10]; // indices de las slides que usan formData
 
             const nextSlide = () => setCurrentSlide(p => Math.min(p + 1, slides.length - 1));
             const prevSlide = () => setCurrentSlide(p => Math.max(p - 1, 0));
 
-            // Soporte teclado
             useEffect(() => {
                 const handleKeyDown = (e) => {
                     if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
@@ -452,6 +737,7 @@
             }, []);
 
             const CurrentSlideComponent = slides[currentSlide];
+            const isANFSlide = anfSlideIndexes.includes(currentSlide);
 
             const toggleFullScreen = () => {
                 if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(e=>console.log(e));
@@ -461,7 +747,6 @@
             return (
                 <div className="h-full w-full relative bg-slate-100 flex flex-col justify-center items-center">
                     
-                    {/* Barra de Progreso Superior */}
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-slate-200 z-50">
                         <motion.div 
                             className="h-full bg-corporate-cyan"
@@ -471,14 +756,42 @@
                         />
                     </div>
 
-                    {/* Contenedor principal estilo app/presentación */}
                     <div className="relative w-full max-w-7xl mx-auto h-full sm:h-[calc(100vh-2rem)] sm:my-4 sm:rounded-3xl shadow-2xl overflow-hidden bg-white">
                         <AnimatePresence mode="wait">
-                            <CurrentSlideComponent key={currentSlide} onNext={nextSlide} onPrev={prevSlide} />
+                            <CurrentSlideComponent
+                                key={currentSlide}
+                                onNext={nextSlide}
+                                onPrev={prevSlide}
+                                formData={formData}
+                                onFieldChange={onFieldChange}
+                                advisorMode={advisorMode}
+                            />
                         </AnimatePresence>
                     </div>
 
-                    {/* Navegación Flotante */}
+                    {/* Controles de asesor: solo visibles/relevantes en las slides ANF */}
+                    {isANFSlide && (
+                        <div className="absolute top-6 left-6 flex items-center gap-2 z-50">
+                            <button
+                                onClick={() => setAdvisorMode(m => !m)}
+                                title="Mostrar/ocultar tus notas privadas"
+                                className={`w-11 h-11 rounded-full shadow-md flex items-center justify-center transition-colors ${advisorMode ? 'bg-amber-400 text-white' : 'bg-white/70 backdrop-blur-md text-slate-500'}`}
+                            >
+                                <i className={`fa-solid ${advisorMode ? 'fa-lock-open' : 'fa-lock'}`}></i>
+                            </button>
+                            <button
+                                onClick={handleGuardar}
+                                className="h-11 px-4 rounded-full shadow-md bg-corporate-navy text-white text-sm font-semibold flex items-center gap-2"
+                            >
+                                {saveStatus === "saving" && <i className="fa-solid fa-spinner fa-spin"></i>}
+                                {saveStatus === "ok" && <i className="fa-solid fa-check"></i>}
+                                {saveStatus === "error" && <i className="fa-solid fa-triangle-exclamation"></i>}
+                                {saveStatus === "idle" && <i className="fa-solid fa-cloud-arrow-up"></i>}
+                                Guardar
+                            </button>
+                        </div>
+                    )}
+
                     <div className="absolute bottom-6 right-6 flex gap-3 z-50">
                         <button 
                             onClick={prevSlide} 
@@ -496,7 +809,6 @@
                         </button>
                     </div>
 
-                    {/* Fullscreen toggle */}
                     <button 
                         onClick={toggleFullScreen} 
                         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/50 backdrop-blur-md shadow-md text-corporate-navy hover:bg-white hover:scale-110 transition-all flex items-center justify-center z-50"
