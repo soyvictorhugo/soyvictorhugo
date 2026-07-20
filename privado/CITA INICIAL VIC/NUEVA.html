@@ -728,7 +728,13 @@
             const prevSlide = () => setCurrentSlide(p => Math.max(p - 1, 0));
 
             useEffect(() => {
+                const isTypingInField = () => {
+                    const tag = document.activeElement && document.activeElement.tagName;
+                    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' ||
+                           (document.activeElement && document.activeElement.isContentEditable);
+                };
                 const handleKeyDown = (e) => {
+                    if (isTypingInField()) return; // no navegar mientras se captura texto
                     if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
                     if (e.key === 'ArrowLeft') prevSlide();
                 };
