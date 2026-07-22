@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Tropecé, Caí... y me Levanté!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Nunito', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        sky: {
+                            light: '#E0F2FE',
+                            DEFAULT: '#38BDF8',
+                            dark: '#0369A1',
+                        },
+                        earth: {
+                            light: '#FEF3C7',
+                            DEFAULT: '#F59E0B',
+                            dark: '#B45309',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F8FAFC;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Smooth reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        
+        /* Floating animation for balloons */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Floating animation for the hero house icon: more visible, its own speed */
+        @keyframes houseFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-14px); }
+        }
+        .animate-house-float {
+            display: inline-block;
+            animation: houseFloat 2.8s ease-in-out infinite;
+        }
+
+        /* Short, snappy up-down nudge for the scroll-down arrow (self-contained, doesn't depend on Tailwind's bounce) */
+        @keyframes arrowNudge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(10px); }
+        }
+        .animate-arrow-nudge {
+            display: inline-block;
+            animation: arrowNudge 1.3s ease-in-out infinite;
+        }
+
+        .nav-dot { cursor: pointer; }
+        .nav-dot:hover { background-color: #94a3b8; transform: scale(1.3); }
+
+        /* Safety net: guarantees the nav dots are positioned, sized and clickable
+           even if the Tailwind CDN script is slow, blocked, or fails to load. */
+        nav.nav-fixed {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #CBD5E1;
+            margin: 8px 0;
+        }
+        @media (max-width: 767px) {
+            nav.nav-fixed { display: none; }
+        }
+        
+        /* Section styling */
+        .slide-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Navigation dots */
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #CBD5E1;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+        }
+        .nav-dot.active {
+            background-color: #38BDF8;
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body class="text-slate-700 antialiased selection:bg-sky-light selection:text-sky-dark">
+
+    <!-- Fixed Navigation Dots -->
+    <nav class="nav-fixed fixed right-4 top-1/2 transform -translate-y-1/2 z-50 md:flex flex-col">
+        <a href="#inicio" class="nav-dot active" title="Inicio"></a>
+        <a href="#acto1" class="nav-dot" title="Acto 1"></a>
+        <a href="#acto2" class="nav-dot" title="Acto 2"></a>
+        <a href="#acto3" class="nav-dot" title="Acto 3"></a>
+        <a href="#acto4" class="nav-dot" title="Acto 4"></a>
+        <a href="#acto5" class="nav-dot" title="Acto 5"></a>
+        <a href="#acto6" class="nav-dot" title="Acto 6"></a>
+        <a href="#mdrt" class="nav-dot" title="MDRT"></a>
+        <a href="#conclusion" class="nav-dot" title="Conclusión"></a>
+        <a href="#final" class="nav-dot" title="Final"></a>
+    </nav>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-slate-100 z-50">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-sky-DEFAULT transition-all duration-300 w-0"></div>
+    </div>
+
+    <!-- Título -->
+    <section id="inicio" class="slide-section bg-white">
+        <div class="absolute inset-0 bg-sky-50 opacity-50 z-0"></div>
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center reveal">
+            <i class="fa-solid fa-house-chimney-window text-sky-DEFAULT text-5xl mb-6 opacity-80 animate-house-float"></i>
+            <h1 class="text-5xl md:text-7xl font-bold font-heading text-slate-800 mb-6 leading-tight">
+                ¡Tropecé, Caí...y me Levanté! <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-DEFAULT to-blue-500">y me Levanté!</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-500 font-light mt-4">
+                Lo que la película <strong class="font-semibold text-slate-700">Up</strong> me enseñó sobre volver a empezar...
+            </p>
+            <a href="#acto1" class="inline-block mt-12 text-sky-DEFAULT hover:text-sky-dark transition-colors">
+                <i class="fa-solid fa-chevron-down text-3xl animate-arrow-nudge"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Acto 1 -->
+    <section id="acto1" class="slide-section bg-earth-light/30">
+        <div class="max-w-5xl mx-auto px-6 w-full">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <span class="uppercase tracking-widest text-sm font-bold text-earth-dark mb-2 block">Acto 1</span>
+                    <h2 class="text-4xl md:text-5xl font-bold font-heading text-slate-800 mb-6">Todos construimos una casa...</h2>
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                        Nuestra vida, nuestros sueños, nuestros negocios. Ponemos cimientos fuertes, paredes de esfuerzo y un techo de ilusiones. Es nuestro refugio y nuestra creación.
+                    </p>
+                </div>
+                <div class="reveal delay-200">
+                    <div class="relative rounded-3xl overflow-hidden shadow-xl border border-slate-100">
+                        <img src="acto_1.png" alt="Construyendo la casa de nuestra vida" class="w-full h-auto object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acto 2 -->
+    <section id="acto2" class="slide-section bg-slate-800 text-white">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-800 to-slate-900 z-0"></div>
+        <div class="max-w-5xl mx-auto px-6 w-full relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 reveal delay-200">
+                    <!-- Representation of the storm/flood image -->
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+                        <img src="acto_2.png" alt="La tormenta / inundación" class="w-full h-auto opacity-90">
+                        <div class="absolute inset-0 bg-slate-900/40"></div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 reveal">
+                    <span class="uppercase tracking-widest text-sm font-bold text-slate-400 mb-2 block">Acto 2</span>
+                    <h2 class="text-4xl md:text-5xl font-bold font-heading text-white mb-6">La tormenta...</h2>
+                    <p class="text-lg text-slate-300 leading-relaxed">
+                        A veces, llegan tormentas inesperadas. Situaciones fuera de nuestro control que inundan lo que hemos construido. “Hay tormentas que no destruyen una casa.
+Destruyen la versión de nosotros que vivía dentro.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acto 3 -->
+    <section id="acto3" class="slide-section bg-sky-light overflow-hidden">
+        <!-- Background balloons -->
+        <div class="absolute top-10 left-10 text-pink-400 opacity-20 text-6xl animate-float" style="animation-delay: 0s;"><i class="fa-solid fa-balloon"></i></div>
+        <div class="absolute top-40 right-20 text-purple-400 opacity-20 text-8xl animate-float" style="animation-delay: 1s;"><i class="fa-solid fa-balloon"></i></div>
+        <div class="absolute bottom-20 left-1/4 text-yellow-400 opacity-20 text-7xl animate-float" style="animation-delay: 2s;"><i class="fa-solid fa-balloon"></i></div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div class="reveal">
+                <span class="uppercase tracking-widest text-sm font-bold text-sky-dark mb-2 block">Acto 3</span>
+                <h2 class="text-5xl md:text-7xl font-bold font-heading text-slate-800 mb-8">Globos...</h2>
+                <div class="max-w-md mx-auto rounded-3xl overflow-hidden shadow-xl mb-8">
+                    <img src="acto_3.png" alt="Globos elevándose" class="w-full h-auto">
+                </div>
+                <div class="relative inline-block mt-8">
+                    <i class="fa-solid fa-house text-4xl text-earth-dark relative z-10"></i>
+                    <!-- SVG Balloons -->
+                    <svg class="absolute bottom-full left-1/2 transform -translate-x-1/2 w-48 h-48 animate-float" viewBox="0 0 100 100">
+                        <circle cx="40" cy="30" r="15" fill="#EF4444" opacity="0.8"/>
+                        <circle cx="60" cy="35" r="12" fill="#3B82F6" opacity="0.8"/>
+                        <circle cx="50" cy="20" r="18" fill="#F59E0B" opacity="0.8"/>
+                        <circle cx="30" cy="45" r="10" fill="#10B981" opacity="0.8"/>
+                        <circle cx="70" cy="45" r="14" fill="#8B5CF6" opacity="0.8"/>
+                        <!-- Strings -->
+                        <path d="M40,45 L50,90" stroke="#9CA3AF" stroke-width="0.5"/>
+                        <path d="M60,47 L50,90" stroke="#9CA3AF" stroke-width="0.5"/>
+                        <path d="M50,38 L50,90" stroke="#9CA3AF" stroke-width="0.5"/>
+                        <path d="M30,55 L50,90" stroke="#9CA3AF" stroke-width="0.5"/>
+                        <path d="M70,59 L50,90" stroke="#9CA3AF" stroke-width="0.5"/>
+                    </svg>
+                </div>
+                <p class="text-xl text-slate-600 mt-12 max-w-2xl mx-auto font-light">
+                    Cuando todo parece perdido, encontramos nuevas formas de elevarnos. Ideas, alianzas, esperanza. Elementos que, juntos, nos dan la fuerza para volver a despegar.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acto 4 -->
+    <section id="acto4" class="slide-section bg-white">
+        <div class="max-w-5xl mx-auto px-6 w-full">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <span class="uppercase tracking-widest text-sm font-bold text-earth-DEFAULT mb-2 block">Acto 4</span>
+                    <h2 class="text-4xl md:text-5xl font-bold font-heading text-slate-800 mb-6">Russell...</h2>
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                        En nuestro viaje, encontramos compañeros inesperados. Personas que traen nueva energía, perspectivas diferentes y nos recuerdan la inocencia, el entusiasmo y el valor de ayudar a los demás.
+                    </p>
+                </div>
+                <div class="reveal delay-200 text-center">
+                    <div class="inline-block relative">
+                        <div class="w-48 h-48 bg-yellow-100 rounded-full absolute -top-4 -left-4 z-0"></div>
+                        <img src="acto_4.png" alt="Russell" class="relative z-10 rounded-2xl shadow-lg border-2 border-yellow-200 max-h-96">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acto 5 -->
+    <section id="acto5" class="slide-section bg-slate-50 py-20">
+        <div class="max-w-6xl mx-auto px-6 w-full">
+            <div class="text-center mb-16 reveal">
+                <span class="uppercase tracking-widest text-sm font-bold text-sky-dark mb-2 block">Acto 5</span>
+                <h2 class="text-4xl md:text-5xl font-bold font-heading text-slate-800 mb-4">Soltar...</h2>
+                <p class="text-xl text-sky-DEFAULT font-medium">El acto que te permite volver a volar.</p>
+            </div>
+
+            <div class="max-w-xl mx-auto rounded-3xl overflow-hidden shadow-xl mb-16 reveal">
+                <img src="acto_5.png" alt="Soltar: el acto que te permite volver a volar" class="w-full h-auto">
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Concept 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 reveal delay-100 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-red-50 text-red-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-weight-hanging"></i>
+                    </div>
+                    <p class="text-slate-600">Así como Carl debe tirar sus muebles para que la casa vuele, nosotros debemos soltar lo que nos pesa para poder avanzar.</p>
+                    <div class="mt-6 flex justify-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                        <span class="bg-slate-100 px-3 py-1 rounded-full">Miedos</span>
+                        <span class="bg-slate-100 px-3 py-1 rounded-full">Enfados</span>
+                        <span class="bg-slate-100 px-3 py-1 rounded-full">Culpas</span>
+                    </div>
+                </div>
+
+                <!-- Concept 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 reveal delay-200 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-sky-50 text-sky-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <h3 class="font-bold font-heading text-lg text-slate-800 mb-3">1. Vacía tu mochila emocional</h3>
+                    <p class="text-slate-600 text-sm">Identifica y "tira a la papelera" los miedos, enfados y culpas del pasado que hoy se sienten como piedras.</p>
+                </div>
+
+                <!-- Concept 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 reveal delay-300 text-center hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-green-50 text-green-400 rounded-full flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="font-bold font-heading text-lg text-slate-800 mb-3">2. La resiliencia es una nueva aventura</h3>
+                    <p class="text-slate-600 text-sm">Superar una pérdida no es olvidar, sino honrar el pasado permitiéndote vivir nuevas experiencias, tal como hizo Ellie.</p>
+                </div>
+            </div>
+
+            <div class="bg-sky-100 p-8 rounded-2xl text-center reveal border border-sky-200">
+                <p class="text-xl md:text-2xl font-heading font-medium text-sky-dark">
+                    REFLEXIÓN FINAL: ¿Qué tendrías que soltar hoy para que tu casa vuelva a elevarse?
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acto 6 -->
+    <section id="acto6" class="slide-section relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+             <img src="acto_6.png" alt="Paradise Falls" class="w-full h-full object-cover opacity-90">
+             <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+        </div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <span class="uppercase tracking-widest text-sm font-bold text-sky-300 mb-2 block drop-shadow-md">Acto 6</span>
+            <h2 class="text-6xl md:text-8xl font-bold font-heading text-white drop-shadow-lg tracking-wide">"Paradise Falls"...</h2>
+            <p class="text-2xl text-sky-100 mt-6 font-light drop-shadow">El destino soñado siempre está ahí, esperando por ti.</p>
+        </div>
+    </section>
+
+    <!-- MDRT -->
+    <section id="mdrt" class="slide-section bg-white">
+        <div class="max-w-6xl mx-auto px-6 w-full">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold font-heading text-slate-800 mb-6">Mi propia "Cataratas del Paraíso"</h2>
+                    <p class="text-lg text-slate-600 mb-4 leading-relaxed">
+                        Todos tenemos metas soñadas, un viaje, un auto, una experiencia. Corto, Mediano y Largo plazo.
+                    </p>
+                    <p class="text-lg text-slate-600 leading-relaxed border-l-4 border-earth-DEFAULT pl-4 py-2 bg-earth-light/20 rounded-r-lg">
+                        Sabemos que llegar ahí requiere visión, valentía, disciplina y atreverse a dar el primer paso hacia lo desconocido, dejando atrás el conformismo... y enfocando el compromiso.
+                    </p>
+                </div>
+                <div class="reveal delay-200">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl mb-6">
+                        <img src="mdsrt_vic.png" alt="Víctor Hugo Díaz en MDRT Annual Meeting 2026 Anaheim" class="w-full h-auto">
+                    </div>
+                    <div class="relative bg-orange-500 rounded-3xl p-2 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <div class="border-4 border-white border-dashed rounded-2xl p-8 text-center text-white bg-orange-600">
+                             <h3 class="text-4xl font-black tracking-widest mb-2">MDRT</h3>
+                             <p class="text-xl font-bold uppercase tracking-widest mb-4 border-b border-orange-400 pb-2">Annual Meeting</p>
+                             <div class="text-7xl font-black mb-2 shadow-sm">2026</div>
+                             <p class="text-2xl font-bold uppercase tracking-widest text-orange-200">Anaheim</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section id="conclusion" class="slide-section bg-sky-50">
+        <div class="max-w-5xl mx-auto px-6 w-full text-center">
+            <div class="reveal mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold font-heading text-slate-800 mb-4">Conclusión: Impulso para despegar</h2>
+            </div>
+
+            <div class="max-w-sm mx-auto rounded-3xl overflow-hidden shadow-xl mb-16 reveal">
+                <img src="conclusion.png" alt="La casa elevándose con globos" class="w-full h-auto">
+            </div>
+            
+            <div class="grid sm:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal delay-100">
+                    <div class="text-sky-DEFAULT text-3xl mb-4"><i class="fa-solid fa-house-chimney-crack"></i></div>
+                    <p class="text-slate-700">El Sr. Fredricksen utilizó miles de globos para elevar su hogar y alcanzar su sueño...</p>
+                    <p class="font-bold text-sky-dark mt-2">¡encuentra tu globo!</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal delay-200">
+                    <div class="text-earth-DEFAULT text-3xl mb-4"><i class="fa-solid fa-chart-line"></i></div>
+                    <p class="text-slate-700">En el mundo de los negocios, esos "globos" también son estrategias correctas, innovación, alianzas...</p>
+                    <p class="font-bold text-earth-dark mt-2">¡encuentra tus globos!</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm reveal delay-300">
+                    <div class="text-purple-500 text-3xl mb-4"><i class="fa-solid fa-bullseye"></i></div>
+                    <p class="text-slate-700">Nuestra misión es proporcionar información de valor e impulso en el "timing" correcto con las personas correctas...</p>
+                    <p class="font-bold text-purple-700 mt-2">¡sé el globo de las personas!</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-md reveal delay-300 ">
+                    <div class="text-white/80 text-3xl mb-4"><i class="fa-solid fa-hands-holding-child"></i></div>
+                    <p class="text-slate-700 font-medium">Ayudar en el proceso de alguien, que el despegue sea seguro y, sobre todo, emocionante...</p>
+                    <p class="font-black text-xl mt-2 tracking-wide">¡sé un globo!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final -->
+    <section id="final" class="slide-section bg-slate-900 text-white overflow-hidden relative">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://placehold.co/100x100/ffffff/ffffff?text=.')] bg-repeat z-0"></div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 flex flex-col items-center">
+            
+            <div class="w-40 h-40 bg-slate-800 rounded-full border-4 border-slate-700 flex items-center justify-center mb-8 reveal shadow-2xl overflow-hidden">
+                <img src="gracias.png" alt="Víctor Hugo Díaz" class="w-full h-full object-cover">
+            </div>
+            
+            <h2 class="text-4xl md:text-6xl font-bold font-heading mb-6 reveal delay-100 leading-tight">
+                Yo tropiezo, caigo <br>y me levanto...
+            </h2>
+            <p class="text-3xl font-light text-sky-300 reveal delay-200 italic mb-12">
+                ¡Todos los días!
+            </p>
+            
+            <div class="reveal delay-300 border-t border-slate-700 pt-8 mt-8 w-full">
+                <p class="text-xl text-slate-400 tracking-widest uppercase font-bold">Muchas gracias.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for scroll animations (reveal elements)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: stop observing once animated to keep them visible
+                        // observer.unobserve(entry.target);
+                    } else {
+                        // Re-animate when scrolling back up (optional, remove for one-time animation)
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // Update Navigation Dots and Progress Bar on scroll
+            const sections = document.querySelectorAll('.slide-section');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const progressBar = document.getElementById('progress-bar');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                const scrollPos = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const docHeight = document.body.offsetHeight;
+                
+                // Calculate progress bar width
+                const scrollPercentage = (scrollPos / (docHeight - windowHeight)) * 100;
+                progressBar.style.width = scrollPercentage + '%';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    // Adjusted offset for better trigger point
+                    if (scrollPos >= sectionTop - windowHeight / 3) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navDots.forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.getAttribute('href').substring(1) === current) {
+                        dot.classList.add('active');
+                    }
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Trigger initial scroll to activate elements visible on load
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>
