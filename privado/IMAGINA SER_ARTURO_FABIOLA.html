@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imagina Ser - Proyecto de Retiro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-toggle {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-toggle.active {
+            background: #0f172a;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-toggle.inactive {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .btn-toggle.inactive:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        /* Value pop animation */
+        @keyframes pop {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .animate-value {
+            animation: pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            height: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, #0ea5e9, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Sticky Navigation / Control Panel -->
+    <header class="glass-header sticky top-0 z-50 w-full px-4 py-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo / Title -->
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-900 text-white p-2 rounded-xl">
+                    <i class="fa-solid fa-leaf text-emerald-400 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">Seguros Monterrey</h1>
+                    <p class="text-xs text-slate-500 font-medium">Imagina Ser - Retiro 65</p>
+                </div>
+            </div>
+
+            <!-- Global Controls -->
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <!-- Exchange Rate Badge -->
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-coins"></i>
+                    1 UDI = $8.7954 MXN
+                </div>
+
+                <!-- Prospect Selector -->
+                <div class="flex bg-slate-100 p-1 rounded-xl">
+                    <button id="btn-arturo" onclick="setProspect('arturo')" class="btn-toggle active px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-user-tie"></i> Arturo
+                    </button>
+                    <button id="btn-fabiola" onclick="setProspect('fabiola')" class="btn-toggle inactive px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i> Fabiola
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col gap-8">
+        
+        <!-- Welcome Section -->
+        <section class="text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <p class="text-sm font-bold text-sky-600 tracking-wider uppercase mb-1">Estrategia Patrimonial Personalizada</p>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">
+                    Hola, <span id="display-name" class="gradient-text">Arturo López Saldiña</span>
+                </h2>
+                <p class="text-slate-500 max-w-2xl text-base md:text-lg">
+                    Este es tu proyecto de ahorro y protección para alcanzar tu libertad financiera a los <strong class="text-slate-700">65 años</strong>, blindado contra la inflación mediante UDIs.
+                </p>
+            </div>
+            
+            <!-- Strategy Selector (The most important interaction) -->
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200 w-full md:w-auto">
+                <p class="text-xs text-slate-400 font-bold uppercase mb-2 text-center">Nivel de Aportación</p>
+                <div class="flex bg-slate-100 p-1 rounded-xl w-full">
+                    <button id="btn-basic" onclick="setMode('basic')" class="btn-toggle active flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-shield-halved"></i> Prima Básica
+                    </button>
+                    <button id="btn-planned" onclick="setMode('planned')" class="btn-toggle inactive flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 relative">
+                        <i class="fa-solid fa-rocket"></i> Básica + Planeada
+                        <span class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-full animate-pulse">Recomendado</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Aportación Mensual -->
+            <div class="card p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-sky-100 text-sky-600 p-3 rounded-xl">
+                            <i class="fa-regular fa-calendar-check text-xl"></i>
+                        </div>
+                        <span class="bg-slate-100 text-slate-500 text-xs font-bold px-2 py-1 rounded-md">COMPROMISO</span>
+                    </div>
+                    <h3 class="text-slate-500 font-semibold text-sm mb-1">Aportación Mensual Estimada</h3>
+                    <div class="flex items-baseline gap-2">
+                        <h4 id="val-mensual-mxn" class="text-3xl font-extrabold text-slate-900 animate-value">$3,509</h4>
+                        <span class="text-slate-500 font-medium">MXN</span>
+                    </div>
+                    <p id="val-mensual-udi" class="text-sm text-sky-600 font-semibold mt-1">399 UDI</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-100">
+                    <p class="text-xs text-slate-400">Aportación anualizada: <span id="val-anual-mxn" class="font-bold text-slate-600">$42,130 MXN</span></p>
+                </div>
+            </div>
+
+            <!-- Card 2: Suma Asegurada (Protección) -->
+            <div class="card p-6 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 text-slate-50 opacity-50 transform rotate-12 pointer-events-none">
+                    <i class="fa-solid fa-shield-heart text-9xl"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl">
+                            <i class="fa-solid fa-umbrella text-xl"></i>
+                        </div>
+                        <span class="bg-slate-100 text-slate-500 text-xs font-bold px-2 py-1 rounded-md">PROTECCIÓN</span>
+                    </div>
+                    <h3 class="text-slate-500 font-semibold text-sm mb-1">Suma Asegurada Inmediata</h3>
+                    <div class="flex items-baseline gap-2">
+                        <h4 id="val-suma-mxn" class="text-3xl font-extrabold text-slate-900 animate-value">$659,655</h4>
+                        <span class="text-slate-500 font-medium">MXN</span>
+                    </div>
+                    <p id="val-suma-udi" class="text-sm text-indigo-600 font-semibold mt-1">75,000 UDI</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-100 relative z-10">
+                    <p class="text-xs text-slate-500 leading-relaxed">Protección por fallecimiento o Invalidez (BAIT) garantizada durante el plazo.</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Valor de Rescate a los 65 -->
+            <div class="card p-6 flex flex-col justify-between bg-slate-900 text-white border-none shadow-xl transform scale-100 md:scale-105 z-10 relative">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500 rounded-full filter blur-3xl opacity-20 pointer-events-none"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-emerald-500/20 text-emerald-400 p-3 rounded-xl border border-emerald-500/30">
+                            <i class="fa-solid fa-sack-dollar text-xl"></i>
+                        </div>
+                        <span class="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-md">META A LOS 65 AÑOS</span>
+                    </div>
+                    <h3 class="text-slate-300 font-semibold text-sm mb-1">Fondo de Reserva Proyectado</h3>
+                    <div class="flex items-baseline gap-2">
+                        <h4 id="val-fondo-mxn" class="text-4xl font-extrabold text-white animate-value">$630,109</h4>
+                    </div>
+                    <p id="val-fondo-udi" class="text-sm text-emerald-400 font-semibold mt-1">71,641 UDI</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-slate-700 relative z-10">
+                    <p class="text-xs text-slate-300">
+                        Total aportado en el plazo: <span id="val-total-aportado" class="font-bold text-white">$842,600 MXN</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Comparison & Benefits -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+            
+            <!-- Left col: Chart/Graph -->
+            <div class="card p-6 col-span-1 lg:col-span-2 flex flex-col">
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Impacto de la Prima Planeada a los 65 años</h3>
+                <p class="text-sm text-slate-500 mb-6">Comparativa del fondo de reserva (en MXN actuales) entre la estrategia básica y sumando aportaciones adicionales.</p>
+                
+                <div class="flex-grow flex flex-col justify-center gap-6">
+                    <!-- Basic Bar -->
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-semibold text-slate-700">Solo Prima Básica</span>
+                            <span id="chart-val-basic" class="font-bold text-slate-900"></span>
+                        </div>
+                        <div class="progress-container">
+                            <div id="bar-basic" class="progress-bar bg-slate-400" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Planned Bar -->
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-semibold text-emerald-600">Con Prima Planeada <span class="text-xs bg-emerald-100 px-2 py-0.5 rounded-full">+1,200 UDI/año</span></span>
+                            <span id="chart-val-planned" class="font-bold text-emerald-600"></span>
+                        </div>
+                        <div class="progress-container">
+                            <div id="bar-planned" class="progress-bar" style="width: 80%;">
+                                <i class="fa-solid fa-arrow-trend-up mr-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-amber-50 border border-amber-200 rounded-lg p-4 flex gap-3 items-start">
+                    <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+                    <p class="text-xs text-amber-800">
+                        <strong>Efecto Compuesto:</strong> Al agregar una Prima Planeada, no solo aumentas tu capital directamente, sino que generas mayores rendimientos a largo plazo libres de impuestos (sujeto a LISR vigente).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right col: Benefits -->
+            <div class="card p-6 bg-slate-50 border-slate-200">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Garantías del Plan</h3>
+                
+                <ul class="space-y-4">
+                    <li class="flex gap-3 items-start">
+                        <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100 text-sky-500">
+                            <i class="fa-solid fa-money-bill-trend-up"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800">Blindaje vs Inflación</h4>
+                            <p class="text-xs text-slate-500 mt-1">Al estar en UDIs, tu dinero no pierde poder adquisitivo con el paso del tiempo.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100 text-sky-500">
+                            <i class="fa-solid fa-person-walking-with-cane"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800">Invalidez Total (BAIT)</h4>
+                            <p class="text-xs text-slate-500 mt-1">Exención de pago de primas si sufres una invalidez total y permanente.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100 text-sky-500">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800">Herencia Garantizada</h4>
+                            <p class="text-xs text-slate-500 mt-1">Si faltas antes de los 65, tus beneficiarios reciben la Suma Asegurada + Fondo.</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-3 items-start">
+                        <div class="bg-white p-2 rounded-lg shadow-sm border border-slate-100 text-sky-500">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-slate-800">Pagos Limitados</h4>
+                            <p id="txt-plazo" class="text-xs text-slate-500 mt-1">Pagas solo durante 15 años y quedas protegido hasta el retiro.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Note -->
+        <p class="text-center text-xs text-slate-400 mt-4 mb-8">
+            * Cifras ilustrativas basadas en una tasa de interés hipotética del 3.95% de acuerdo a las cotizaciones adjuntas. El tipo de cambio considerado es de 1 UDI = $8.7954 MXN al 04/08/2026. Este documento es un apoyo visual y no sustituye las Condiciones Generales de Seguros Monterrey New York Life.
+        </p>
+    </main>
+
+    <script>
+        // Constants & Data structure extracted from PDFs
+        const UDI_RATE_TODAY = 8.7954;
+        
+        const data = {
+            arturo: {
+                name: "Arturo López Saldiña",
+                age: 45,
+                yearsToPay: 15,
+                yearsTotal: 20, // 65 - 45
+                sumaAsegurada: 75000,
+                futureUdiRate: 23.25, // Projected UDI rate at age 65
+                basic: {
+                    annualUDI: 4790,
+                    monthlyUDI: 399,
+                    endValueUDI: 71641
+                },
+                planned: {
+                    annualUDI: 5990, // 4790 + 1200
+                    monthlyUDI: 499,
+                    endValueUDI: 100184
+                }
+            },
+            fabiola: {
+                name: "Fabiola Vargas Lara",
+                age: 37,
+                yearsToPay: 15,
+                yearsTotal: 28, // 65 - 37
+                sumaAsegurada: 75000,
+                futureUdiRate: 34.36, // Projected UDI rate at age 65
+                basic: {
+                    annualUDI: 4058,
+                    monthlyUDI: 338.16, 
+                    endValueUDI: 74231
+                },
+                planned: {
+                    annualUDI: 5258, // 4058 + 1200
+                    monthlyUDI: 438.16,
+                    endValueUDI: 111207
+                }
+            }
+        };
+
+        // State variables
+        let currentProspect = 'arturo';
+        let currentMode = 'basic';
+
+        // Utility formatters
+        function fmtMXN(udiValue, useFutureRate = false) {
+            const rate = useFutureRate ? data[currentProspect].futureUdiRate : UDI_RATE_TODAY;
+            return '$' + (udiValue * rate).toLocaleString('es-MX', { maximumFractionDigits: 0 });
+        }
+        
+        function fmtUDI(udiValue) {
+            return udiValue.toLocaleString('es-MX', { maximumFractionDigits: 0 }) + ' UDI';
+        }
+
+        // Trigger animation reset
+        function triggerAnimations() {
+            const elements = document.querySelectorAll('.animate-value');
+            elements.forEach(el => {
+                el.classList.remove('animate-value');
+                void el.offsetWidth; // trigger reflow
+                el.classList.add('animate-value');
+            });
+        }
+
+        // Core UI Update function
+        function updateUI() {
+            const prospectData = data[currentProspect];
+            const activeData = prospectData[currentMode];
+
+            // Update Name
+            document.getElementById('display-name').textContent = prospectData.name;
+            
+            // Plazo text
+            document.getElementById('txt-plazo').textContent = `Pagas solo durante ${prospectData.yearsToPay} años y tu dinero crece durante ${prospectData.yearsTotal} años.`;
+
+            // Card 1: Mensual / Anual
+            document.getElementById('val-mensual-mxn').textContent = fmtMXN(activeData.monthlyUDI);
+            document.getElementById('val-mensual-udi').textContent = fmtUDI(activeData.monthlyUDI);
+            document.getElementById('val-anual-mxn').textContent = fmtMXN(activeData.annualUDI);
+
+            // Card 2: Suma Asegurada (Current value)
+            document.getElementById('val-suma-mxn').textContent = fmtMXN(prospectData.sumaAsegurada);
+            document.getElementById('val-suma-udi').textContent = fmtUDI(prospectData.sumaAsegurada);
+
+            // Card 3: Fondo (Future value based on projected UDI)
+            document.getElementById('val-fondo-mxn').textContent = fmtMXN(activeData.endValueUDI, true);
+            document.getElementById('val-fondo-udi').textContent = fmtUDI(activeData.endValueUDI);
+            
+            // Total aportado (simplified math: anual * yearsToPay, current value)
+            const totalAportadoUDI = activeData.annualUDI * prospectData.yearsToPay;
+            document.getElementById('val-total-aportado').textContent = fmtMXN(totalAportadoUDI);
+
+            // Update Chart (Future value based on projected UDI)
+            const basicFondo = prospectData.basic.endValueUDI;
+            const plannedFondo = prospectData.planned.endValueUDI;
+            
+            document.getElementById('chart-val-basic').textContent = fmtMXN(basicFondo, true);
+            document.getElementById('chart-val-planned').textContent = fmtMXN(plannedFondo, true);
+            
+            // Calculate widths (relative to the planned max to show scale)
+            const maxFondo = Math.max(basicFondo, plannedFondo);
+            const wBasic = (basicFondo / maxFondo) * 100;
+            const wPlanned = (plannedFondo / maxFondo) * 100;
+            
+            // setTimeout for CSS transition to trigger after values update
+            setTimeout(() => {
+                document.getElementById('bar-basic').style.width = wBasic + '%';
+                // Highlight active bar conceptually
+                if(currentMode === 'basic') {
+                    document.getElementById('bar-basic').style.background = 'linear-gradient(90deg, #64748b, #334155)';
+                    document.getElementById('bar-planned').style.background = '#e2e8f0'; // dull
+                    document.getElementById('bar-planned').innerHTML = ''; 
+                    document.getElementById('bar-basic').innerHTML = '<i class="fa-solid fa-check mr-2 text-white"></i>';
+                } else {
+                    document.getElementById('bar-basic').style.background = '#94a3b8'; // dull
+                    document.getElementById('bar-planned').style.background = 'linear-gradient(90deg, #0ea5e9, #059669)';
+                    document.getElementById('bar-basic').innerHTML = '';
+                    document.getElementById('bar-planned').innerHTML = '<i class="fa-solid fa-arrow-trend-up mr-2 text-white"></i>';
+                }
+                document.getElementById('bar-planned').style.width = wPlanned + '%';
+            }, 50);
+
+            triggerAnimations();
+        }
+
+        // Setters for button events
+        function setProspect(prospectId) {
+            currentProspect = prospectId;
+            
+            // Update button styles
+            document.getElementById('btn-arturo').className = prospectId === 'arturo' ? 'btn-toggle active px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2' : 'btn-toggle inactive px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2';
+            document.getElementById('btn-fabiola').className = prospectId === 'fabiola' ? 'btn-toggle active px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2' : 'btn-toggle inactive px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2';
+            
+            updateUI();
+        }
+
+        function setMode(modeId) {
+            currentMode = modeId;
+            
+            // Update button styles
+            document.getElementById('btn-basic').className = modeId === 'basic' ? 'btn-toggle active flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2' : 'btn-toggle inactive flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2';
+            
+            let plannedClass = modeId === 'planned' ? 'btn-toggle active flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 relative' : 'btn-toggle inactive flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 relative';
+            document.getElementById('btn-planned').className = plannedClass;
+            
+            updateUI();
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateUI();
+        };
+    </script>
+</body>
+</html>
