@@ -14,12 +14,12 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- React & ReactDOM -->
+    <!-- React & ReactDOM (versionados) -->
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- Babel for JSX (Ajustado a @7 para evitar versión inexistente) -->
-    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+    <!-- Babel for JSX (pinneado a v7, NUNCA quitar la version) -->
+    <script src="https://unpkg.com/@babel/standalone@7.27.6/babel.min.js"></script>
     
     <!-- Framer Motion -->
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
@@ -69,12 +69,13 @@
     <div id="root" class="h-full w-full"></div>
 
     <script type="text/babel" data-type="module">
-        const { useState, useEffect, useCallback, useMemo } = React;
-        const MotionLib = window.Motion || window.FramerMotion;
-        const { motion, AnimatePresence } = MotionLib;
+        const { useState, useEffect, useCallback } = React;
+        const { motion, AnimatePresence } = window.Motion;
 
         // ==========================================================
-        // CONFIG: URL de Google Apps Script Web App
+        // CONFIG: pega aqui tu URL de Google Apps Script Web App
+        // (Extensiones > Apps Script en tu hoja de calculo > Implementar
+        // > Nueva implementacion > Aplicacion web > acceso "Cualquier persona")
         // ==========================================================
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwvm9zW2Mb0CetL2KVQNvSSX1uqdoL0vlSnMzNjUiNVTjo2L0v5s41DE29FOaGuXxFsHg/exec";
 
@@ -92,13 +93,13 @@
 
         async function saveToSheet(citaId, formData) {
             if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.startsWith("PON_AQUI")) {
-                console.warn("Falta configurar GAS_WEB_APP_URL. No se guardó nada.");
+                console.warn("Falta configurar GAS_WEB_APP_URL. No se guardo nada.");
                 return { ok: false, reason: "no-config" };
             }
             try {
                 await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    mode: "no-cors",
+                    mode: "no-cors", // Apps Script no siempre responde con CORS; enviamos "a ciegas"
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({
                         cita_id: citaId,
@@ -130,6 +131,7 @@
             </motion.div>
         );
 
+        // Slide "documento" tipo ANF: imagen grande a la izquierda, panel de preguntas a la derecha
         const DocSlideContainer = ({ children, imageSrc, imageTitle }) => (
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -139,10 +141,10 @@
                 className="absolute inset-0 flex flex-col md:flex-row bg-slate-50 overflow-hidden"
             >
                 <div className="w-full md:w-1/2 h-1/3 md:h-full p-6 flex items-center justify-center bg-white">
-                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-xl border border-slate-100 flex items-center justify-center bg-slate-50">
+                    <div className="w-full h-full rounded-2xl overflow-hidden shadow-xl border border-slate-100 flex items-center justify-center">
                         {imageSrc
                             ? <img src={imageSrc} alt={imageTitle} className="w-full h-full object-cover" />
-                            : <span className="font-heading text-4xl text-corporate-navy tracking-widest uppercase text-center px-4">{imageTitle}</span>}
+                            : <span className="font-heading text-4xl text-corporate-navy tracking-widest">{imageTitle}</span>}
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 h-2/3 md:h-full overflow-y-auto p-6 sm:p-10 space-y-5">
@@ -151,7 +153,8 @@
             </motion.div>
         );
 
-        const ClientField = ({ id, label, value, onChange, type = "text", placeholder = "", options = [] }) => (
+        // Campo VISIBLE para el cliente (pregunta del ANF que se responde en vivo)
+        const ClientField = ({ id, label, value, onChange, type = "text", placeholder = "" }) => (
             <div>
                 <label className="block text-sm font-bold text-corporate-navy mb-2">{label}</label>
                 {type === "textarea" ? (
@@ -162,17 +165,6 @@
                         rows={3}
                         className="w-full border-2 border-slate-200 rounded-xl p-3 text-slate-700 focus:border-corporate-cyan focus:outline-none transition-colors"
                     />
-                ) : type === 'select' ? (
-                    <select
-                        value={value || ''}
-                        onChange={(e) => onChange(id, e.target.value)}
-                        className="w-full border-2 border-slate-200 rounded-xl p-3 text-slate-700 focus:border-corporate-cyan focus:outline-none transition-colors bg-white"
-                    >
-                        <option value="" disabled>{placeholder || 'Selecciona una opción'}</option>
-                        {options.map(opt => (
-                            <option key={opt.value || opt} value={opt.value || opt}>{opt.label || opt}</option>
-                        ))}
-                    </select>
                 ) : (
                     <input
                         type={type}
@@ -185,12 +177,13 @@
             </div>
         );
 
+        // Campo OCULTO al cliente, solo visible cuando "Modo asesor" esta activo
         const AdvisorField = ({ id, label, value, onChange, advisorMode }) => {
             if (!advisorMode) return null;
             return (
                 <div className="p-4 bg-amber-50 border-2 border-dashed border-amber-300 rounded-xl">
                     <label className="flex items-center gap-2 text-xs font-bold tracking-wider text-amber-700 uppercase mb-2">
-                        <i className="fa-solid fa-lock text-[10px]"></i> {label} · solo tú la ves
+                        <i className="fa-solid fa-lock text-[10px]"></i> {label} · solo tu la ves
                     </label>
                     <textarea
                         value={value || ""}
@@ -206,9 +199,7 @@
             <h2 className="text-corporate-cyan font-bold tracking-widest uppercase text-xs mb-1">{children}</h2>
         );
 
-        // ==========================================================
-        // Slides de la Presentación
-        // ==========================================================
+        // Slide 1: Hero
         const SlideHero = ({ onNext }) => (
             <SlideContainer bgClass="bg-corporate-navy">
                 <div className="absolute inset-0 leaf-pattern"></div>
@@ -243,14 +234,15 @@
             </SlideContainer>
         );
 
-        const SlideAcuerdos = () => {
+        // Slide 1.5: Los tres acuerdos
+        const SlideAcuerdos = ({ onNext }) => {
             const [checked, setChecked] = useState([false, false, false]);
             const toggle = (i) => setChecked(prev => prev.map((c, idx) => idx === i ? !c : c));
 
             const acuerdos = [
                 "Vamos a aprovechar bien el tiempo: ésta reunión va a ser dinámica. Voy a hacerte algunas preguntas y vamos a ir directo a lo importante",
-                "Para que este ejercicio realmente tenga valor, necesito conocer tu situación, tus metas, tus objetivos y lo que hoy estás haciendo para alcanzarlos. Éste diagnostico está hecho para transmitir un concepto, y si logramos conectar, va a ser más fácil para ti ponerle un número.",
-                "Primero vamos a entender dónde estás hoy, qué quieres construir y qué brechas existen. Busco que tengas más claridad para tomar una decisión importante"
+                "Para que este ejercicio realmente tenga valor, necesito conocer tu situación, tus metas, tus objetivos y lo que hoy estás haciendo para alcanzarlos.. Éste diagnostico está hecho para transmitir un concepto, y si logramos conectar, va a ser más fácil para ti ponerle un numero. ",
+                "Primero vamos a entender dónde estás hoy, qué quieres construir y qué brechas existen. Busco que tengas más claridad para tomar una decision importante"
             ];
 
             return (
@@ -280,19 +272,19 @@
             );
         };
 
+        // Slide 2: About
         const SlideAbout = () => (
             <SlideContainer>
                 <div className="flex flex-col md:flex-row items-center gap-12">
                     <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="w-full md:w-5/12 relative flex flex-col items-center">
-                        <div className="w-full rounded-2xl shadow-xl overflow-hidden border-4 border-white bg-slate-200 aspect-[3/4] flex items-center justify-center z-10 relative">
-                            {/* Reemplaza con tus imágenes reales */}
-                            <span className="text-slate-400 text-sm">Foto Víctor</span>
+                        <div className="w-full rounded-2xl shadow-xl overflow-hidden border-4 border-white bg-white z-10 relative">
+                            <img src="retrato_victor.jpg" alt="Víctor Hugo Díaz" className="w-full h-auto object-contain" />
                         </div>
                         <motion.div 
                             initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6 }}
-                            className="w-3/5 aspect-video rounded-xl shadow-2xl overflow-hidden border-4 border-white bg-slate-300 transform -rotate-6 hover:rotate-0 transition-transform -mt-16 md:-mt-24 z-20 relative mr-auto ml-8 flex items-center justify-center"
+                            className="w-3/5 rounded-xl shadow-2xl overflow-hidden border-4 border-white bg-white transform -rotate-6 hover:rotate-0 transition-transform -mt-16 md:-mt-24 z-20 relative mr-auto ml-8"
                         >
-                            <span className="text-slate-500 text-xs">Credencial</span>
+                            <img src="credencial_victor.png" alt="Credencial" className="w-full h-auto object-contain" />
                         </motion.div>
                         
                         <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-corporate-cyan rounded-full opacity-20 z-0"></div>
@@ -316,14 +308,15 @@
             </SlideContainer>
         );
 
+        // Slide 3: Pirámide de Necesidades
         const SlidePiramide = () => {
             const [activeLevel, setActiveLevel] = useState(null);
             
             const levels = [
-                { id: 4, name: "RETIRO", color: "bg-[#b3cde3]", textColor: "text-slate-800", points: ["Vivir bien en la 'nueva adultez'.", "Garantizar Retiro."], width: "w-[40%]", height: "h-20" },
-                { id: 3, name: "ACUMULACIÓN", color: "bg-[#457b9d]", textColor: "text-white", points: ["Continuar aumentando patrimonio.", "Proteger ahorro y re-invertir."], width: "w-[60%]", height: "h-20" },
-                { id: 2, name: "SALUD", color: "bg-[#d5a6bd]", textColor: "text-white", points: ["Recuperar salud sin afectación económica.", "Atención oportuna y de calidad."], width: "w-[80%]", height: "h-20" },
-                { id: 1, name: "PROTECCIÓN", color: "bg-[#e29578]", textColor: "text-white", points: ["Proteger el estilo de vida familiar.", "Empezar un plan de ahorro (hábito)."], width: "w-full", height: "h-24" }
+                { id: 4, name: "RETIRO", color: "bg-[#b3cde3]", textColor: "text-white", points: ["Vivir bien en la 'nueva adultez'.", "Garantizar Retiro."], width: "w-[40%]", height: "h-24" },
+                { id: 3, name: "ACUMULACIÓN", color: "bg-[#457b9d]", textColor: "text-white", points: ["Continuar aumentando patrimonio.", "Proteger ahorro y re-invertir."], width: "w-[60%]", height: "h-24" },
+                { id: 2, name: "SALUD", color: "bg-[#d5a6bd]", textColor: "text-white", points: ["Recuperar salud sin afectación económica.", "Atención oportuna y de calidad."], width: "w-[80%]", height: "h-24" },
+                { id: 1, name: "PROTECCIÓN", color: "bg-[#e29578]", textColor: "text-white", points: ["Proteger el estilo de vida familiar.", "Empezar un plan de ahorro (hábito)."], width: "w-full", height: "h-32" }
             ];
 
             return (
@@ -335,7 +328,7 @@
                     </div>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-12 w-full max-w-5xl mx-auto">
-                        <div className="w-full md:w-1/2 flex flex-col items-center gap-1 mt-4">
+                        <div className="w-full md:w-1/2 flex flex-col items-center gap-1">
                             {levels.map((lvl) => (
                                 <motion.div 
                                     key={lvl.id}
@@ -345,7 +338,7 @@
                                     className={`${lvl.width} ${lvl.height} ${lvl.color} flex items-center justify-center cursor-pointer transition-all duration-300 shadow-md ${activeLevel === lvl.id ? 'ring-4 ring-offset-2 ring-corporate-cyan z-10' : ''}`}
                                     style={lvl.id === 4 ? { clipPath: 'polygon(50% 0%, 100% 100%, 0% 100%)' } : { clipPath: 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)' }}
                                 >
-                                    <span className={`font-heading font-bold text-xl tracking-widest ${lvl.textColor} ${lvl.id===4 ? 'mt-6' : ''}`}>{lvl.name}</span>
+                                    <span className={`font-heading font-bold text-xl tracking-widest ${lvl.textColor} ${lvl.id===4 ? 'mt-8' : ''}`}>{lvl.name}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -382,6 +375,7 @@
             );
         };
 
+        // Slide 4: Empresa (Seguros Monterrey & NYL)
         const SlideEmpresa = () => (
             <SlideContainer>
                 <div className="text-center mb-12">
@@ -398,6 +392,10 @@
                             <p className="font-semibold text-xl">La compañía con <span className="border-b-4 border-corporate-cyan">mayor solidez financiera</span> en Latinoamérica.</p>
                             <p>En Seguros Monterrey New York Life nos especializamos <strong>solo</strong> en el ramo de Seguros de Vida y Gastos Médicos.</p>
                             <p>Desde hace <strong>86 años</strong> trabajamos para proteger a las familias mexicanas contra imprevistos de la vida.</p>
+                            
+                            <div className="mt-8 pt-6 flex justify-center">
+                                <img src="logo_smnyl.png" alt="Logo Seguros Monterrey NYL" className="h-16 object-contain" />
+                            </div>
                         </div>
                     </motion.div>
 
@@ -407,7 +405,7 @@
                         <div className="space-y-4 text-lg text-slate-700 mb-8">
                             <p><strong>180 años</strong> siendo líder en USA.</p>
                             <p>Es una compañía <strong>aseguradora del tipo mutualista</strong>.</p>
-                            <p>Enfocada en soluciones específicamente para personas.</p>
+                            <p>Enfocado en soluciones específicamente para personas.</p>
                         </div>
 
                         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
@@ -421,6 +419,14 @@
                                     <span className="font-semibold text-slate-600">Fitch</span>
                                     <span className="font-bold text-corporate-cyan">AAA <span className="text-[10px] text-slate-400 font-normal">(Excepcional)</span></span>
                                 </div>
+                                <div className="flex justify-between items-center bg-white p-2 rounded shadow-sm border-l-2 border-l-corporate-cyan">
+                                    <span className="font-semibold text-slate-600">Moody's</span>
+                                    <span className="font-bold text-corporate-cyan">Aaa <span className="text-[10px] text-slate-400 font-normal">(Excepcional)</span></span>
+                                </div>
+                                <div className="flex justify-between items-center bg-white p-2 rounded shadow-sm border-l-2 border-l-corporate-cyan">
+                                    <span className="font-semibold text-slate-600">S&P</span>
+                                    <span className="font-bold text-corporate-cyan">AA+ <span className="text-[10px] text-slate-400 font-normal">(Fuerte)</span></span>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -428,6 +434,7 @@
             </SlideContainer>
         );
 
+        // Slide 5: Prioridades
         const SlidePrioridades = () => {
             const [selectedPriorities, setSelectedPriorities] = useState([]);
             
@@ -481,9 +488,11 @@
         };
 
         // ==========================================================
-        // Cuestionario ANF en vivo (Captura de datos)
+        // NUEVAS SLIDES: Cuestionario ANF en vivo (Coach Patrimonia)
+        // Reciben formData / onFieldChange / advisorMode desde App
         // ==========================================================
 
+        // Slide ANF: Datos generales
         const SlideANFDatos = ({ formData, onFieldChange, advisorMode }) => (
             <DocSlideContainer imageTitle=" Q & A ">
                 <SlideTag>Análisis de Necesidades Financieras</SlideTag>
@@ -494,7 +503,7 @@
                     <ClientField id="anf_nombre" label="Nombre completo" value={formData.anf_nombre} onChange={onFieldChange} />
                     <ClientField id="anf_fecha_nacimiento" label="Fecha de nacimiento" type="date" value={formData.anf_fecha_nacimiento} onChange={onFieldChange} />
                 </div>
-                <ClientField id="anf_fuma" label="¿Fuma?" type="select" options={['Sí', 'No']} value={formData.anf_fuma} onChange={onFieldChange} placeholder="Seleccione..." />
+                <ClientField id="anf_fuma" label="¿Fuma?" value={formData.anf_fuma} onChange={onFieldChange} placeholder="Sí / No" />
                 <ClientField
                     id="anf_logros_futuro"
                     label='Si nos adelantáramos 10 o 15 años y todo hubiera salido como te gustaría, ¿qué te encantaría haber logrado para ti y tu familia?'
@@ -502,9 +511,17 @@
                     value={formData.anf_logros_futuro}
                     onChange={onFieldChange}
                 />
+                <ClientField
+                    id="anf_preocupaciones"
+                    label="Y al revés: cuando piensas en ese futuro que estás construyendo, ¿hay algo que te preocupe o que sientas que podría poner en riesgo esos planes?"
+                    type="textarea"
+                    value={formData.anf_preocupaciones}
+                    onChange={onFieldChange}
+                />
             </DocSlideContainer>
         );
 
+        // Slide ANF: Retiro
         const SlideANFRetiro = ({ formData, onFieldChange, advisorMode }) => (
             <DocSlideContainer imageTitle="RETIRO">
                 <SlideTag>Nivel: Retiro</SlideTag>
@@ -514,26 +531,43 @@
                 <ClientField id="retiro_plan" label="¿Qué planea hacer en esta etapa?" type="textarea" value={formData.retiro_plan} onChange={onFieldChange} />
                 <ClientField id="retiro_monto_mensual" label="En pesos actuales, ¿cuánto considera suficiente para vivir decorosamente su retiro al mes?" value={formData.retiro_monto_mensual} onChange={onFieldChange} />
                 <ClientField id="retiro_acumulado" label="¿Cuánto tiene acumulado exclusivamente para su retiro?" value={formData.retiro_acumulado} onChange={onFieldChange} />
+                <ClientField id="retiro_tiempo_acumulo" label="¿En cuánto tiempo lo acumuló?" value={formData.retiro_tiempo_acumulo} onChange={onFieldChange} />
                 <ClientField id="retiro_capital_necesario" label="¿Ya calculó el capital necesario para jubilarse? ¿Cuánto?" type="textarea" value={formData.retiro_capital_necesario} onChange={onFieldChange} />
-                <ClientField id="retiro_interes_fiscal" label="¿Te interesaría una solución para tu retiro que tenga beneficios fiscales?" type="select" options={['Sí', 'No', 'No lo sé']} value={formData.retiro_interes_fiscal} onChange={onFieldChange} placeholder="Seleccione..." />
+                <ClientField id="retiro_interes_fiscal" label="¿Te interesaría una solución para tu retiro que tenga beneficios fiscales?" value={formData.retiro_interes_fiscal} onChange={onFieldChange} />
 
                 <AdvisorField id="retiro_motivacion" label="Motivación detectada" value={formData.retiro_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
                 <AdvisorField id="retiro_observaciones" label="Observaciones" value={formData.retiro_observaciones} onChange={onFieldChange} advisorMode={advisorMode} />
             </DocSlideContainer>
         );
 
+        // Slide ANF: Acumulación / Educación (dos columnas)
         const SlideANFAcumulacionEducacion = ({ formData, onFieldChange, advisorMode }) => (
-            <DocSlideContainer imageTitle="ACUMULACIÓN">
-                <SlideTag>Nivel: Acumulación</SlideTag>
-                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Acumulación</h3>
+            <DocSlideContainer imageTitle="ACUMULACIÓN / EDUCACIÓN">
+                <SlideTag>Niveles: Acumulación y Educación</SlideTag>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Acumulación / Educación</h3>
 
-                <div className="space-y-4">
-                    <ClientField id="acum_sistema_ahorro" label="¿Tiene un sistema disciplinado y constante de ahorro a largo plazo? ¿Cómo?" type="textarea" value={formData.acum_sistema_ahorro} onChange={onFieldChange} />
-                    <ClientField id="acum_desde_cuando" label="¿Desde hace cuánto? ¿Promedio mensual?" value={formData.acum_desde_cuando} onChange={onFieldChange} />
-                    <ClientField id="acum_instrumentos" label="¿Qué tipo de instrumentos utiliza?" value={formData.acum_instrumentos} onChange={onFieldChange} />
-                    <ClientField id="acum_monto_ahorrado" label="¿Monto ahorrado para esto?" value={formData.acum_monto_ahorrado} onChange={onFieldChange} />
-                    <ClientField id="acum_proyecto_personal" label="¿Cuál es su proyecto personal?" value={formData.acum_proyecto_personal} onChange={onFieldChange} />
-                    <ClientField id="acum_esquema" label="¿En qué tipo de esquema lo ahorra?" value={formData.acum_esquema} onChange={onFieldChange} />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold tracking-widest text-corporate-cyan uppercase">Acumulación</h4>
+                        <ClientField id="acum_sistema_ahorro" label="¿Tiene un sistema disciplinado y constante de ahorro a largo plazo? ¿Cómo?" type="textarea" value={formData.acum_sistema_ahorro} onChange={onFieldChange} />
+                        <ClientField id="acum_desde_cuando" label="¿Desde hace cuánto? ¿Promedio mensual?" value={formData.acum_desde_cuando} onChange={onFieldChange} />
+                        <ClientField id="acum_instrumentos" label="¿Qué tipo de instrumentos utiliza?" value={formData.acum_instrumentos} onChange={onFieldChange} />
+                        <ClientField id="acum_monto_ahorrado" label="¿Monto ahorrado para esto?" value={formData.acum_monto_ahorrado} onChange={onFieldChange} />
+                        <ClientField id="acum_proyecto_personal" label="¿Cuál es su proyecto personal?" value={formData.acum_proyecto_personal} onChange={onFieldChange} />
+                        <ClientField id="acum_esquema" label="¿En qué tipo de esquema lo ahorra?" value={formData.acum_esquema} onChange={onFieldChange} />
+                    </div>
+                    <div className="space-y-4">
+                        <h4 className="text-xs font-bold tracking-widest text-corporate-cyan uppercase">Educación</h4>
+                        <ClientField id="edu_universidad" label="¿Qué universidad desearía para sus hijos?" value={formData.edu_universidad} onChange={onFieldChange} />
+                        <ClientField id="edu_costo" label="¿Conoce lo que costará la educación profesional de cada hijo? ¿Cuánto en promedio?" type="textarea" value={formData.edu_costo} onChange={onFieldChange} />
+                    </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-200 space-y-4">
+                    <ClientField id="acum_que_cambiar" label="¿Qué debería cambiar para poder ahorrar lo suficiente y alcanzar sus metas?" type="textarea" value={formData.acum_que_cambiar} onChange={onFieldChange} />
+                    <ClientField id="acum_consec_sin_capital" label="¿Qué consecuencias habría si no contara con ese capital?" type="textarea" value={formData.acum_consec_sin_capital} onChange={onFieldChange} />
+                    <ClientField id="acum_consec_sin_recursos" label="¿Qué consecuencias habría si por alguna razón no contara con los recursos cuando llegue el momento?" type="textarea" value={formData.acum_consec_sin_recursos} onChange={onFieldChange} />
+                    <ClientField id="edu_fallecimiento" label="Si llegara a fallecer o incapacitarse repentinamente, ¿qué le gustaría que sucediera con la educación de sus hijos?" type="textarea" value={formData.edu_fallecimiento} onChange={onFieldChange} />
                 </div>
 
                 <AdvisorField id="acum_edu_motivacion" label="Motivación detectada" value={formData.acum_edu_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
@@ -541,6 +575,7 @@
             </DocSlideContainer>
         );
 
+        // Slide ANF: Compromiso monetario
         const SlideANFCompromiso = ({ formData, onFieldChange, advisorMode }) => (
             <DocSlideContainer imageTitle="COMPROMISO MONETARIO">
                 <SlideTag>Cierre del diagnóstico</SlideTag>
@@ -555,6 +590,7 @@
             </DocSlideContainer>
         );
 
+        // Slide ANF: Próxima cita
         const SlideANFProximaCita = ({ formData, onFieldChange, advisorMode }) => (
             <DocSlideContainer imageTitle="PRÓXIMA CITA">
                 <SlideTag>Siguiente paso</SlideTag>
@@ -574,6 +610,7 @@
             </DocSlideContainer>
         );
 
+        // Slide 6 (antes 6, ahora al final): Referidos
         const SlideReferidos = () => {
             const [rating, setRating] = useState(0);
 
@@ -651,15 +688,13 @@
             );
         };
 
-        // ==========================================================
-        // App Principal y Renderizado
-        // ==========================================================
+        // App Principal
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
             const [formData, setFormData] = useState({});
             const [advisorMode, setAdvisorMode] = useState(false);
-            const [saveStatus, setSaveStatus] = useState("idle");
-            const [citaId] = useState(getCitaId);
+            const [saveStatus, setSaveStatus] = useState("idle"); // idle | saving | ok | error
+            const citaId = React.useMemo(() => getCitaId(), []);
 
             const onFieldChange = useCallback((id, value) => {
                 setFormData(prev => ({ ...prev, [id]: value }));
@@ -687,10 +722,10 @@
                 SlideReferidos
             ];
 
-            const anfSlideIndexes = [6, 7, 8, 9, 10]; // slides del formulario
+            const anfSlideIndexes = [6, 7, 8, 9, 10]; // indices de las slides que usan formData
 
-            const nextSlide = useCallback(() => setCurrentSlide(p => Math.min(p + 1, slides.length - 1)), [slides.length]);
-            const prevSlide = useCallback(() => setCurrentSlide(p => Math.max(p - 1, 0)), []);
+            const nextSlide = () => setCurrentSlide(p => Math.min(p + 1, slides.length - 1));
+            const prevSlide = () => setCurrentSlide(p => Math.max(p - 1, 0));
 
             useEffect(() => {
                 const isTypingInField = () => {
@@ -699,19 +734,13 @@
                            (document.activeElement && document.activeElement.isContentEditable);
                 };
                 const handleKeyDown = (e) => {
-                    if (isTypingInField()) return;
-                    if (e.key === 'ArrowRight' || e.key === ' ') {
-                        e.preventDefault();
-                        nextSlide();
-                    }
-                    if (e.key === 'ArrowLeft') {
-                        e.preventDefault();
-                        prevSlide();
-                    }
+                    if (isTypingInField()) return; // no navegar mientras se captura texto
+                    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+                    if (e.key === 'ArrowLeft') prevSlide();
                 };
                 window.addEventListener('keydown', handleKeyDown);
                 return () => window.removeEventListener('keydown', handleKeyDown);
-            }, [nextSlide, prevSlide]);
+            }, []);
 
             const CurrentSlideComponent = slides[currentSlide];
             const isANFSlide = anfSlideIndexes.includes(currentSlide);
@@ -746,6 +775,7 @@
                         </AnimatePresence>
                     </div>
 
+                    {/* Controles de asesor: solo visibles/relevantes en las slides ANF */}
                     {isANFSlide && (
                         <div className="absolute top-6 left-6 flex items-center gap-2 z-50">
                             <button
