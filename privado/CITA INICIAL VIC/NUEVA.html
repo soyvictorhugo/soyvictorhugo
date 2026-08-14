@@ -500,7 +500,7 @@
                 <ClientField id="anf_fuma" label="¿Fuma?" type="select" options={['Sí', 'No']} value={formData.anf_fuma} onChange={onFieldChange} placeholder="Seleccione..." />
                 <ClientField
                     id="anf_logros_futuro"
-                    label='Si nos adelantáramos 10 o 15 años y todo hubiera salido como te gustaría, ¿qué te encantaría haber logrado para ti y tu familia?'
+                    label='Si nos adelantáramos 20 años y todo hubiera salido como te gustaría, ¿qué te encantaría haber logrado para ti y tu familia?'
                     type="textarea"
                     value={formData.anf_logros_futuro}
                     onChange={onFieldChange}
@@ -511,13 +511,13 @@
         const SlideANFRetiro = ({ formData, onFieldChange, advisorMode }) => (
             <DocSlideContainer imageTitle="RETIRO">
                 <SlideTag>Nivel: Retiro</SlideTag>
-                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Plan de retiro</h3>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Plan de Retiro</h3>
 
-                <ClientField id="retiro_edad" label='¿A qué edad le gustaría "retirarse financieramente"?' value={formData.retiro_edad} onChange={onFieldChange} />
-                <ClientField id="retiro_plan" label="¿Qué planea hacer en esta etapa?" type="textarea" value={formData.retiro_plan} onChange={onFieldChange} />
-                <ClientField id="retiro_monto_mensual" label="En pesos actuales, ¿cuánto considera suficiente para vivir decorosamente su retiro al mes?" value={formData.retiro_monto_mensual} onChange={onFieldChange} />
-                <ClientField id="retiro_acumulado" label="¿Cuánto tiene acumulado exclusivamente para su retiro?" value={formData.retiro_acumulado} onChange={onFieldChange} />
-                <ClientField id="retiro_capital_necesario" label="¿Ya calculó el capital necesario para jubilarse? ¿Cuánto?" type="textarea" value={formData.retiro_capital_necesario} onChange={onFieldChange} />
+                <ClientField id="retiro_edad" label='¿A qué edad te gustaría "retirarte financieramente"?' value={formData.retiro_edad} onChange={onFieldChange} />
+                <ClientField id="retiro_plan" label="¿Qué planeas hacer en esa etapa?" type="textarea" value={formData.retiro_plan} onChange={onFieldChange} />
+                <ClientField id="retiro_monto_mensual" label="En pesos actuales, ¿cuánto consideras suficiente para vivir al mes decorosamente en tu retiro?" value={formData.retiro_monto_mensual} onChange={onFieldChange} />
+                <ClientField id="retiro_acumulado" label="¿Tienes un monto acumulado actualmente destinado para el retiro?" value={formData.retiro_acumulado} onChange={onFieldChange} />
+                <ClientField id="retiro_capital_necesario" label="¿Ya calculaste el capital necesario para jubilación? ¿Cuánto?" type="textarea" value={formData.retiro_capital_necesario} onChange={onFieldChange} />
                 <ClientField id="retiro_interes_fiscal" label="¿Te interesaría una solución para tu retiro que tenga beneficios fiscales?" type="select" options={['Sí', 'No', 'No lo sé']} value={formData.retiro_interes_fiscal} onChange={onFieldChange} placeholder="Seleccione..." />
 
                 <AdvisorField id="retiro_motivacion" label="Motivación detectada" value={formData.retiro_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
@@ -526,17 +526,17 @@
         );
 
         const SlideANFAcumulacionEducacion = ({ formData, onFieldChange, advisorMode }) => (
-            <DocSlideContainer imageTitle="ACUMULACIÓN">
+            <DocSlideContainer imageTitle="ACUMULACIÓN + EDUCACION">
                 <SlideTag>Nivel: Acumulación</SlideTag>
-                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Acumulación</h3>
+                <h3 className="font-heading text-3xl font-bold text-corporate-navy mb-6">Acumulación + Educación</h3>
 
                 <div className="space-y-4">
-                    <ClientField id="acum_sistema_ahorro" label="¿Tiene un sistema disciplinado y constante de ahorro a largo plazo? ¿Cómo?" type="textarea" value={formData.acum_sistema_ahorro} onChange={onFieldChange} />
+                    <ClientField id="acum_sistema_ahorro" label="¿Tienes hoy como hábito constante de ahorro a mediano / largo plazo?" type="textarea" value={formData.acum_sistema_ahorro} onChange={onFieldChange} />
                     <ClientField id="acum_desde_cuando" label="¿Desde hace cuánto? ¿Promedio mensual?" value={formData.acum_desde_cuando} onChange={onFieldChange} />
-                    <ClientField id="acum_instrumentos" label="¿Qué tipo de instrumentos utiliza?" value={formData.acum_instrumentos} onChange={onFieldChange} />
-                    <ClientField id="acum_monto_ahorrado" label="¿Monto ahorrado para esto?" value={formData.acum_monto_ahorrado} onChange={onFieldChange} />
-                    <ClientField id="acum_proyecto_personal" label="¿Cuál es su proyecto personal?" value={formData.acum_proyecto_personal} onChange={onFieldChange} />
-                    <ClientField id="acum_esquema" label="¿En qué tipo de esquema lo ahorra?" value={formData.acum_esquema} onChange={onFieldChange} />
+                    <ClientField id="acum_instrumentos" label="¿Qué tipo de instrumentos utilizas?" value={formData.acum_instrumentos} onChange={onFieldChange} />
+                    <ClientField id="acum_monto_ahorrado" label="¿Monto ahorrado hoy?" value={formData.acum_monto_ahorrado} onChange={onFieldChange} />
+                    <ClientField id="acum_proyecto_personal" label="¿Cuál es hoy un proyecto personal?" value={formData.acum_proyecto_personal} onChange={onFieldChange} />
+                    <ClientField id="acum_esquema" label="¿Que meta financiera o sueño quieres lograr si o sí?" value={formData.acum_esquema} onChange={onFieldChange} />
                 </div>
 
                 <AdvisorField id="acum_edu_motivacion" label="Motivación detectada" value={formData.acum_edu_motivacion} onChange={onFieldChange} advisorMode={advisorMode} />
