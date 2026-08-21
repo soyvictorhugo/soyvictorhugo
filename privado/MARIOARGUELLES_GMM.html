@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Protección - Mario Arguelles</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            gray: '#F3F4F6',
+                            emerald: '#10B981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(0, 51, 102, 0.1);
+        }
+
+        .bg-gradient-smnyl {
+            background: linear-gradient(135deg, #003366 0%, #0055A5 100%);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0055A5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #003366; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-gold selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-smnyl-blue text-3xl"></i>
+                    <span class="font-heading font-bold text-xl text-smnyl-blue">SMNYL <span class="font-light text-gray-500">| Asesoría</span></span>
+                </div>
+                <div class="hidden lg:flex space-x-6">
+                    <a href="#inicio" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Inicio</a>
+                    <a href="#perfil" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Perfil</a>
+                    <a href="#gastos-medicos" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Gastos Médicos</a>
+                    <a href="#retiro" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Plan de Retiro</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="bg-blue-50 px-3 py-2 rounded-lg border border-blue-100 flex flex-col items-start gap-0.5">
+                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Tipo de Cambio</span>
+                        <div class="flex gap-3 text-xs font-semibold text-gray-700">
+                            <span class="pl-3"><i class="fa-solid fa-coins text-smnyl-gold"></i> UDI: 8.80</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-smnyl">
+        <div class="absolute inset-0 opacity-10">
+            <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <defs>
+                    <pattern id="pattern_grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#pattern_grid)" />
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-white/20 text-white text-sm font-semibold tracking-wider mb-4 border border-white/30 backdrop-blur-sm">
+                PROPUESTA DE PROTECCIÓN INTEGRAL
+            </span>
+            <h1 class="font-heading text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Protegiendo la salud y el futuro de <br>
+                <span class="text-smnyl-gold">Mario Arguelles</span>
+            </h1>
+            <p class="mt-4 text-xl text-blue-100 max-w-2xl mx-auto font-light">
+                Una estrategia diseñada a la medida para garantizar tu tranquilidad ante imprevistos médicos y blindar tu independencia financiera para el retiro.
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#gastos-medicos" class="px-8 py-4 rounded-full bg-white text-smnyl-blue font-semibold hover:bg-gray-100 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Ver Estrategia
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-heading text-3xl font-bold text-smnyl-blue">Perfil del Asegurado</h2>
+                <div class="w-24 h-1 bg-smnyl-gold mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 text-center reveal border border-gray-100 hover:shadow-xl transition-shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10 opacity-50"></div>
+                <div class="w-24 h-24 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+                    <i class="fa-solid fa-user-tie text-4xl text-smnyl-light"></i>
+                </div>
+                <h3 class="font-heading font-bold text-2xl text-gray-800">Mario Arguelles</h3>
+                <div class="inline-block px-3 py-1 bg-smnyl-blue text-white rounded-full text-xs font-semibold my-3">Titular</div>
+                <p class="text-smnyl-light font-medium text-lg">37 años</p>
+                <p class="text-gray-500 text-sm mt-4 px-4 max-w-lg mx-auto">Análisis de alternativas para Seguro de Gastos Médicos Mayores (Alfa Medical) y proyección de Plan Personal de Retiro (Imagina Ser) con beneficios fiscales.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gastos-medicos" class="py-20 bg-smnyl-gray relative border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-light font-semibold uppercase tracking-wider text-sm"><i class="fa-solid fa-notes-medical mr-2"></i>Protección Salud</span>
+                <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-2">Seguro de Gastos Médicos Mayores</h2>
+                <p class="text-gray-600 mt-3 max-w-2xl mx-auto">Alternativas diseñadas para brindarte acceso a la mejor atención médica hospitalaria. Suma Asegurada: $170,000,000 MXN.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal max-w-5xl mx-auto">
+                
+                <!-- GMM Plan Pleno 65k -->
+                <div class="bg-white rounded-2xl shadow-xl border-t-4 border-smnyl-light flex flex-col w-full transform md:scale-105 z-10 relative">
+                    <div class="absolute -top-4 inset-x-0 flex justify-center">
+                        <span class="bg-smnyl-light text-white text-xs font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">Plan Pleno A</span>
+                    </div>
+                    <div class="p-6 border-b border-gray-100 text-center mt-2">
+                        <h3 class="font-heading text-xl font-bold text-gray-800">Cobertura Nacional</h3>
+                        <p class="text-sm text-smnyl-light font-medium mt-1">Tabulador Gamma</p>
+                    </div>
+                    <div class="p-6 flex-grow text-center">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide mb-1">Deducible</p>
+                        <p class="text-4xl font-bold text-smnyl-blue">$65,000 <span class="text-sm font-normal text-gray-500">MXN</span></p>
+                        
+                        <div class="my-6 space-y-3 text-sm text-gray-600 text-left bg-blue-50 p-4 rounded-xl border border-blue-100">
+                            <div class="flex justify-between"><span>Coaseguro:</span> <span class="font-semibold">10%</span></div>
+                            <div class="flex justify-between"><span>Tope Coaseguro:</span> <span class="font-semibold">$97,000</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-smnyl-blue p-6 text-center rounded-b-xl">
+                        <p class="text-xs text-blue-200 uppercase font-semibold">Prima Total Anual</p>
+                        <p class="text-3xl font-heading font-bold text-white mt-1">$19,884.19</p>
+                    </div>
+                </div>
+
+                <!-- GMM Plan Pleno 77k -->
+                <div class="bg-white rounded-2xl shadow-xl border-t-4 border-smnyl-gold flex flex-col w-full transform md:scale-105 z-10 relative">
+                    <div class="absolute -top-4 inset-x-0 flex justify-center">
+                        <span class="bg-smnyl-gold text-white text-xs font-bold px-4 py-1 rounded-full shadow-md uppercase tracking-wider">Plan Pleno B</span>
+                    </div>
+                    <div class="p-6 border-b border-gray-100 text-center mt-2">
+                        <h3 class="font-heading text-xl font-bold text-gray-800">Cobertura Nacional</h3>
+                        <p class="text-sm text-smnyl-gold font-medium mt-1">Tabulador Gamma</p>
+                    </div>
+                    <div class="p-6 flex-grow text-center">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide mb-1">Deducible</p>
+                        <p class="text-4xl font-bold text-smnyl-blue">$77,000 <span class="text-sm font-normal text-gray-500">MXN</span></p>
+                        
+                        <div class="my-6 space-y-3 text-sm text-gray-600 text-left bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+                            <div class="flex justify-between"><span>Coaseguro:</span> <span class="font-semibold">10%</span></div>
+                            <div class="flex justify-between"><span>Tope Coaseguro:</span> <span class="font-semibold">$97,000</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-smnyl-blue p-6 text-center rounded-b-xl">
+                        <p class="text-xs text-blue-200 uppercase font-semibold">Prima Total Anual</p>
+                        <p class="text-3xl font-heading font-bold text-white mt-1">$18,643.66</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 bg-white rounded-xl p-6 shadow-sm border border-gray-100 reveal max-w-5xl mx-auto">
+                <h4 class="font-heading font-semibold text-lg text-smnyl-blue mb-4"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Beneficios Incluidos en tu Póliza Médica</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-smnyl-gold mt-1"></i>
+                        <span>Orientación médica, nutricional y psicológica 24/7.</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-smnyl-gold mt-1"></i>
+                        <span>Asistencia en viajes y ambulancia terrestre ilimitada.</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-smnyl-gold mt-1"></i>
+                        <span>Beneficios dentales (limpiezas y flúor anual sin costo).</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-smnyl-gold mt-1"></i>
+                        <span>Renovación vitalicia garantizada.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="retiro" class="py-20 bg-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-40 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-smnyl-emerald blur-3xl opacity-10"></div>
+            <div class="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-smnyl-light blur-3xl opacity-10"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-emerald font-semibold uppercase tracking-wider text-sm"><i class="fa-solid fa-chart-line mr-2"></i>Estrategia Patrimonial y Fiscal</span>
+                <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-2">Plan Personal de Retiro (PPR)</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Una estrategia en UDIS (inmune a la inflación) diseñada para generar riqueza a largo plazo mediante interés compuesto, con la gran ventaja de hacer deducibles tus aportaciones ante el SAT (Art. 151 LISR).</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto reveal">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden flex flex-col md:flex-row group transition-all">
+                    <!-- Detalle del Plan -->
+                    <div class="bg-gradient-smnyl p-8 md:w-2/5 flex flex-col justify-center relative overflow-hidden text-white">
+                        <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                            <i class="fa-solid fa-piggy-bank"></i>
+                        </div>
+                        <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block backdrop-blur-sm border border-white/30 w-max">IMAGINA SER 65</span>
+                        <h3 class="font-heading text-2xl font-bold mb-2">Aportaciones limitadas a 15 años</h3>
+                        <p class="text-blue-100 text-sm mt-4">Ahorra solo durante tus años de mayor productividad (hasta los 52 años) y deja que el fondo crezca solo hasta tu edad de retiro.</p>
+                    </div>
+                    
+                    <!-- Números del PPR -->
+                    <div class="p-8 md:w-3/5 flex flex-col justify-center">
+                        <div class="mb-6 pb-6 border-b border-gray-100">
+                            <p class="text-sm text-gray-500 uppercase tracking-wide">Aportación Base Anual</p>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <p class="font-heading text-4xl font-bold text-gray-800">4,058 <span class="text-xl text-gray-500 font-normal">UDI</span></p>
+                            </div>
+                            <p class="text-sm text-green-600 font-medium mt-2"><i class="fa-solid fa-money-bill-wave"></i> Equivalente a ~$35,710 MXN anuales</p>
+                        </div>
+
+                        <ul class="space-y-4 text-sm text-gray-600">
+                            <li class="flex items-start"><i class="fa-solid fa-hand-holding-dollar text-smnyl-emerald mt-1 mr-3 text-lg"></i> <div><strong>Beneficio Fiscal:</strong> Recupera hasta un 30% de tu aportación cada año en tu declaración anual al SAT.</div></li>
+                            <li class="flex items-start"><i class="fa-solid fa-shield-halved text-smnyl-emerald mt-1 mr-3 text-lg"></i> <div><strong>Protección Inmediata:</strong> Estás asegurado por Invalidez y Fallecimiento desde el primer día por 75,000 UDI (~$660,000 MXN).</div></li>
+                            <li class="flex items-start"><i class="fa-solid fa-arrow-trend-up text-smnyl-emerald mt-1 mr-3 text-lg"></i> <div><strong>Blindaje Inflacionario:</strong> Al estar en UDIS, tu dinero no pierde valor en el tiempo.</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12 border-t-4 border-smnyl-gold mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center gap-2 justify-center md:justify-start mb-2">
+                        <i class="fa-solid fa-shield-halved text-smnyl-gold text-2xl"></i>
+                        <span class="font-heading font-bold text-xl">Seguros Monterrey New York Life</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Protegiendo Mejor® a las familias mexicanas.</p>
+                    <p class="text-gray-500 text-xs mt-4 max-w-lg">
+                        * Los valores mostrados son de carácter ilustrativo basados en las cotizaciones generadas el 20 y 21 de agosto de 2026. La emisión está sujeta a las condiciones generales de la aseguradora. Tipos de cambio referenciales: UDI $8.80 MXN.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 w-full md:w-auto text-center md:text-right">
+                    <p class="text-smnyl-gold text-sm font-semibold uppercase tracking-wider mb-2">Tu Asesor Profesional</p>
+                    <p class="font-heading text-lg font-bold">Victor Hugo Diaz Martinez de Escobar</p>
+                    <div class="mt-4 flex flex-col gap-2 text-sm text-gray-300">
+                        <a href="mailto:vhdiazme@gmail.com" class="hover:text-white transition"><i class="fa-solid fa-envelope mr-2"></i> vic@patrimoniaseguros.com</a>
+                        <p><i class="fa-solid fa-id-badge mr-2"></i> Clave: 76175</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/90', 'bg-white');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white', 'bg-white/90');
+            }
+        });
+    </script>
+</body>
+</html>
