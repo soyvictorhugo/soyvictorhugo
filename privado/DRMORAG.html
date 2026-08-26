@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Personal de Retiro - Dr. Daniel Mora</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            gray: '#F3F4F6',
+                            emerald: '#10B981',
+                            teal: '#0F766E'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px -5px rgba(0, 51, 102, 0.08);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 51, 102, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bg-hero-gradient {
+            background: linear-gradient(-45deg, #003366, #0055A5, #0F766E, #003366);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: linear-gradient(to bottom, #D4AF37, #0055A5);
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                top: 50%;
+                left: 0;
+                right: 0;
+                bottom: auto;
+                height: 2px;
+                width: 100%;
+                background: linear-gradient(to right, #D4AF37, #0055A5);
+            }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0055A5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #003366; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-emerald selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3 hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-user-doctor text-smnyl-emerald text-3xl"></i>
+                    <span class="font-heading font-bold text-xl text-smnyl-blue">SMNYL <span class="font-light text-gray-500">| Asesoría</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#estrategia" class="text-sm font-medium text-gray-600 hover:text-smnyl-emerald transition">La Estrategia</a>
+                    <a href="#portafolio" class="text-sm font-medium text-gray-600 hover:text-smnyl-emerald transition">Portafolio Actual</a>
+                    <a href="#proyeccion" class="text-sm font-medium text-gray-600 hover:text-smnyl-emerald transition">Proyección</a>
+                </div>
+                <div class="flex items-center">
+                    <div class="bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-coins text-smnyl-emerald"></i>
+                        <span class="text-xs font-bold text-emerald-800 tracking-wide">UDI REFERENCIA: $8.80 MXN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-hero-gradient">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-20 w-64 h-64 bg-smnyl-emerald rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-left">
+                    <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/10 text-white text-sm font-semibold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-lg">
+                        <i class="fa-solid fa-stethoscope text-yellow-300"></i> PROTECCIÓN Y RETIRO
+                    </div>
+                    <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                        Un retiro a la altura de tu trayectoria, <span class="text-transparent bg-clip-text bg-gradient-to-r from-smnyl-gold to-yellow-200">Doctor.</span>
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8 font-light max-w-lg leading-relaxed">
+                        Aprovecha tus 47 años: Realiza aportaciones concentradas durante <strong>solo 10 años</strong>, obteniendo beneficios fiscales hoy y garantizando tu libertad financiera a los 65.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#estrategia" class="px-8 py-4 rounded-full bg-white text-smnyl-blue font-bold hover:bg-gray-50 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] transform hover:-translate-y-1">
+                            Conocer la Estrategia
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative w-full max-w-md mx-auto lg:ml-auto animate-float">
+                    <div class="glass-dark rounded-3xl p-8 shadow-2xl relative overflow-hidden border-t-4 border-smnyl-emerald">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-smnyl-emerald blur-3xl opacity-30 rounded-full"></div>
+                        
+                        <div class="flex items-center justify-between mb-8 border-b border-white/20 pb-4">
+                            <div class="flex items-center gap-3 text-white">
+                                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md">
+                                    <i class="fa-solid fa-user-doctor text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-blue-200 uppercase tracking-wider text-[10px] font-bold">Titular</p>
+                                    <p class="font-heading font-semibold text-lg">Dr. Daniel Mora García</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-3xl font-bold text-white">47 <span class="text-sm font-normal text-blue-200">años</span></p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-1">Plan Seleccionado</p>
+                                <p class="text-2xl text-white font-heading font-bold">Imagina Ser 65</p>
+                                <div class="mt-2 inline-block px-3 py-1 bg-smnyl-gold/20 border border-smnyl-gold/50 rounded-md text-smnyl-gold text-xs font-bold">
+                                    Pagos Limitados a 10 Años
+                                </div>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-white/10 flex justify-between items-end">
+                                <div>
+                                    <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-1">Aportación Anual</p>
+                                    <p class="text-3xl text-smnyl-emerald font-heading font-bold drop-shadow-lg">
+                                        7,527 <span class="text-sm font-normal text-white">UDI</span>
+                                    </p>
+                                    <p class="text-xs text-blue-200 mt-1">~ $66,237 MXN</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-blue-200 text-[10px] uppercase font-bold mb-1">Suma Asegurada</p>
+                                    <p class="text-lg font-bold text-white">85,000 UDI</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="estrategia" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-emerald font-bold uppercase tracking-widest text-sm">Estructura del Plan</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Los 3 Pilares de tu Estrategia</h2>
+                <div class="w-24 h-1.5 bg-smnyl-gold mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+                <div class="glass-card rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 relative group overflow-hidden border-t-4 border-smnyl-blue">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-50 rounded-full z-0 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-smnyl-blue text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg">
+                            <i class="fa-solid fa-stopwatch-20"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Esfuerzo Concentrado</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Aportas únicamente durante una década (<strong>de los 47 a los 56 años</strong>). Al cumplir 57 años dejas de pagar, y tu fondo de reserva sigue madurando y generando rendimientos hasta tu retiro a los 65.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 relative group overflow-hidden border-t-4 border-smnyl-gold">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-yellow-50 rounded-full z-0 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-smnyl-gold text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg">
+                            <i class="fa-solid fa-money-bill-trend-up"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Blindaje Anti-Inflación</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Al ahorrar en <strong>UDIS (Unidades de Inversión)</strong>, garantizas que tu dinero mantenga y aumente su poder adquisitivo a lo largo de los años. Tu fondo crece por encima de la inflación oficial.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 relative group overflow-hidden border-t-4 border-smnyl-emerald">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-50 rounded-full z-0 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 bg-smnyl-emerald text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Protección Inmediata</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Desde la firma de la póliza cuentas con un capital de respaldo de <strong>85,000 UDI</strong> (Aprox. $748,000 MXN) ante Invalidez Total y Permanente o Fallecimiento, brindando paz mental a tu familia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portafolio" class="py-24 bg-smnyl-gray relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-emerald font-bold uppercase tracking-widest text-sm">Consolidación de Portafolio</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Estrategia con tus Pólizas Actuales</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Implementamos una reestructuración inteligente para optimizar tus recursos, garantizando tus prioridades familiares y liberando flujo de efectivo.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+                
+                <!-- SeguBeca -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-t-4 border-smnyl-blue hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 right-0 bg-blue-50 text-smnyl-blue text-xs font-bold px-4 py-2 rounded-bl-2xl">CONTINÚAN PAGOS</div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 bg-blue-100 text-smnyl-blue rounded-full flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">SeguBeca</h3>
+                            <p class="text-sm text-gray-500 font-medium">Para Luis Daniel</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-5 space-y-4">
+                        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                            <p class="text-xs text-smnyl-blue uppercase tracking-wide font-bold mb-1">Fondo Universitario (Edad 18)</p>
+                            <p class="font-heading text-3xl font-bold text-smnyl-blue mt-1">80,000 <span class="text-lg text-gray-500 font-normal">UDI</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Aprox. $704,000 MXN</p>
+                        </div>
+
+                        <div class="px-2">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Protección por Fallecimiento (Titular)</p>
+                            <p class="font-heading text-2xl font-bold text-gray-700">240,000 <span class="text-sm text-gray-500 font-normal">UDI</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Aprox. $2,112,000 MXN</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 mt-auto">
+                        <p class="text-sm text-gray-600 leading-relaxed"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Mantienes las aportaciones de este plan para garantizar íntegramente el futuro de Luis Daniel.</p>
+                    </div>
+                </div>
+
+                <!-- Nuevo Plenitud -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-t-4 border-smnyl-gold hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-yellow-50 text-yellow-700 text-xs font-bold px-4 py-2 rounded-bl-2xl">SEGURO PRORROGADO</div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 bg-yellow-100 text-smnyl-gold rounded-full flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">Nuevo Plenitud</h3>
+                            <p class="text-sm text-gray-500 font-medium">Protección Vida</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-500 uppercase tracking-wide">Suma Asegurada</p>
+                        <p class="font-heading text-4xl font-bold text-smnyl-gold mt-1">190,000 <span class="text-xl text-gray-500 font-normal">UDI</span></p>
+                        <p class="text-sm text-gray-500 mt-1">Aprox. $1,672,000 MXN</p>
+                    </div>
+
+                    <div class="bg-yellow-50/50 rounded-xl p-5 border border-yellow-200">
+                        <p class="text-sm text-gray-800 font-semibold mb-2"><i class="fa-solid fa-pause text-smnyl-gold mr-2"></i> Estrategia de Liberación:</p>
+                        <p class="text-sm text-gray-600 leading-relaxed">Esta póliza <strong>no se cancela</strong>. Se convierte en un Seguro Prorrogado, por lo que mantienes tu protección por los próximos 10 a 13 años (aprox.), <strong>pero ya no realizarás más pagos</strong>.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="proyeccion" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-blue font-bold uppercase tracking-widest text-sm">Línea del Tiempo</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-gray-800 mt-2">La Evolución de tu Patrimonio</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Un horizonte claro a 18 años donde tu capital trabaja duro mientras tú te enfocas en tu profesión.</p>
+            </div>
+
+            <div class="relative timeline-line reveal mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    
+                    <!-- Etapa 1 -->
+                    <div class="flex md:flex-col items-start md:items-center gap-6 md:gap-4 group">
+                        <div class="w-14 h-14 rounded-full bg-white border-4 border-smnyl-blue flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-blue text-lg">47</span>
+                        </div>
+                        <div class="md:text-center bg-gray-50 p-6 rounded-2xl border border-gray-200 w-full hover:shadow-lg transition-shadow relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-bl-lg">Hoy</div>
+                            <span class="text-xs font-bold text-smnyl-blue uppercase tracking-wider">Inicio del Plan</span>
+                            <h4 class="font-heading font-bold text-lg mt-1 mb-2">Comienza la siembra</h4>
+                            <p class="text-sm text-gray-600 mb-4">Inicias con una aportación de 7,527 UDI. Automáticamente cuentas con el respaldo de Invalidez y Fallecimiento por 85,000 UDI.</p>
+                            <div class="bg-white border border-gray-200 py-2 px-3 rounded-lg text-xs font-medium text-gray-500 text-center shadow-sm">
+                                Aportación concentrada (Año 1-10)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Etapa 2 -->
+                    <div class="flex md:flex-col items-start md:items-center gap-6 md:gap-4 group" style="transition-delay: 150ms;">
+                        <div class="w-14 h-14 rounded-full bg-white border-4 border-smnyl-gold flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-gold text-lg">56</span>
+                        </div>
+                        <div class="md:text-center bg-gray-50 p-6 rounded-2xl border border-gray-200 w-full hover:shadow-lg transition-shadow relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-bl-lg">Fin de pagos</div>
+                            <span class="text-xs font-bold text-smnyl-gold uppercase tracking-wider">Año 10</span>
+                            <h4 class="font-heading font-bold text-lg mt-1 mb-2">Misión Cumplida</h4>
+                            <p class="text-sm text-gray-600 mb-4">Realizas tu aportación final. Históricamente habrás aportado 75,270 UDI. A partir de tus 57 años, tu póliza queda "pagada en su totalidad".</p>
+                            <div class="bg-white border border-yellow-200 py-2 px-3 rounded-lg text-xs font-bold text-smnyl-gold text-center shadow-sm">
+                                Tu dinero empieza a madurar solo
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Etapa 3 -->
+                    <div class="flex md:flex-col items-start md:items-center gap-6 md:gap-4 group" style="transition-delay: 300ms;">
+                        <div class="w-16 h-16 rounded-full bg-smnyl-emerald border-4 border-white flex items-center justify-center shrink-0 shadow-2xl group-hover:scale-110 transition-transform z-10 text-white relative">
+                            <div class="absolute inset-0 rounded-full animate-ping bg-smnyl-emerald opacity-20"></div>
+                            <span class="font-bold text-xl">65</span>
+                        </div>
+                        <div class="md:text-center bg-gradient-to-br from-emerald-50 to-white p-6 rounded-2xl border-2 border-emerald-200 w-full hover:shadow-xl transition-all shadow-md transform md:-translate-y-2 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-smnyl-emerald text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase">La Cosecha</div>
+                            <span class="text-xs font-bold text-smnyl-emerald uppercase tracking-wider">Año 18</span>
+                            <h4 class="font-heading font-bold text-xl mt-1 mb-2 text-gray-800">Libertad Financiera</h4>
+                            <p class="text-sm text-gray-600 mb-4">Tu fondo de reserva creció por 8 años adicionales sin tocarlo. Tienes a tu disposición un excelente capital de rescate.</p>
+                            <div class="bg-smnyl-emerald py-3 px-3 rounded-xl text-sm font-bold text-white text-center shadow-inner relative overflow-hidden">
+                                <div class="absolute top-0 right-0 opacity-10 text-4xl"><i class="fa-solid fa-sack-dollar"></i></div>
+                                Valor de Rescate Proyectado:<br>
+                                <span class="text-3xl font-heading tracking-wide mt-1 block">75,125 UDI</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-3 font-medium bg-gray-100 p-2 rounded">* Recuerda que al sumar la recuperación de impuestos anual (aprox. 22,580 UDI en total), tu costo real neto fue de solo ~52,690 UDI.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-gray-50 rounded-2xl p-8 border border-gray-200 reveal shadow-sm">
+                <h4 class="font-heading font-bold text-xl text-gray-800 mb-6 border-b pb-4"><i class="fa-solid fa-shield-cat text-smnyl-blue mr-2"></i> Protecciones Garantizadas Incluidas</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex gap-4 items-start">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-smnyl-blue shrink-0 shadow-inner">
+                            <i class="fa-solid fa-wheelchair text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">Invalidez Total (BAIT / BIT)</p>
+                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">Si sufres invalidez total, recibes de inmediato <strong>85,000 UDI</strong> en efectivo. Además, Seguros Monterrey liquida las aportaciones faltantes de tus 10 años, garantizando que tu fondo de retiro siga creciendo hasta los 65.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 items-start">
+                        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 shrink-0 shadow-inner">
+                            <i class="fa-solid fa-car-burst text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800 text-sm">Muerte Accidental (BMA)</p>
+                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">En caso de fallecimiento por un accidente, tus beneficiarios reciben una indemnización extra de <strong>85,000 UDI</strong>, sumada al beneficio básico por fallecimiento.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-14 border-t-4 border-smnyl-emerald">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-2 justify-center md:justify-start mb-4">
+                        <i class="fa-solid fa-landmark-dome text-smnyl-emerald text-3xl"></i>
+                        <span class="font-heading font-bold text-2xl tracking-wide">Seguros Monterrey</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium">New York Life</p>
+                    <p class="text-gray-500 text-[11px] mt-6 max-w-xl leading-relaxed">
+                        * Los valores mostrados son ilustrativos basados en la cotización generada el 25 de agosto de 2026. Tasa de interés hipotética utilizada en proyección: 3.95%. Las cantidades están expresadas en UDI. Tipo de cambio ilustrativo $8.80 MXN. Las devoluciones de impuestos dependen estrictamente de la situación fiscal individual del asegurado ante el SAT y los topes de ley vigentes.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700 w-full md:w-auto shadow-2xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-smnyl-emerald text-xs font-bold uppercase tracking-widest mb-3">Tu Asesor Patrimonial</p>
+                        <p class="font-heading text-xl font-bold mb-1">Victor Hugo Diaz Martinez de Escobar</p>
+                        <p class="text-gray-400 text-sm mb-6">Diseñando estrategias a tu medida.</p>
+                        
+                        <div class="flex flex-col gap-3 text-sm text-gray-300">
+                            <a href="mailto:vhdiazme@gmail.com" class="flex items-center gap-3 hover:text-white transition group/link">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center group-hover/link:bg-smnyl-emerald transition-colors">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                vhdiazme@gmail.com
+                            </a>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-id-badge"></i>
+                                </div>
+                                Clave SMNYL: 76175
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 120;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        setTimeout(reveal, 200);
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+    </script>
+</body>
+</html>
