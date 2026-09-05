@@ -6,6 +6,7 @@
     <title>Plan Personal de Retiro - Dr. Daniel Mora</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -129,7 +130,7 @@
                 <div class="flex items-center">
                     <div class="bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 flex items-center gap-2 shadow-sm">
                         <i class="fa-solid fa-coins text-smnyl-emerald"></i>
-                        <span class="text-xs font-bold text-emerald-800 tracking-wide">UDI REFERENCIA: $8.80 MXN</span>
+                        <span class="text-xs font-bold text-emerald-800 tracking-wide">UDI REFERENCIA: $8.81 MXN</span>
                     </div>
                 </div>
             </div>
@@ -193,13 +194,13 @@
                                 <div>
                                     <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-1">Aportación Anual</p>
                                     <p class="text-3xl text-smnyl-emerald font-heading font-bold drop-shadow-lg">
-                                        7,527 <span class="text-sm font-normal text-white">UDI</span>
+                                        7,970 <span class="text-sm font-normal text-white">UDI</span>
                                     </p>
-                                    <p class="text-xs text-blue-200 mt-1">~ $66,237 MXN</p>
+                                    <p class="text-xs text-blue-200 mt-1">~ $70,215 MXN</p>
                                 </div>
                                 <div class="text-right">
                                     <p class="text-blue-200 text-[10px] uppercase font-bold mb-1">Suma Asegurada</p>
-                                    <p class="text-lg font-bold text-white">85,000 UDI</p>
+                                    <p class="text-lg font-bold text-white">90,000 UDI</p>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +253,7 @@
                         </div>
                         <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Protección Inmediata</h3>
                         <p class="text-gray-600 text-sm leading-relaxed">
-                            Desde la firma de la póliza cuentas con un capital de respaldo de <strong>85,000 UDI</strong> (Aprox. $748,000 MXN) ante Invalidez Total y Permanente o Fallecimiento, brindando paz mental a tu familia.
+                            Desde la firma de la póliza cuentas con un capital de respaldo de <strong>90,000 UDI</strong> (Aprox. $792,900 MXN) ante Invalidez Total y Permanente o Fallecimiento, brindando paz mental a tu familia.
                         </p>
                     </div>
                 </div>
@@ -272,7 +273,7 @@
                 
                 <!-- SeguBeca -->
                 <div class="bg-white rounded-3xl p-8 shadow-lg border-t-4 border-smnyl-blue hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute top-0 right-0 bg-blue-50 text-smnyl-blue text-xs font-bold px-4 py-2 rounded-bl-2xl">CONTINÚAN PAGOS</div>
+                    <div class="absolute top-0 right-0 bg-blue-50 text-smnyl-blue text-xs font-bold px-4 py-2 rounded-bl-2xl">CONTINÚA AHORRO</div>
                     <div class="flex items-center gap-4 mb-6">
                         <div class="w-14 h-14 bg-blue-100 text-smnyl-blue rounded-full flex items-center justify-center text-2xl">
                             <i class="fa-solid fa-graduation-cap"></i>
@@ -287,43 +288,58 @@
                         <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
                             <p class="text-xs text-smnyl-blue uppercase tracking-wide font-bold mb-1">Fondo Universitario (Edad 18)</p>
                             <p class="font-heading text-3xl font-bold text-smnyl-blue mt-1">80,000 <span class="text-lg text-gray-500 font-normal">UDI</span></p>
-                            <p class="text-xs text-gray-500 mt-1">Aprox. $704,000 MXN</p>
+                            <p class="text-xs text-gray-500 mt-1">Aprox. $704,800 MXN</p>
                         </div>
 
                         <div class="px-2">
                             <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Protección por Fallecimiento (Titular)</p>
                             <p class="font-heading text-2xl font-bold text-gray-700">240,000 <span class="text-sm text-gray-500 font-normal">UDI</span></p>
-                            <p class="text-xs text-gray-500 mt-1">Aprox. $2,112,000 MXN</p>
+                            <p class="text-xs text-gray-500 mt-1">Aprox. $2,114,400 MXN</p>
                         </div>
                     </div>
 
                     <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 mt-auto">
-                        <p class="text-sm text-gray-600 leading-relaxed"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Mantienes las aportaciones de este plan para garantizar íntegramente el futuro de Luis Daniel.</p>
+                        <p class="text-sm text-gray-600 leading-relaxed"><i class="fa-solid fa-circle-check text-green-500 mr-2"></i> Mantienes las aportaciones constantes vigentes de este plan para garantizar íntegramente el futuro Universitario de <strong>Luis Daniel</strong> como se planeó.</p>
                     </div>
                 </div>
 
                 <!-- Nuevo Plenitud -->
-                <div class="bg-white rounded-3xl p-8 shadow-lg border-t-4 border-smnyl-gold hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-yellow-50 text-yellow-700 text-xs font-bold px-4 py-2 rounded-bl-2xl">SEGURO PRORROGADO</div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 bg-yellow-100 text-smnyl-gold rounded-full flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-shield-halved"></i>
+                <div class="bg-white rounded-3xl p-8 shadow-lg border-t-4 border-smnyl-gold hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 right-0 bg-yellow-50 text-yellow-700 text-xs font-bold px-4 py-2 rounded-bl-2xl">RESCATE ESTRATÉGICO</div>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 bg-yellow-100 text-smnyl-gold rounded-full flex items-center justify-center text-2xl shrink-0">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
                         </div>
                         <div>
-                            <h3 class="font-heading text-2xl font-bold text-gray-800">Nuevo Plenitud</h3>
-                            <p class="text-sm text-gray-500 font-medium">Protección Vida</p>
+                            <h3 class="font-heading text-xl font-bold text-gray-800">Nuevo Plenitud [190,000 UDI]</h3>
+                            <p class="text-xs text-gray-500 font-medium">Póliza: VI0002586797</p>
                         </div>
                     </div>
                     
-                    <div class="mb-6">
-                        <p class="text-sm text-gray-500 uppercase tracking-wide">Suma Asegurada</p>
-                        <p class="font-heading text-4xl font-bold text-smnyl-gold mt-1">190,000 <span class="text-xl text-gray-500 font-normal">UDI</span></p>
-                        <p class="text-sm text-gray-500 mt-1">Aprox. $1,672,000 MXN</p>
+                    <div class="mb-4 flex-grow">
+                        <div class="bg-gray-50 rounded-lg p-3 border border-gray-100 mb-4">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Recuperación Total (Valor en Efectivo)</p>
+                            <p class="font-heading text-2xl font-bold text-gray-800">29,880.55 <span class="text-sm text-gray-500 font-normal">UDI</span></p>
+                            <p class="text-[10px] text-gray-400">~ $263,247 MXN</p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-gray-600"><i class="fa-solid fa-arrow-right text-smnyl-blue mr-1"></i> Fondeo Año 1 PPR:</span>
+                                <span class="font-bold text-smnyl-blue">- 7,970.00 UDI</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm border-t border-gray-100 pt-3">
+                                <span class="text-gray-800 font-bold"><i class="fa-solid fa-money-bill-wave text-green-500 mr-1"></i> Excedente a tu cuenta:</span>
+                                <span class="font-bold text-green-600">21,910.55 UDI</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-gray-500">~ $193,031 MXN libres</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="bg-yellow-50/50 rounded-xl p-5 border border-yellow-200">
-                        <p class="text-sm text-gray-800 font-semibold mb-2"><i class="fa-solid fa-pause text-smnyl-gold mr-2"></i> Estrategia de Liberación:</p>
-                        <p class="text-sm text-gray-600 leading-relaxed">Esta póliza <strong>no se cancela</strong>. Se convierte en un Seguro Prorrogado, por lo que mantienes tu protección por los próximos 10 a 13 años (aprox.), <strong>pero ya no realizarás más pagos</strong>.</p>
+                    <div class="bg-yellow-50/50 rounded-xl p-4 border border-yellow-200 mt-auto">
+                        <p class="text-xs text-gray-700 leading-relaxed"><i class="fa-solid fa-lightbulb text-smnyl-gold mr-1"></i> <strong>Estrategia:</strong> Se cancela la póliza actual para recuperar su valor. Las 7,970 UDI se transfieren (vía AVE) para liquidar la primera anualidad del nuevo Plan de Retiro. <strong>El saldo excedente es completamente tuyo.</strong></p>
                     </div>
                 </div>
                 
@@ -339,7 +355,7 @@
                 <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Un horizonte claro a 18 años donde tu capital trabaja duro mientras tú te enfocas en tu profesión.</p>
             </div>
 
-            <div class="relative timeline-line reveal mb-20">
+            <div class="relative timeline-line reveal mb-16">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
                     
                     <!-- Etapa 1 -->
@@ -351,7 +367,7 @@
                             <div class="absolute top-0 right-0 bg-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-bl-lg">Hoy</div>
                             <span class="text-xs font-bold text-smnyl-blue uppercase tracking-wider">Inicio del Plan</span>
                             <h4 class="font-heading font-bold text-lg mt-1 mb-2">Comienza la siembra</h4>
-                            <p class="text-sm text-gray-600 mb-4">Inicias con una aportación de 7,527 UDI. Automáticamente cuentas con el respaldo de Invalidez y Fallecimiento por 85,000 UDI.</p>
+                            <p class="text-sm text-gray-600 mb-4">Inicias con una aportación de 7,970 UDI. Automáticamente cuentas con el respaldo de Invalidez y Fallecimiento por 90,000 UDI.</p>
                             <div class="bg-white border border-gray-200 py-2 px-3 rounded-lg text-xs font-medium text-gray-500 text-center shadow-sm">
                                 Aportación concentrada (Año 1-10)
                             </div>
@@ -367,7 +383,7 @@
                             <div class="absolute top-0 right-0 bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-bl-lg">Fin de pagos</div>
                             <span class="text-xs font-bold text-smnyl-gold uppercase tracking-wider">Año 10</span>
                             <h4 class="font-heading font-bold text-lg mt-1 mb-2">Misión Cumplida</h4>
-                            <p class="text-sm text-gray-600 mb-4">Realizas tu aportación final. Históricamente habrás aportado 75,270 UDI. A partir de tus 57 años, tu póliza queda "pagada en su totalidad".</p>
+                            <p class="text-sm text-gray-600 mb-4">Realizas tu aportación final. Históricamente habrás aportado 79,700 UDI. A partir de tus 57 años, dejas de pagar.</p>
                             <div class="bg-white border border-yellow-200 py-2 px-3 rounded-lg text-xs font-bold text-smnyl-gold text-center shadow-sm">
                                 Tu dinero empieza a madurar solo
                             </div>
@@ -384,16 +400,36 @@
                             <div class="absolute top-0 right-0 bg-smnyl-emerald text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase">La Cosecha</div>
                             <span class="text-xs font-bold text-smnyl-emerald uppercase tracking-wider">Año 18</span>
                             <h4 class="font-heading font-bold text-xl mt-1 mb-2 text-gray-800">Libertad Financiera</h4>
-                            <p class="text-sm text-gray-600 mb-4">Tu fondo de reserva creció por 8 años adicionales sin tocarlo. Tienes a tu disposición un excelente capital de rescate.</p>
+                            <p class="text-sm text-gray-600 mb-4">Hacer crecer tu fondo de reserva para los siguientes 8 años adicionales. El plan es lograr a tu disposición un excelente capital de <strong>retiro<strong>.</p>
                             <div class="bg-smnyl-emerald py-3 px-3 rounded-xl text-sm font-bold text-white text-center shadow-inner relative overflow-hidden">
                                 <div class="absolute top-0 right-0 opacity-10 text-4xl"><i class="fa-solid fa-sack-dollar"></i></div>
-                                Valor de Rescate Proyectado:<br>
-                                <span class="text-3xl font-heading tracking-wide mt-1 block">75,125 UDI</span>
+                                Valor de Rescate Garantizado:<br>
+                                <span class="text-3xl font-heading tracking-wide mt-1 block">79,544 UDI</span>
                             </div>
-                            <p class="text-[10px] text-gray-500 mt-3 font-medium bg-gray-100 p-2 rounded">* Recuerda que al sumar la recuperación de impuestos anual (aprox. 22,580 UDI en total), tu costo real neto fue de solo ~52,690 UDI.</p>
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <!-- Gráfica de Proyección -->
+            <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 reveal mb-20">
+                <h3 class="font-heading text-2xl font-bold text-smnyl-blue mb-2 text-center">Proyección de Crecimiento en Pesos (MXN)</h3>
+                <p class="text-center text-gray-500 text-sm mb-8">Estimación considerando una inflación anual promedio del 4%, situando el valor de la UDI a los 65 años en $21.13 MXN.</p>
+                
+                <div class="relative w-full" style="height: 400px;">
+                    <canvas id="crecimientoMoraChart"></canvas>
+                </div>
+                
+                <div class="mt-6 flex flex-col md:flex-row justify-center gap-6 text-xs text-gray-500 bg-gray-50 p-4 rounded-xl border border-gray-100 flex-wrap text-center">
+                    <div class="flex items-center gap-2 justify-center">
+                        <div class="w-3 h-3 rounded-full bg-smnyl-emerald"></div>
+                        <span>Valor Final del Fondo: ~$1.68 Millones MXN</span>
+                    </div>
+                    <div class="flex items-center gap-2 justify-center">
+                        <div class="w-3 h-3 rounded-full bg-gray-400 border border-dashed border-gray-600"></div>
+                        <span>Fin de Aportaciones (Año 10)</span>
+                    </div>
                 </div>
             </div>
 
@@ -407,7 +443,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-gray-800 text-sm">Invalidez Total (BAIT / BIT)</p>
-                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">Si sufres invalidez total, recibes de inmediato <strong>85,000 UDI</strong> en efectivo. Además, Seguros Monterrey liquida las aportaciones faltantes de tus 10 años, garantizando que tu fondo de retiro siga creciendo hasta los 65.</p>
+                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">Si sufres invalidez total, recibes de inmediato <strong>90,000 UDI</strong> en efectivo. Además, Seguros Monterrey liquida las aportaciones faltantes de tus 10 años, garantizando que tu fondo de retiro siga creciendo hasta los 65.</p>
                         </div>
                     </div>
                     
@@ -417,7 +453,7 @@
                         </div>
                         <div>
                             <p class="font-bold text-gray-800 text-sm">Muerte Accidental (BMA)</p>
-                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">En caso de fallecimiento por un accidente, tus beneficiarios reciben una indemnización extra de <strong>85,000 UDI</strong>, sumada al beneficio básico por fallecimiento.</p>
+                            <p class="text-sm text-gray-600 mt-1 leading-relaxed">En caso de fallecimiento por un accidente, tus beneficiarios reciben una indemnización extra de <strong>90,000 UDI</strong>, sumada al beneficio básico por fallecimiento.</p>
                         </div>
                     </div>
                 </div>
@@ -437,7 +473,7 @@
                     </div>
                     <p class="text-gray-400 text-sm font-medium">New York Life</p>
                     <p class="text-gray-500 text-[11px] mt-6 max-w-xl leading-relaxed">
-                        * Los valores mostrados son ilustrativos basados en la cotización generada el 25 de agosto de 2026. Tasa de interés hipotética utilizada en proyección: 3.95%. Las cantidades están expresadas en UDI. Tipo de cambio ilustrativo $8.80 MXN. Las devoluciones de impuestos dependen estrictamente de la situación fiscal individual del asegurado ante el SAT y los topes de ley vigentes.
+                        * Los valores mostrados son ilustrativos basados en la cotización generada el 03 de septiembre de 2026. Tasa de interés hipotética utilizada en proyección: 3.95%. Las cantidades están expresadas en UDI. Tipo de cambio ilustrativo $8.81 MXN. La proyección gráfica utiliza una estimación de inflación del 4% anual.
                     </p>
                 </div>
                 
@@ -496,6 +532,92 @@
             } else {
                 nav.classList.remove('shadow-md');
                 nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+
+        // Configuración de la Gráfica de Proyección (Chart.js)
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('crecimientoMoraChart');
+            if(ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Año 1 (47 años)', 'Año 3 (49 años)', 'Año 5 (51 años)', 'Año 8 (54 años)', 'Año 10 (56 años)', 'Año 15 (61 años)', 'Año 18 (65 años)'],
+                        datasets: [
+                            {
+                                label: 'Fondo Proyectado (MXN)',
+                                // Datos de la proyección UDI convertidos a pesos con 4% de inflación
+                                data: [39248, 147619, 299112, 593825, 845660, 1137741, 1680764],
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#10B981',
+                                pointRadius: 5
+                            },
+                            {
+                                label: 'Aportaciones Acumuladas (MXN Aprox)',
+                                // Estimación de costo acumulado
+                                data: [70215, 219000, 381000, 642000, 850000, 850000, 850000],
+                                borderColor: '#9CA3AF',
+                                borderDash: [5, 5],
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: { family: "'Inter', sans-serif", size: 12 }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + (value / 1000).toFixed(0) + 'k';
+                                    },
+                                    font: { family: "'Inter', sans-serif" }
+                                },
+                                grid: { color: '#F3F4F6' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { family: "'Inter', sans-serif" } }
+                            }
+                        }
+                    }
+                });
             }
         });
     </script>
