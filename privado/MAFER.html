@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Vida Mujer - Maria Fernanda</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            pink: '#DB2777', // Un rosa vibrante para Vida Mujer
+                            rose: '#FCE7F3'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px -5px rgba(219, 39, 119, 0.08); /* Sombra rosada */
+        }
+
+        .bg-hero-gradient {
+            background: linear-gradient(-45deg, #003366, #DB2777, #0055A5, #003366);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #DB2777; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9D174D; }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: linear-gradient(to bottom, #DB2777, #0055A5);
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                top: 50%;
+                left: 0;
+                right: 0;
+                bottom: auto;
+                height: 2px;
+                width: 100%;
+                background: linear-gradient(to right, #DB2777, #0055A5);
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-pink selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-gem text-smnyl-pink text-3xl"></i>
+                    <span class="font-heading font-bold text-xl text-smnyl-blue">SMNYL <span class="font-light text-gray-500">| Vida Mujer</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#perfil" class="text-sm font-medium text-gray-600 hover:text-smnyl-pink transition">Tu Perfil</a>
+                    <a href="#beneficios" class="text-sm font-medium text-gray-600 hover:text-smnyl-pink transition">Beneficios Únicos</a>
+                    <a href="#proyeccion" class="text-sm font-medium text-gray-600 hover:text-smnyl-pink transition">Plan de Ahorro</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-pink-50 px-3 py-1.5 rounded-lg border border-pink-100 flex flex-col items-end shadow-sm">
+                        <span class="text-[9px] font-bold text-pink-500 uppercase tracking-wider">Referencia</span>
+                        <div class="flex gap-2 text-xs font-semibold text-gray-700">
+                            <span><i class="fa-solid fa-dollar-sign text-green-600"></i> USD: 16.99 MXN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-hero-gradient">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-20 w-64 h-64 bg-smnyl-pink rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-white/10 text-white text-sm font-semibold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-lg">
+                <i class="fa-solid fa-star text-yellow-300"></i> PROTECCIÓN Y AHORRO EN DÓLARES
+            </span>
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                Diseñando tu independencia financiera, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-white">Maria Fernanda.</span>
+            </h1>
+            <p class="text-xl text-blue-100 mb-10 font-light max-w-3xl mx-auto leading-relaxed">
+                Vida Mujer es un seguro de vida único en el mercado, diseñado específicamente para ti. Te brinda protección ante enfermedades propias de la mujer y, al mismo tiempo, genera un ahorro garantizado para cumplir tus metas a corto, mediano y largo plazo.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#beneficios" class="px-8 py-4 rounded-full bg-white text-smnyl-pink font-bold hover:bg-gray-50 transition shadow-xl transform hover:-translate-y-1">
+                    Conocer Beneficios
+                </a>
+                <a href="#proyeccion" class="px-8 py-4 rounded-full bg-smnyl-pink text-white font-bold hover:bg-pink-400 transition shadow-xl border border-pink-400 transform hover:-translate-y-1">
+                    Ver Plan de Ahorro
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 reveal border border-gray-200 shadow-md">
+                <div class="w-24 h-24 bg-pink-50 rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg relative overflow-hidden">
+                    <img src="https://placehold.co/100x100/FCE7F3/DB2777?text=MF" alt="Avatar" class="w-full h-full object-cover">
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <h2 class="font-heading text-3xl font-bold text-gray-800">Maria Fernanda Gordillo Rodriguez</h2>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-2">
+                        <span class="px-3 py-1 bg-smnyl-pink text-white rounded-full text-xs font-semibold">Titular</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold"><i class="fa-solid fa-calendar text-smnyl-pink mr-1"></i> 30 años</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold"><i class="fa-solid fa-smoking text-red-400 mr-1 line-through"></i> No Fumadora</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-center md:text-right shrink-0">
+                    <p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Ahorro + Protección</p>
+                    <p class="font-heading text-2xl font-bold text-smnyl-blue">$1,198.64 <span class="text-sm font-normal text-gray-500">USD/anual</span></p>
+                    <p class="text-xs text-gray-400 mt-1">Aprox. $20,448 MXN al año</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="py-24 bg-smnyl-rose relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-pink font-bold uppercase tracking-widest text-sm"><i class="fa-solid fa-shield-heart mr-2"></i>Coberturas Especializadas</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Diseñado para la Mujer de Hoy</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Más allá de un seguro de vida tradicional, Vida Mujer incluye coberturas diseñadas específicamente para proteger tu salud y bienestar en cada etapa.</p>
+                <div class="w-24 h-1.5 bg-smnyl-pink mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                
+                <!-- Beneficio 1: Cáncer Femenino -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-pink-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-pink-100 text-smnyl-pink rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-ribbon"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Protección contra Cáncer Femenino</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        En caso de diagnóstico de padecimientos como cáncer de mama o cervicouterino, recibes de inmediato un apoyo económico de <strong>$20,000 USD</strong>.
+                    </p>
+                    <div class="bg-pink-50 p-3 rounded-lg text-xs text-smnyl-pink font-medium">
+                        Cobertura Incluida (PCF A)
+                    </div>
+                </div>
+
+                <!-- Beneficio 2: Complicaciones Embarazo -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-pink-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-pink-100 text-smnyl-pink rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Complicaciones de Embarazo</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        Respaldo financiero de <strong>$20,000 USD</strong> ante complicaciones en el embarazo, el parto o en caso de padecimientos específicos de la mujer.
+                    </p>
+                    <div class="bg-pink-50 p-3 rounded-lg text-xs text-smnyl-pink font-medium">
+                        Cobertura Incluida (PEP A)
+                    </div>
+                </div>
+
+                <!-- Beneficio 3: Invalidez -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-pink-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-blue-100 text-smnyl-blue rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-wheelchair"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Protección por Invalidez</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        Si sufres invalidez total, recibes <strong>$20,000 USD</strong>. Además, Seguros Monterrey liquida las primas faltantes de tu plan para que continúes protegida y recibas tu ahorro.
+                    </p>
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-smnyl-blue font-medium">
+                        Coberturas Incluidas (BAIT / BIT)
+                    </div>
+                </div>
+                
+                <!-- Beneficio 4: Vida -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-pink-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-blue-100 text-smnyl-blue rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Seguro de Vida Base</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        Tus seres queridos contarán con un respaldo de <strong>$20,000 USD</strong> en caso de que llegues a faltar durante los 20 años del plan.
+                    </p>
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-smnyl-blue font-medium">
+                        Cobertura Básica (Suma Asegurada)
+                    </div>
+                </div>
+                
+                 <!-- Beneficio 5: Muerte Accidental -->
+                <div class="bg-white rounded-3xl p-8 shadow-lg border border-pink-100 hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-red-100 text-red-500 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-car-burst"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-gray-800 mb-3">Muerte Accidental</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        Si el fallecimiento ocurriera por un accidente, tus beneficiarios recibirían <strong>$20,000 USD adicionales</strong> (doble indemnización).
+                    </p>
+                    <div class="bg-red-50 p-3 rounded-lg text-xs text-red-600 font-medium">
+                        Cobertura Incluida (BMA)
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-24 reveal">
+                <div class="text-center mb-12">
+                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-smnyl-blue mb-4">Protección de Padecimientos Femeninos</h3>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Respaldo financiero mediante el pago de un porcentaje de la Suma Asegurada según el diagnóstico.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Padecimientos Femeninos -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md flex flex-col hover:-translate-y-1 transition-transform">
+                        <div class="bg-pink-100 p-6 text-center">
+                            <h4 class="font-heading font-bold text-smnyl-pink text-lg mb-4">Padecimientos Femeninos</h4>
+                            <i class="fa-solid fa-person-dress text-5xl text-pink-300"></i>
+                        </div>
+                        <div class="p-6 flex-grow">
+                            <ul class="space-y-4 text-sm text-gray-700">
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Enfermedad Inflamatoria Pélvica</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">60%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Prolapso Genital Femenino</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">60%</span>
+                                </li>
+                                <li class="flex justify-between items-center pb-2">
+                                    <span>Fibroadenomas</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">45%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-gray-50 border-t border-gray-100 text-center mt-auto">
+                            <span class="px-5 py-1.5 border border-smnyl-pink text-smnyl-pink text-xs font-bold rounded-full uppercase tracking-widest bg-white">Tranquilidad</span>
+                        </div>
+                    </div>
+
+                    <!-- Complicaciones del Embarazo -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md flex flex-col hover:-translate-y-1 transition-transform">
+                        <div class="bg-pink-100 p-6 text-center">
+                            <h4 class="font-heading font-bold text-smnyl-pink text-lg mb-4">Complicaciones del Embarazo</h4>
+                            <i class="fa-solid fa-person-pregnant text-5xl text-pink-300"></i>
+                        </div>
+                        <div class="p-6 flex-grow">
+                            <ul class="space-y-4 text-sm text-gray-700">
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Parto Prematuro</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">100%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Parto Múltiple</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">60%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Eclampsia</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">60%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Embarazo Extrauterino</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">40%</span>
+                                </li>
+                                <li class="flex justify-between items-center pb-2">
+                                    <span>Embarazo Molar Hidatiforme</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">30%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-gray-50 border-t border-gray-100 text-center mt-auto">
+                            <span class="px-5 py-1.5 border border-smnyl-pink text-smnyl-pink text-xs font-bold rounded-full uppercase tracking-widest bg-white">Protección</span>
+                        </div>
+                    </div>
+
+                    <!-- Cobertura del Recién Nacido -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md flex flex-col hover:-translate-y-1 transition-transform">
+                        <div class="bg-pink-100 p-6 text-center">
+                            <h4 class="font-heading font-bold text-smnyl-pink text-lg mb-4">Cobertura del Recién Nacido</h4>
+                            <i class="fa-solid fa-baby text-5xl text-pink-300"></i>
+                        </div>
+                        <div class="p-6 flex-grow">
+                            <ul class="space-y-4 text-sm text-gray-700">
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Espina Bífida</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">75%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Labio Leporino</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">75%</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-50 pb-2">
+                                    <span>Síndrome de Down</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">75%</span>
+                                </li>
+                                <li class="flex justify-between items-center pb-2">
+                                    <span>Cardiopatía Cianógena</span> <span class="font-bold text-smnyl-pink bg-pink-50 px-2 py-1 rounded">50%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-4 bg-gray-50 border-t border-gray-100 text-center mt-auto">
+                            <span class="px-5 py-1.5 border border-smnyl-pink text-smnyl-pink text-xs font-bold rounded-full uppercase tracking-widest bg-white">Seguridad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <div class="text-center mb-10">
+                        <h3 class="font-heading text-2xl md:text-3xl font-bold text-smnyl-blue mb-4">Protección por Cáncer Femenino</h3>
+                        <p class="text-gray-600">Se paga un porcentaje de la suma asegurada de acuerdo al tipo de cáncer diagnosticado:</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl shadow-xl border border-pink-100 overflow-hidden max-w-4xl mx-auto">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse min-w-[600px]">
+                                <thead>
+                                    <tr class="bg-pink-100 text-smnyl-pink text-sm uppercase tracking-wider">
+                                        <th class="py-4 px-6 font-bold border-b border-pink-200 text-center w-20">#</th>
+                                        <th class="py-4 px-6 font-bold border-b border-pink-200">Enfermedades Amparadas</th>
+                                        <th class="py-4 px-6 font-bold border-b border-pink-200 text-right w-40">% de la SA</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm text-gray-700">
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">01</td>
+                                        <td class="py-4 px-6 font-semibold">Tumor maligno de mama.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">100%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">02</td>
+                                        <td class="py-4 px-6 font-medium">Tumor maligno de mama localizado</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">47%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">03</td>
+                                        <td class="py-4 px-6 font-medium">Tumor maligno de ovario.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">38%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">04</td>
+                                        <td class="py-4 px-6 font-medium">Tumor maligno de útero.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">21%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">05</td>
+                                        <td class="py-4 px-6 font-medium">Cáncer maligno de útero localizado.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">12%</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">06</td>
+                                        <td class="py-4 px-6 font-medium">Tumor maligno de trompas de Falopio.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">12%</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50 transition-colors">
+                                        <td class="py-4 px-6 text-center font-bold text-gray-400">07</td>
+                                        <td class="py-4 px-6 font-medium">Tumor benigno de vagina o vulva.</td>
+                                        <td class="py-4 px-6 text-right font-bold text-smnyl-pink">9%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-smnyl-rose p-5 text-center border-t border-pink-100 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-circle-info text-smnyl-pink"></i>
+                            <p class="text-sm font-semibold text-gray-800">La clienta puede usar hasta 5 veces su Protección por Cáncer Femenino.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proyeccion" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-pink font-bold uppercase tracking-widest text-sm">Tu Proyecto de Vida</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-gray-800 mt-2">Dotes: Dinero en Efectivo para tus Metas</h2>
+                <p class="text-gray-500 mt-4 max-w-3xl mx-auto">La magia de Vida Mujer radica en que, mientras estás protegida, el plan te entrega un porcentaje de tu suma asegurada en efectivo (Dotes) en años clave para que cumplas tus sueños (viajes, emprendimiento, etc.).</p>
+            </div>
+
+            <div class="reveal mb-20">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+                    
+                    <!-- Dote 5 -->
+                    <div class="flex flex-col items-center gap-3 group">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A5</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 5</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Dote 7 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 50ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A7</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 7</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dote 9 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 100ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A9</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 9</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Dote 11 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 150ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A11</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 11</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Dote 13 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 200ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A13</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 13</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Dote 15 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 250ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A15</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 15</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dote 17 -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 300ms;">
+                        <div class="w-12 h-12 rounded-full bg-white border-4 border-smnyl-pink flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform z-10">
+                            <span class="font-bold text-smnyl-pink text-xs">A17</span>
+                        </div>
+                        <div class="text-center bg-gray-50 p-4 rounded-2xl border border-gray-100 w-full hover:shadow-lg transition-shadow">
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 17</span>
+                            <h4 class="font-heading font-bold text-sm mb-2">Anticipo (5%)</h4>
+                            <div class="bg-pink-50 py-1.5 rounded-lg text-xs font-bold text-smnyl-pink">$1,000 USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Gran Final -->
+                    <div class="flex flex-col items-center gap-3 group" style="transition-delay: 350ms;">
+                        <div class="w-14 h-14 rounded-full bg-smnyl-pink border-4 border-white flex items-center justify-center shrink-0 shadow-2xl group-hover:scale-110 transition-transform z-10 text-white relative">
+                            <div class="absolute inset-0 rounded-full animate-ping bg-smnyl-pink opacity-20"></div>
+                            <span class="font-bold text-sm">A20</span>
+                        </div>
+                        <div class="text-center bg-gradient-to-br from-pink-50 to-white p-4 rounded-2xl border-2 border-pink-200 w-full hover:shadow-xl transition-all shadow-md transform md:-translate-y-1 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-smnyl-pink text-white text-[9px] font-bold px-1.5 py-0.5 rounded-bl-lg uppercase">Final</div>
+                            <span class="text-[10px] font-bold text-smnyl-pink uppercase tracking-wider block mb-1">Año 20</span>
+                            <h4 class="font-heading font-bold text-sm mb-2 text-gray-800">Dote Final (80%)</h4>
+                            <div class="bg-smnyl-pink py-1.5 rounded-xl text-xs font-bold text-white shadow-inner">
+                                $16,000 USD
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Gráfica Chart.js y Resumen -->
+            <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 reveal mb-10">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-heading text-2xl font-bold text-smnyl-blue">Proyección de Ahorro y Dotes (USD)</h3>
+                    <div class="bg-green-50 text-green-700 px-4 py-2 rounded-lg font-bold text-sm border border-green-200">
+                        Total a Recibir: $23,000 USD
+                    </div>
+                </div>
+                <p class="text-gray-500 text-sm mb-8">Esta gráfica muestra cómo tus aportaciones constantes construyen tu protección. Los marcadores rosas indican los años en que recibes dinero en efectivo (Dotes) sin que tu póliza se cancele, culminando con el gran pago final en el año 20.</p>
+                
+                <div class="relative w-full" style="height: 400px;">
+                    <canvas id="vidaMujerChart"></canvas>
+                </div>
+                
+                <!-- Balance Final -->
+                <div class="mt-8 bg-gray-50 rounded-2xl p-6 border border-gray-200 text-center">
+                    <h4 class="font-heading font-bold text-lg text-gray-800 mb-4">Balance de tu Plan (A 20 Años)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                        <div class="pt-4 md:pt-0">
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Aportación Total Est.</p>
+                            <p class="font-heading text-2xl font-bold text-gray-700">~$23,972 USD</p>
+                            <p class="text-[10px] text-gray-400 mt-1">($1,198.64 x 20 años)</p>
+                        </div>
+                        <div class="pt-4 md:pt-0">
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Total Entregado a Ti</p>
+                            <p class="font-heading text-2xl font-bold text-smnyl-pink">$23,000 USD</p>
+                            <p class="text-[10px] text-gray-400 mt-1">(7 Dotes de 1k + Final de 16k)</p>
+                        </div>
+                        <div class="pt-4 md:pt-0 bg-blue-50/50 rounded-lg p-2">
+                            <p class="text-xs text-smnyl-blue uppercase tracking-widest mb-1 font-bold">Costo Real de Protección</p>
+                            <p class="font-heading text-2xl font-bold text-smnyl-blue">~$972 USD</p>
+                            <p class="text-xs text-gray-500 mt-1 italic">Tuviste 20 años de cobertura millonaria (Vida, Invalidez, Cáncer, Maternidad) por un costo neto de solo ~$48 USD al año.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-14 border-t-4 border-smnyl-pink">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-2 justify-center md:justify-start mb-4">
+                        <i class="fa-solid fa-gem text-smnyl-pink text-3xl"></i>
+                        <span class="font-heading font-bold text-2xl tracking-wide">Seguros Monterrey</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium">New York Life</p>
+                    <p class="text-gray-500 text-[11px] mt-6 max-w-xl leading-relaxed">
+                        * Los valores mostrados son ilustrativos basados en la cotización generada el 06 de septiembre de 2026. Las cantidades están expresadas en Dólares Estadounidenses (USD). Tipo de cambio ilustrativo $17.06 MXN. El plan básico y sus coberturas terminan al transcurrir los 20 años indicados.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700 w-full md:w-auto shadow-2xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-smnyl-pink text-xs font-bold uppercase tracking-widest mb-3">Tu Asesor Patrimonial</p>
+                        <p class="font-heading text-xl font-bold mb-1">Victor Hugo Diaz Martinez de Escobar</p>
+                        <p class="text-gray-400 text-sm mb-6">Protegiendo Mejor® a las mujeres de México.</p>
+                        
+                        <div class="flex flex-col gap-3 text-sm text-gray-300">
+                            <a href="mailto:vhdiazme@gmail.com" class="flex items-center gap-3 hover:text-white transition group/link">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center group-hover/link:bg-smnyl-pink transition-colors">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                vhdiazme@gmail.com
+                            </a>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-id-badge"></i>
+                                </div>
+                                Clave SMNYL: 76175
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 120;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        setTimeout(reveal, 200);
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('vidaMujerChart');
+            if(ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Año 1', 'A5', 'A7', 'A9', 'A11', 'A13', 'A15', 'A17', 'Año 20'],
+                        datasets: [
+                            {
+                                type: 'line',
+                                label: 'Aportación Acumulada Est. (USD)',
+                                data: [1198, 5990, 8386, 10782, 13178, 15574, 17970, 20366, 23972],
+                                borderColor: '#9CA3AF',
+                                borderDash: [5, 5],
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0
+                            },
+                            {
+                                type: 'bar',
+                                label: 'Recuperación de Valor en Efectivo (USD)',
+                                // Datos ilustrativos escalando hacia el final
+                                data: [0, 1962, 2800, 3663, 4700, 5861, 7200, 8672, 16000], 
+                                backgroundColor: 'rgba(0, 85, 165, 0.2)',
+                                borderColor: '#0055A5',
+                                borderWidth: 2,
+                                borderRadius: 4
+                            },
+                            {
+                                type: 'bubble',
+                                label: 'Entrega de Dotes (USD)',
+                                // Burbujas para resaltar visualmente los pagos en efectivo
+                                data: [
+                                    null, 
+                                    {x: 1, y: 1000, r: 12}, 
+                                    {x: 2, y: 1000, r: 12}, 
+                                    {x: 3, y: 1000, r: 12}, 
+                                    {x: 4, y: 1000, r: 12}, 
+                                    {x: 5, y: 1000, r: 12}, 
+                                    {x: 6, y: 1000, r: 12}, 
+                                    {x: 7, y: 1000, r: 12}, 
+                                    {x: 8, y: 16000, r: 25}
+                                ],
+                                backgroundColor: 'rgba(219, 39, 119, 0.8)',
+                                borderColor: '#DB2777',
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label = label.split(':')[0] + ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: { family: "'Inter', sans-serif", size: 12 }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + (value / 1000).toFixed(0) + 'k';
+                                    },
+                                    font: { family: "'Inter', sans-serif" }
+                                },
+                                grid: { color: '#F3F4F6' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { family: "'Inter', sans-serif" } }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
