@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Protección - Jorge Angel Garcia</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            gray: '#F3F4F6',
+                            emerald: '#10B981',
+                            teal: '#0F766E'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px -5px rgba(0, 51, 102, 0.08);
+        }
+
+        .bg-hero-gradient {
+            background: linear-gradient(-45deg, #003366, #0055A5, #0F766E, #003366);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0055A5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #003366; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-emerald selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-smnyl-blue text-3xl"></i>
+                    <span class="font-heading font-bold text-xl text-smnyl-blue">SMNYL <span class="font-light text-gray-500">| Asesoría</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#perfil" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Perfil</a>
+                    <a href="#gmm" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Gastos Médicos</a>
+                    <a href="#retiro" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Planes de Retiro</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 flex flex-col items-end shadow-sm">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider">Referencia</span>
+                        <div class="flex gap-2 text-xs font-semibold text-gray-700">
+                            <span><i class="fa-solid fa-dollar-sign text-green-600"></i> USD: 17.06 MXN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-hero-gradient">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-20 w-64 h-64 bg-smnyl-emerald rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-white/10 text-white text-sm font-semibold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-lg">
+                <i class="fa-solid fa-star text-yellow-300"></i> PROPUESTA DE PROTECCIÓN INTEGRAL
+            </span>
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                Diseñando tu tranquilidad financiera, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-smnyl-gold to-yellow-200">Jorge Angel.</span>
+            </h1>
+            <p class="text-xl text-blue-100 mb-10 font-light max-w-3xl mx-auto leading-relaxed">
+                Hemos desarrollado una estrategia a la medida que evalúa dos excelentes opciones de Gastos Médicos Mayores y tres alternativas estructuradas en Dólares para garantizar tu libertad financiera en la etapa de retiro.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#gmm" class="px-8 py-4 rounded-full bg-white text-smnyl-blue font-bold hover:bg-gray-50 transition shadow-xl transform hover:-translate-y-1">
+                    Ver Opciones Médicas
+                </a>
+                <a href="#retiro" class="px-8 py-4 rounded-full bg-smnyl-emerald text-white font-bold hover:bg-emerald-400 transition shadow-xl border border-emerald-400 transform hover:-translate-y-1">
+                    Analizar Planes de Retiro
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 reveal border border-gray-200 shadow-md">
+                <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
+                    <i class="fa-solid fa-user-tie text-4xl text-smnyl-blue"></i>
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <h2 class="font-heading text-3xl font-bold text-gray-800">Jorge Angel Garcia Hernandez</h2>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-2">
+                        <span class="px-3 py-1 bg-smnyl-blue text-white rounded-full text-xs font-semibold">Titular</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold"><i class="fa-solid fa-calendar text-smnyl-gold mr-1"></i> 41 años</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold"><i class="fa-solid fa-smoking text-red-400 mr-1 line-through"></i> No Fumador</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gmm" class="py-24 bg-smnyl-gray relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-light font-bold uppercase tracking-widest text-sm"><i class="fa-solid fa-notes-medical mr-2"></i>Protección Salud</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Seguro de Gastos Médicos Mayores</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Dos enfoques diferentes para tu protección: Cobertura global en Dólares vs. Cobertura nacional en Pesos con asistencia en el extranjero.</p>
+                <div class="w-24 h-1.5 bg-smnyl-gold mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 reveal">
+                
+                <!-- GMM Internacional -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-smnyl-blue relative overflow-hidden flex flex-col group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 bg-smnyl-blue text-white text-xs font-bold px-4 py-2 rounded-bl-2xl">OPCIÓN 1 - DÓLARES</div>
+                    
+                    <div class="flex items-center gap-4 mb-6 mt-4">
+                        <div class="w-16 h-16 bg-blue-50 text-smnyl-blue rounded-full flex items-center justify-center text-3xl shrink-0">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">Alfa Medical Internacional</h3>
+                            <p class="text-sm text-gray-500 font-medium">Cobertura total a nivel mundial</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8 flex-grow">
+                        <div class="bg-blue-50/50 p-4 rounded-xl border border-blue-100 flex justify-between items-center">
+                            <span class="text-sm text-gray-600 font-medium">Suma Asegurada</span>
+                            <span class="font-bold text-smnyl-blue">$8,500,000 USD</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-smnyl-gold"></i> Deducible</span>
+                            <span class="font-bold text-gray-800">$5,700 USD</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-percent text-smnyl-gold"></i> Coaseguro</span>
+                            <span class="font-bold text-gray-800">10% <span class="text-xs font-normal text-gray-500">(Tope: $3,000 USD)</span></span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2 border-t border-gray-100">
+                            <span class="text-gray-500 text-sm">Tabulador Médico</span>
+                            <span class="font-bold text-gray-700">BETA</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-2xl p-6 text-center text-white">
+                        <p class="text-xs text-gray-400 uppercase font-semibold tracking-wide mb-1">Prima Total Anual</p>
+                        <p class="text-4xl font-heading font-bold text-smnyl-gold">$2,964.37 <span class="text-lg font-normal text-white">USD</span></p>
+                        <p class="text-xs text-gray-400 mt-2">Aprox. $50,572 MXN / Incluye IVA y Eliminación de Deducible por Accidente</p>
+                    </div>
+                </div>
+
+                <!-- GMM Nacional Pleno -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-smnyl-emerald relative overflow-hidden flex flex-col group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 bg-smnyl-emerald text-white text-xs font-bold px-4 py-2 rounded-bl-2xl">OPCIÓN 2 - PESOS</div>
+                    
+                    <div class="flex items-center gap-4 mb-6 mt-4">
+                        <div class="w-16 h-16 bg-emerald-50 text-smnyl-emerald rounded-full flex items-center justify-center text-3xl shrink-0">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">Alfa Medical Nacional (Pleno)</h3>
+                            <p class="text-sm text-gray-500 font-medium">Atención en México + Urgencias Extranjero</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8 flex-grow">
+                        <div class="bg-emerald-50/50 p-4 rounded-xl border border-emerald-100 flex justify-between items-center">
+                            <span class="text-sm text-gray-600 font-medium">Suma Asegurada</span>
+                            <span class="font-bold text-smnyl-emerald">$170,000,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-smnyl-gold"></i> Deducible</span>
+                            <span class="font-bold text-gray-800">$96,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-percent text-smnyl-gold"></i> Coaseguro</span>
+                            <span class="font-bold text-gray-800">10% <span class="text-xs font-normal text-gray-500">(Tope: $97,000 MXN)</span></span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2 border-t border-gray-100">
+                            <span class="text-gray-500 text-sm">Tabulador Médico</span>
+                            <span class="font-bold text-gray-700">GAMMA</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-center">
+                        <p class="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-1">Prima Total Anual</p>
+                        <p class="text-4xl font-heading font-bold text-smnyl-blue">$19,939.17 <span class="text-lg font-normal text-gray-500">MXN</span></p>
+                        <p class="text-xs text-gray-500 mt-2">Incluye IVA, Eliminación Deducible por Accidente y Asistencia en el Extranjero ($100k USD)</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="retiro" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-40 pointer-events-none">
+            <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-smnyl-light blur-3xl opacity-20"></div>
+            <div class="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-smnyl-gold blur-3xl opacity-10"></div>
+        </div>
+        
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-gold font-bold uppercase tracking-widest text-sm"><i class="fa-solid fa-chart-pie mr-2"></i>Estrategias Patrimoniales</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Planes de Retiro (Imagina Ser Dólares)</h2>
+                <p class="text-gray-600 mt-4 max-w-3xl mx-auto">Tres alternativas estructuradas en Dólares (USD). Compara entre un plan base, un plan con mayor suma asegurada y un plan donde limitamos tus aportaciones a solo 15 años.</p>
+            </div>
+
+            <!-- Tarjetas de las 3 Opciones -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal mb-16">
+                
+                <!-- Opción A -->
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-200 flex flex-col hover:-translate-y-1 transition-transform">
+                    <div class="bg-smnyl-blue p-6 text-center rounded-t-3xl border-b-4 border-blue-400">
+                        <span class="bg-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-full mb-2 inline-block backdrop-blur-sm">OPCIÓN A: BASE 120k</span>
+                        <h3 class="font-heading text-2xl font-bold text-white">Imagina Ser 65</h3>
+                        <p class="text-blue-200 text-xs mt-1">Aportaciones por 24 años hasta tu retiro.</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-5 pb-5 border-b border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Aportación Anual</p>
+                            <p class="font-heading text-3xl font-bold text-gray-800 mt-1">$3,841 <span class="text-base text-gray-500 font-normal">USD</span></p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-6 flex-grow">
+                            <li class="flex items-start"><i class="fa-solid fa-shield text-smnyl-light mt-1 mr-2"></i> Suma Asegurada Inicial: <strong>$120,000 USD</strong>.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-calendar-check text-smnyl-light mt-1 mr-2"></i> Tiempo de pago: 24 años.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-wallet text-smnyl-light mt-1 mr-2"></i> Aportación total acumulada: ~$92,184 USD.</li>
+                        </ul>
+                        <div class="bg-blue-50 p-4 rounded-xl text-center">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold">Fondo Proyectado (A los 65)</p>
+                            <p class="font-bold text-smnyl-blue text-2xl">$97,049 USD</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opción B -->
+                <div class="bg-white rounded-3xl shadow-2xl border-2 border-smnyl-gold/40 flex flex-col transform md:scale-105 z-10 relative">
+                    <div class="absolute -top-4 inset-x-0 flex justify-center">
+                        <span class="bg-smnyl-gold text-white text-[10px] font-bold px-4 py-1.5 rounded-full shadow-md uppercase tracking-wider flex items-center gap-1.5"><i class="fa-solid fa-star text-white/90"></i> Opción Recomendada</span>
+                    </div>
+                    <div class="bg-gradient-to-br from-smnyl-blue to-smnyl-light p-6 text-center rounded-t-3xl border-b-4 border-smnyl-gold mt-1">
+                        <span class="bg-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-full mb-2 inline-block backdrop-blur-sm">OPCIÓN B: ALTA PROTECCIÓN</span>
+                        <h3 class="font-heading text-2xl font-bold text-white">Imagina Ser 65</h3>
+                        <p class="text-blue-100 text-xs mt-1">El mejor balance: Mayor respaldo patrimonial aportando por 24 años.</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-5 pb-5 border-b border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Aportación Anual</p>
+                            <p class="font-heading text-3xl font-bold text-gray-800 mt-1">$4,801 <span class="text-base text-gray-500 font-normal">USD</span></p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-6 flex-grow">
+                            <li class="flex items-start"><i class="fa-solid fa-shield text-smnyl-gold mt-1 mr-2"></i> Suma Asegurada Inicial: <strong>$150,000 USD</strong>.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-calendar-check text-smnyl-gold mt-1 mr-2"></i> Tiempo de pago: 24 años.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-wallet text-smnyl-gold mt-1 mr-2"></i> Aportación total acumulada: ~$115,224 USD.</li>
+                        </ul>
+                        <div class="bg-yellow-50 p-4 rounded-xl text-center border border-yellow-100">
+                            <p class="text-[10px] text-yellow-700 uppercase font-bold">Fondo Proyectado (A los 65)</p>
+                            <p class="font-bold text-gray-800 text-2xl">$121,312 USD</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opción C -->
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-200 flex flex-col hover:-translate-y-1 transition-transform">
+                    <div class="bg-gray-800 p-6 text-center rounded-t-3xl border-b-4 border-emerald-500">
+                        <span class="bg-white/10 text-white text-[10px] font-bold px-3 py-1 rounded-full mb-2 inline-block backdrop-blur-sm">OPCIÓN C: PAGOS LIMITADOS</span>
+                        <h3 class="font-heading text-2xl font-bold text-white">Imagina Ser 65</h3>
+                        <p class="text-gray-300 text-xs mt-1">Esfuerzo concentrado por solo 15 años.</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col">
+                        <div class="mb-5 pb-5 border-b border-gray-100 text-center">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide">Aportación Anual</p>
+                            <p class="font-heading text-3xl font-bold text-gray-800 mt-1">$4,887 <span class="text-base text-gray-500 font-normal">USD</span></p>
+                        </div>
+                        <ul class="space-y-3 text-sm text-gray-600 mb-6 flex-grow">
+                            <li class="flex items-start"><i class="fa-solid fa-shield text-emerald-600 mt-1 mr-2"></i> Suma Asegurada Inicial: <strong>$75,000 USD</strong>.</li>
+                            <li class="flex items-start"><i class="fa-solid fa-stopwatch text-emerald-600 mt-1 mr-2"></i> <strong>Dejas de pagar a los 56 años.</strong></li>
+                            <li class="flex items-start"><i class="fa-solid fa-wallet text-emerald-600 mt-1 mr-2"></i> Aportación total acumulada: ~$73,305 USD.</li>
+                        </ul>
+                        <div class="bg-emerald-50 p-4 rounded-xl text-center border border-emerald-100">
+                            <p class="text-[10px] text-emerald-700 uppercase font-bold">Fondo Proyectado (A los 65)</p>
+                            <p class="font-bold text-emerald-800 text-2xl">$81,048 USD</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="bg-white p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 reveal">
+                <h3 class="font-heading text-2xl font-bold text-smnyl-blue mb-2 text-center">Proyección de Crecimiento del Fondo (USD)</h3>
+                <p class="text-center text-gray-500 text-sm mb-8">Compara cómo evoluciona tu dinero en las diferentes opciones. Observa la línea punteada de la Opción C: tus aportaciones se detienen en el Año 15, pero el fondo sigue creciendo gracias al interés compuesto.</p>
+                
+                <div class="relative w-full" style="height: 450px;">
+                    <canvas id="crecimientoRetiroChart"></canvas>
+                </div>
+                
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-600 bg-gray-50 p-5 rounded-2xl border border-gray-100 text-center">
+                    <div>
+                        <span class="font-bold text-smnyl-blue block mb-1">Opción A (Base 120k)</span>
+                        Inviertes $92k USD en total<br>
+                        Recuperas <strong class="text-sm text-gray-800">$97,049 USD</strong>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 pt-3 md:pt-0 pl-0 md:pl-4">
+                        <span class="font-bold text-smnyl-gold block mb-1">Opción B (Mayor Respaldo 150k)</span>
+                        Inviertes $115k USD en total<br>
+                        Recuperas <strong class="text-sm text-gray-800">$121,312 USD</strong>
+                    </div>
+                    <div class="border-t md:border-t-0 md:border-l border-gray-200 pt-3 md:pt-0 pl-0 md:pl-4">
+                        <span class="font-bold text-emerald-600 block mb-1">Opción C (Pagos a 15 años)</span>
+                        Inviertes solo $73k USD en total<br>
+                        Recuperas <strong class="text-sm text-gray-800">$81,048 USD</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-14 border-t-4 border-smnyl-emerald">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-2 justify-center md:justify-start mb-4">
+                        <i class="fa-solid fa-building-shield text-smnyl-emerald text-3xl"></i>
+                        <span class="font-heading font-bold text-2xl tracking-wide">Seguros Monterrey</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium">New York Life</p>
+                    <p class="text-gray-500 text-xs mt-6 max-w-xl leading-relaxed">
+                        * Los valores mostrados son de carácter ilustrativo basados en las cotizaciones generadas el 04 y 06 de septiembre de 2026. La emisión está sujeta a las condiciones de la aseguradora. Tasa de interés hipotética en proyección PPR en USD: 4.16%. Las cantidades de retiro y las primas están en Dólares (USD) a menos que se especifique lo contrario (Plan Pleno Nacional en MXN).
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700 w-full md:w-auto shadow-2xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-smnyl-emerald text-xs font-bold uppercase tracking-widest mb-3">Tu Asesor Patrimonial</p>
+                        <p class="font-heading text-xl font-bold mb-1">Victor Hugo Diaz Martinez de Escobar</p>
+                        <p class="text-gray-400 text-sm mb-6">Protegiendo Mejor® a tu familia.</p>
+                        
+                        <div class="flex flex-col gap-3 text-sm text-gray-300">
+                            <a href="mailto:vhdiazme@gmail.com" class="flex items-center gap-3 hover:text-white transition group/link">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center group-hover/link:bg-smnyl-emerald transition-colors">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                vhdiazme@gmail.com
+                            </a>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-id-badge"></i>
+                                </div>
+                                Clave SMNYL: 76175
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 120;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        setTimeout(reveal, 200);
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('crecimientoRetiroChart');
+            if(ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Año 1 (41 años)', 'Año 5 (45 años)', 'Año 10 (50 años)', 'Año 15 (55 años)', 'Año 20 (60 años)', 'Año 24 (65 años)'],
+                        datasets: [
+                            {
+                                label: 'Opción A: IS 65 (Base $120k)',
+                                data: [105, 10579, 29165, 49792, 74039, 97049],
+                                borderColor: '#0055A5',
+                                backgroundColor: 'rgba(0, 85, 165, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#0055A5',
+                                pointRadius: 5
+                            },
+                            {
+                                label: 'Opción B: IS 65 (Alta Protección $150k)',
+                                data: [131, 13224, 36456, 62241, 92548, 121312],
+                                borderColor: '#D4AF37',
+                                backgroundColor: 'transparent',
+                                borderWidth: 3,
+                                fill: false,
+                                tension: 0.4,
+                                pointBackgroundColor: '#D4AF37',
+                                pointRadius: 5
+                            },
+                            {
+                                label: 'Opción C: IS 65 (Pagos Limitados 15 Años)',
+                                data: [0, 8176, 30140, 56614, 72750, 81048],
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#10B981',
+                                pointRadius: 5
+                            },
+                            {
+                                label: 'Aportación Acumulada (Opción C)',
+                                data: [4887, 24435, 48870, 73305, 73305, 73305],
+                                borderColor: '#9CA3AF',
+                                borderDash: [5, 5],
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label = label.split(':')[0] + ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: { family: "'Inter', sans-serif", size: 12 }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + (value / 1000).toFixed(0) + 'k';
+                                    },
+                                    font: { family: "'Inter', sans-serif" }
+                                },
+                                grid: { color: '#F3F4F6' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { family: "'Inter', sans-serif" } }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
