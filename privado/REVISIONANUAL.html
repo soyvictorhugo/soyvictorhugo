@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisión Anual 2026 - Estrategia Financiera</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Incluimos FontAwesome para iconos limpios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0a192f', // Azul marino profundo de la imagen
+                            main: '#172a45', // Azul un poco más claro
+                            light: '#8892b0', // Gris azulado para texto secundario
+                            accent: '#64ffda', // Un verde/cyan suave para destacar, inspirado en la porción de la gráfica
+                            bg: '#f8fafc', // Fondo gris muy claro
+                            card: '#ffffff'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -15px rgba(2, 12, 27, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados para animaciones y scroll */
+        body {
+            background-color: theme('colors.brand.bg');
+            color: theme('colors.brand.dark');
+            overflow: hidden; /* Ocultamos el scroll general, usaremos slide */
+        }
+
+        .slide-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Desactiva interacción cuando no está visible */
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto; /* Activa interacción */
+        }
+
+        /* Estilos para inputs invisibles (para que el asesor tome notas si quiere) */
+        .editable-text {
+            border: none;
+            border-bottom: 2px dashed theme('colors.brand.light');
+            background: transparent;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1.125rem;
+            color: theme('colors.brand.main');
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .editable-text:focus {
+            border-bottom-color: theme('colors.brand.dark');
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: background 0.2s;
+        }
+        
+        .checkbox-label:hover {
+            background: theme('colors.gray.100');
+        }
+
+        /* Botones de navegación */
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 50;
+            color: theme('colors.brand.dark');
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-prev { left: 20px; }
+        .nav-next { right: 20px; }
+
+        /* Barra de progreso */
+        .progress-bar-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: theme('colors.gray.300');
+            border-radius: 2px;
+            z-index: 50;
+        }
+        .progress-bar {
+            height: 100%;
+            background: theme('colors.brand.dark');
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .card {
+            background: theme('colors.brand.card');
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: theme('boxShadow.soft');
+            width: 100%;
+            max-width: 800px;
+            /* Efecto sutil de aparecer hacia arriba */
+            transform: translateY(20px);
+            transition: transform 0.6s ease, opacity 0.6s ease;
+        }
+        
+        .slide.active .card {
+            transform: translateY(0);
+        }
+
+        /* Badges estilo la gráfica del PDF */
+        .badge {
+            background-color: theme('colors.brand.bg');
+            color: theme('colors.brand.light');
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid theme('colors.gray.200');
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+
+    <!-- Navegación -->
+    <button class="nav-btn nav-prev" onclick="prevSlide()" id="btnPrev" style="display: none;">
+        <i class="fas fa-chevron-left text-xl"></i>
+    </button>
+    <button class="nav-btn nav-next" onclick="nextSlide()" id="btnNext">
+        <i class="fas fa-chevron-right text-xl"></i>
+    </button>
+
+    <!-- Indicador de progreso -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar" style="width: 12.5%;"></div>
+    </div>
+
+    <div class="slide-container" id="slideContainer">
+
+        <!-- Slide 0: Portada -->
+        <div class="slide active">
+            <div class="card text-center border-t-4 border-brand-dark">
+                <h1 class="text-4xl font-bold text-brand-dark mb-4 tracking-tight">Revisión Anual 2026</h1>
+                <p class="text-xl text-brand-light mb-8 italic">Una conversación natural para mantener tus metas en equilibrio con tu vida actual.</p>
+                
+                <div class="w-24 h-1 bg-brand-accent mx-auto mb-8 rounded-full"></div>
+                
+                <p class="text-gray-500 text-sm mt-12">Desliza o usa las flechas para comenzar</p>
+                <button onclick="nextSlide()" class="mt-4 px-6 py-2 bg-brand-dark text-white rounded-full hover:bg-brand-main transition-colors shadow-lg">Comenzar</button>
+            </div>
+        </div>
+
+        <!-- Slide 1: Volviendo al inicio -->
+        <div class="slide">
+            <div class="card">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-brand-dark mr-4">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">1. Volviendo al inicio</h2>
+                </div>
+                
+                <div class="space-y-8 mt-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-brand-light uppercase tracking-wide mb-2">En nuestra primera reunión, lo más importante para ti era:</label>
+                        <input type="text" class="editable-text" placeholder="Ej. Proteger a mi familia, ahorrar para Retiro...">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-brand-light uppercase tracking-wide mb-2">Tu siguiente meta era:</label>
+                        <input type="text" class="editable-text" placeholder="Ej. Comprar una casa, fondo de emergencias...">
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-lg mt-6 border border-blue-100">
+                        <label class="block text-lg font-bold text-brand-dark mb-3">Hoy, ¿qué es lo más importante en tu vida en este momento?</label>
+                        <textarea class="editable-text resize-none h-20" placeholder="Anotamos aquí tus reflexiones..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Tu vida hoy -->
+        <div class="slide">
+            <div class="card">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-700 mr-4">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">2. Tu Vida Hoy</h2>
+                </div>
+                <p class="text-brand-light mb-6">¿Qué cambios importantes han ocurrido este año?</p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Cambio de trabajo</span>
+                    </label>
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Incremento de ingresos</span>
+                    </label>
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Nuevo negocio</span>
+                    </label>
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Plan de matrimonio</span>
+                    </label>
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Plan de hijos</span>
+                    </label>
+                    <label class="checkbox-label border border-gray-200">
+                        <input type="checkbox" class="w-5 h-5 text-brand-dark rounded border-gray-300 focus:ring-brand-dark mr-3">
+                        <span class="text-gray-700">Tener plan de Retiro</span>
+                    </label>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-brand-light uppercase tracking-wide mb-2">¿Cómo te sientes respecto a estos cambios?</label>
+                    <input type="text" class="editable-text" placeholder="...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Protección y Tranquilidad -->
+        <div class="slide">
+            <div class="card relative overflow-hidden">
+                <!-- Elemento decorativo inspirado en el PDF -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-dark rounded-bl-full opacity-5"></div>
+                
+                <div class="flex items-center mb-6 relative z-10">
+                    <div class="w-10 h-10 rounded-full bg-brand-dark flex items-center justify-center text-white mr-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">3. Protección y Tranquilidad</h2>
+                </div>
+                
+                <div class="space-y-8 relative z-10">
+                    <div class="flex justify-between items-end border-b-2 border-gray-100 pb-2">
+                        <label class="text-gray-600 font-medium">Suma asegurada actual:</label>
+                        <div class="flex items-center">
+                            <span class="text-xl text-gray-400 mr-1">$</span>
+                            <input type="text" class="editable-text text-right font-bold text-xl w-32 !border-none !p-0" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 mt-8">
+                        <div>
+                            <p class="text-brand-main font-medium mb-2">¿Te sientes cómoda(o) con el nivel de protección que hoy tienes?</p>
+                            <input type="text" class="editable-text text-sm" placeholder="Reflexión...">
+                        </div>
+                        <div>
+                            <p class="text-brand-main font-medium mb-2">¿Ha cambiado tu situación de dependientes económicos?</p>
+                            <input type="text" class="editable-text text-sm" placeholder="Nuevos hijos, padres a cargo...">
+                        </div>
+                        <div class="bg-brand-bg p-4 rounded-lg border-l-4 border-brand-accent">
+                            <p class="text-brand-dark font-bold mb-2">¿Debemos fortalecer alguna cobertura este año?</p>
+                            <input type="text" class="editable-text text-sm !bg-white" placeholder="Ej. Gastos médicos, Invalidez, Mayor suma de vida...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Retiro -->
+        <div class="slide">
+            <div class="card">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-700 mr-4">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">4. Retiro</h2>
+                </div>
+                <p class="text-brand-light mb-8 text-sm">Visualizando la etapa de libertad financiera.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Edad objetivo de retiro</label>
+                            <div class="flex items-center">
+                                <input type="number" class="editable-text text-2xl font-bold w-20 text-center" placeholder="65">
+                                <span class="text-gray-500 ml-2">años</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">Ingreso mensual deseado (Hoy)</label>
+                            <div class="flex items-center">
+                                <span class="text-xl text-gray-400 mr-1">$</span>
+                                <input type="text" class="editable-text font-bold text-xl w-32" placeholder="0.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 bg-gray-50 p-6 rounded-xl border border-gray-100">
+                        <div>
+                            <label class="block text-xs font-semibold text-brand-main uppercase tracking-wide mb-1">Capital estimado necesario</label>
+                            <div class="flex items-center text-brand-dark">
+                                <span class="text-xl mr-1">$</span>
+                                <input type="text" class="editable-text font-bold text-2xl w-full" placeholder="Cálculo aproximado...">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Aportación actual destinada a retiro</label>
+                            <div class="flex items-center text-gray-600">
+                                <span class="text-lg mr-1">$</span>
+                                <input type="text" class="editable-text font-medium text-lg w-full" placeholder="Mensual / Anual">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Metas y sueños adicionales -->
+        <div class="slide">
+            <div class="card">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600 mr-4">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">5. Metas y Sueños Adicionales</h2>
+                </div>
+                
+                <div class="space-y-5 mt-6">
+                    <div class="flex items-center border-b border-gray-100 pb-3">
+                        <div class="w-8 flex-shrink-0 text-center text-brand-light"><i class="fas fa-plane"></i></div>
+                        <div class="flex-grow">
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide">Ahorro específico (Viaje, Fondo...)</label>
+                            <input type="text" class="editable-text text-sm" placeholder="¿Qué proyecto tienes en mente?">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center border-b border-gray-100 pb-3">
+                        <div class="w-8 flex-shrink-0 text-center text-brand-light"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="flex-grow">
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide">Meta Educativa (Hijos / Propia)</label>
+                            <input type="text" class="editable-text text-sm" placeholder="Universidad, maestría, diplomado...">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center border-b border-gray-100 pb-3">
+                        <div class="w-8 flex-shrink-0 text-center text-brand-light"><i class="fas fa-home"></i></div>
+                        <div class="flex-grow">
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wide">Compra o inversión futura</label>
+                            <input type="text" class="editable-text text-sm" placeholder="Bienes raíces, terreno, negocio...">
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center pb-3">
+                        <div class="w-8 flex-shrink-0 text-center text-brand-light"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="flex-grow">
+                            <label class="block text-xs font-semibold text-brand-main uppercase tracking-wide">Fecha estimada para lograr la meta principal</label>
+                            <input type="text" class="editable-text font-medium text-brand-dark" placeholder="Mes y Año">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Expansión y Referidos -->
+        <div class="slide">
+            <div class="card bg-brand-dark text-white shadow-xl">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-brand-accent mr-4">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">6. Conexión</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-6 text-sm leading-relaxed">
+                    Gran parte de mi trabajo es ayudar a personas a tener informacion de valor y claridad. 
+                    <br><span class="font-semibold text-white">Busco conectar todos los dias con personas como tu</span> que estén viviendo cambios importantes (como los que vimos hoy) y puedan beneficiarse de una conversación como ésta:
+                </p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center bg-white/5 p-2 rounded">
+                        <span class="w-6 text-brand-accent font-bold">1.</span>
+                        <input type="text" class="editable-text !border-white/20 !text-white w-full" placeholder="Nombre y motivo (ej. se acaba de casar)...">
+                    </div>
+                    <div class="flex items-center bg-white/5 p-2 rounded">
+                        <span class="w-6 text-brand-accent font-bold">2.</span>
+                        <input type="text" class="editable-text !border-white/20 !text-white w-full" placeholder="...">
+                    </div>
+                    <div class="flex items-center bg-white/5 p-2 rounded">
+                        <span class="w-6 text-brand-accent font-bold">3.</span>
+                        <input type="text" class="editable-text !border-white/20 !text-white w-full" placeholder="...">
+                    </div>
+                    <div class="flex items-center bg-white/5 p-2 rounded">
+                        <span class="w-6 text-brand-accent font-bold">4.</span>
+                        <input type="text" class="editable-text !border-white/20 !text-white w-full" placeholder="...">
+                    </div>
+                    <div class="flex items-center bg-white/5 p-2 rounded">
+                        <span class="w-6 text-brand-accent font-bold">5.</span>
+                        <input type="text" class="editable-text !border-white/20 !text-white w-full" placeholder="...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Cierre -->
+        <div class="slide">
+            <div class="card border-l-4 border-brand-dark">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-dark mr-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-brand-dark">7. Paso final</h2>
+                </div>
+                
+                <div class="space-y-6 mt-8">
+                    <div>
+                        <label class="block text-sm font-bold text-brand-main mb-2">Ajustes o propuestas acordadas hoy:</label>
+                        <textarea class="editable-text resize-none h-24" placeholder="Ej. Realizar proyección para aumentar suma asegurada, abrir fondo para retiro..."></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1"><i class="far fa-calendar-check mr-1"></i> Fecha de seguimiento</label>
+                            <input type="text" class="editable-text text-sm font-bold" placeholder="Día/Mes/Año">
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1"><i class="far fa-calendar-alt mr-1"></i> Próxima revisión anual</label>
+                            <input type="text" class="editable-text text-sm font-bold" placeholder="Mes del 2027">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-center">
+                    <p class="text-brand-light italic text-sm mb-4">"Una base sólida para tu tranquilidad"</p>
+                    <button class="px-6 py-2 border-2 border-brand-dark text-brand-dark rounded-full hover:bg-brand-dark hover:text-white transition-colors font-semibold" onclick="window.print()">
+                        <i class="fas fa-print mr-2"></i> Guardar / Imprimir PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const container = document.getElementById('slideContainer');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const progressBar = document.getElementById('progressBar');
+
+        function updateSlider() {
+            // Mover el contenedor
+            container.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            
+            // Actualizar clases activas para animaciones
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Actualizar botones
+            btnPrev.style.display = currentSlide === 0 ? 'none' : 'flex';
+            btnNext.style.display = currentSlide === slides.length - 1 ? 'none' : 'flex';
+
+            // Actualizar barra de progreso
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlider();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlider();
+            }
+        }
+
+        // Navegación con teclado (Flechas)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Opcional: Impedir que la tecla Enter haga submit si estás escribiendo
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                // Podríamos hacer que 'Enter' salte al siguiente input, pero es mejor dejarlo estándar
+            }
+        });
+    </script>
+</body>
+</html>
