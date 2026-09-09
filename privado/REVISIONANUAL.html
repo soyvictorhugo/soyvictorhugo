@@ -171,6 +171,61 @@
             letter-spacing: 0.05em;
             border: 1px solid theme('colors.gray.200');
         }
+
+        @media print {
+            body {
+                overflow: visible !important;
+                background-color: #fff !important;
+            }
+
+            .slide-container {
+                display: block !important;
+                transform: none !important;
+                height: auto !important;
+                width: 100% !important;
+            }
+
+            .slide {
+                display: flex !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                min-height: 100vh !important; /* Cada slide toma al menos una página completa */
+                height: auto !important;
+                page-break-after: always !important; /* Fuerza salto de página después de cada slide */
+                break-after: page !important;
+                transform: none !important;
+                pointer-events: auto !important;
+                padding: 1rem !important;
+            }
+
+            .card {
+                transform: none !important;
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important; /* Borde sutil para delimitar en papel */
+                margin: 0 auto !important;
+                page-break-inside: avoid !important;
+            }
+
+            /* Ocultar elementos de la interfaz de usuario que no van en el PDF */
+            .nav-btn, 
+            .progress-bar-container,
+            button[onclick="window.print()"],
+            button[onclick="nextSlide()"] {
+                display: none !important;
+            }
+
+            /* Remarcar las líneas de texto para que se vean bien en PDF */
+            .editable-text {
+                border-bottom: 1px solid #000 !important;
+                color: #000 !important;
+            }
+
+            /* Forzar a que los colores de fondo y gráficos se impriman */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased text-gray-800">
