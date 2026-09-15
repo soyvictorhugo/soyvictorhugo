@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta Médica - Dra. Itzel Lustre</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            gray: '#F3F4F6',
+                            emerald: '#10B981',
+                            teal: '#0F766E'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px -5px rgba(0, 51, 102, 0.08);
+        }
+
+        .bg-hero-gradient {
+            background: linear-gradient(-45deg, #003366, #0055A5, #0F766E, #003366);
+            background-size: 400% 400%;
+            animation: gradient-x 15s ease infinite;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0055A5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #003366; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-emerald selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-smnyl-blue text-3xl"></i>
+                    <span class="font-heading font-bold text-xl text-smnyl-blue">SMNYL <span class="font-light text-gray-500">| Asesoría</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Inicio</a>
+                    <a href="#perfil" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Perfil</a>
+                    <a href="#gmm" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Comparativo de Planes</a>
+                    <a href="#beneficios" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Beneficios Exclusivos</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-gray-50 px-4 py-2 rounded-lg border border-gray-200 flex items-center shadow-sm">
+                        <span class="text-xs font-bold text-gray-700 uppercase tracking-wider"><i class="fa-solid fa-calendar-day text-smnyl-gold mr-2"></i> Propuesta Oficial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-hero-gradient">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-20 w-64 h-64 bg-smnyl-emerald rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center gap-2 py-1 px-4 rounded-full bg-white/10 text-white text-sm font-semibold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-lg">
+                <i class="fa-solid fa-user-doctor text-yellow-300"></i> PROTECCIÓN SALUD PREMIUM
+            </span>
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                Protegiendo a quienes cuidan de otros, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-smnyl-gold to-yellow-200">Dra. Itzel Lustre.</span>
+            </h1>
+            <p class="text-xl text-blue-100 mb-10 font-light max-w-3xl mx-auto leading-relaxed">
+                Hemos desarrollado un comparativo a tu medida analizando nuestras dos mejores estructuras de Gastos Médicos Mayores (Alfa Medical Pleno vs. Íntegro), diseñadas para brindarte acceso a la mejor medicina privada en México.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#gmm" class="px-8 py-4 rounded-full bg-white text-smnyl-blue font-bold hover:bg-gray-50 transition shadow-xl transform hover:-translate-y-1">
+                    Comparar Planes Médicos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-16 bg-white border-b border-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 reveal border border-gray-200 shadow-md relative overflow-hidden">
+                <div class="absolute right-0 top-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10 opacity-50"></div>
+                <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
+                    <i class="fa-solid fa-user-doctor text-4xl text-smnyl-light"></i>
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <h2 class="font-heading text-3xl font-bold text-gray-800">Dra. Itzel Lustre</h2>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-3">
+                        <span class="px-3 py-1 bg-smnyl-blue text-white rounded-full text-xs font-semibold shadow-sm">Titular Asegurada</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold border border-gray-200"><i class="fa-solid fa-calendar text-smnyl-gold mr-1"></i> 32 años</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold border border-gray-200"><i class="fa-solid fa-venus text-pink-500 mr-1"></i> Femenino</span>
+                        <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold border border-green-200"><i class="fa-solid fa-heart-circle-check mr-1"></i> Riesgo Normal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gmm" class="py-24 bg-smnyl-gray relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-light font-bold uppercase tracking-widest text-sm"><i class="fa-solid fa-scale-balanced mr-2"></i>Comparativo Estratégico</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-smnyl-blue mt-2">Seguro de Gastos Médicos Alfa Medical</h2>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Ambos planes comparten la misma suma asegurada millonaria y las mismas coberturas base. La principal diferencia radica en la estructura de acceso a la red hospitalaria (Pleno vs. Íntegro).</p>
+                <div class="w-24 h-1.5 bg-smnyl-gold mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 reveal max-w-5xl mx-auto">
+                
+                <!-- Plan Íntegro -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-smnyl-light relative overflow-hidden flex flex-col group hover:-translate-y-2 transition-transform duration-300">
+                    <div class="absolute top-0 right-0 bg-smnyl-light text-white text-xs font-bold px-4 py-2 rounded-bl-2xl">OPCIÓN 1 - ÍNTEGRO</div>
+                    
+                    <div class="flex items-center gap-4 mb-6 mt-4">
+                        <div class="w-16 h-16 bg-blue-50 text-smnyl-light rounded-full flex items-center justify-center text-3xl shrink-0">
+                            <i class="fa-solid fa-hospital-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">Plan Íntegro</h3>
+                            <p class="text-sm text-gray-500 font-medium">Red hospitalaria optimizada en costo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8 flex-grow">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex justify-between items-center">
+                            <span class="text-sm text-gray-600 font-medium">Suma Asegurada</span>
+                            <span class="font-bold text-smnyl-blue">$170,000,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-smnyl-gold"></i> Deducible</span>
+                            <span class="font-bold text-gray-800">$53,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-percent text-smnyl-gold"></i> Coaseguro</span>
+                            <span class="font-bold text-gray-800">10% <span class="text-xs font-normal text-gray-500">(Tope: $97,000 MXN)</span></span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2 border-t border-gray-100">
+                            <span class="text-gray-500 text-sm">Tabulador Médico</span>
+                            <span class="font-bold text-gray-700">GAMMA</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2">
+                            <span class="text-gray-500 text-sm">Eliminación Deducible x Accidente</span>
+                            <span class="font-bold text-green-600"><i class="fa-solid fa-check"></i> Incluido</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-2xl p-6 text-center border border-blue-100">
+                        <p class="text-xs text-smnyl-blue uppercase font-semibold tracking-wide mb-1">Prima Total Anual</p>
+                        <p class="text-4xl font-heading font-bold text-smnyl-blue">$24,401.45 <span class="text-lg font-normal text-gray-600">MXN</span></p>
+                        <p class="text-xs text-gray-500 mt-2">Incluye IVA y Derechos de Póliza ($1,600)</p>
+                    </div>
+                </div>
+
+                <!-- Plan Pleno -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border-t-4 border-smnyl-gold relative overflow-hidden flex flex-col group transform md:scale-105 z-10">
+                    <div class="absolute -top-4 inset-x-0 flex justify-center">
+                        <span class="bg-smnyl-gold text-white text-xs font-bold px-5 py-1.5 rounded-full shadow-md uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-star"></i> Mayor Flexibilidad
+                        </span>
+                    </div>
+                    <div class="absolute top-0 right-0 bg-smnyl-gold text-white text-xs font-bold px-4 py-2 rounded-bl-2xl">OPCIÓN 2 - PLENO</div>
+                    
+                    <div class="flex items-center gap-4 mb-6 mt-6">
+                        <div class="w-16 h-16 bg-yellow-50 text-smnyl-gold rounded-full flex items-center justify-center text-3xl shrink-0">
+                            <i class="fa-solid fa-hospital"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-gray-800">Plan Pleno</h3>
+                            <p class="text-sm text-gray-500 font-medium">Libertad total en red nacional</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8 flex-grow">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex justify-between items-center">
+                            <span class="text-sm text-gray-600 font-medium">Suma Asegurada</span>
+                            <span class="font-bold text-smnyl-blue">$170,000,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-smnyl-gold"></i> Deducible</span>
+                            <span class="font-bold text-gray-800">$65,000 MXN</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2">
+                            <span class="text-gray-600 text-sm flex items-center gap-2"><i class="fa-solid fa-percent text-smnyl-gold"></i> Coaseguro</span>
+                            <span class="font-bold text-gray-800">10% <span class="text-xs font-normal text-gray-500">(Tope: $97,000 MXN)</span></span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2 border-t border-gray-100">
+                            <span class="text-gray-500 text-sm">Tabulador Médico</span>
+                            <span class="font-bold text-gray-700">GAMMA</span>
+                        </div>
+                        <div class="flex justify-between items-center px-2 pt-2">
+                            <span class="text-gray-500 text-sm">Eliminación Deducible x Accidente</span>
+                            <span class="font-bold text-green-600"><i class="fa-solid fa-check"></i> Incluido</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-smnyl-blue rounded-2xl p-6 text-center text-white shadow-inner">
+                        <p class="text-xs text-blue-200 uppercase font-semibold tracking-wide mb-1">Prima Total Anual</p>
+                        <p class="text-4xl font-heading font-bold text-smnyl-gold">$22,979.81 <span class="text-lg font-normal text-white">MXN</span></p>
+                        <p class="text-xs text-blue-200 mt-2">Incluye IVA y Derechos de Póliza ($1,700)</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-smnyl-light opacity-5 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-smnyl-gold opacity-5 rounded-full blur-3xl -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-smnyl-gold font-bold uppercase tracking-widest text-sm"><i class="fa-solid fa-gift mr-2"></i>Tu Póliza Incluye</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-gray-800 mt-2">Beneficios Exclusivos Alfa Medical</h2>
+                <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Al adquirir cualquiera de los dos planes (Pleno o Íntegro), tendrás acceso automático a estos beneficios diseñados para protegerte en cada etapa.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+                
+                <!-- Asistencia -->
+                <div class="flex gap-6 p-8 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 rounded-xl bg-blue-100 text-smnyl-blue flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-gray-800 mb-2">Asistencia Alfa Medical</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Orientación médica, nutricional y psicológica vía telefónica 24/7.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Servicios ilimitados de ambulancia terrestre.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Recomendaciones de médicos, especialistas y hospitales.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Dental -->
+                <div class="flex gap-6 p-8 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-tooth"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-gray-800 mb-2">Cobertura Dental</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> 2 limpiezas dentales anuales sin costo.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> 2 aplicaciones tópicas de flúor anuales.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-plus text-smnyl-gold mt-1"></i> <em>Opción de adquirir Dental Premium para mayores beneficios.</em></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Maternidad -->
+                <div class="flex gap-6 p-8 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 rounded-xl bg-pink-100 text-pink-500 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-baby-carriage"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-gray-800 mb-2">Beneficios de Maternidad</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Atractivo apoyo económico en caso de parto o cesárea.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Cobertura total por complicaciones durante el embarazo y el parto.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Cobertura del recién nacido.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Patrimonial -->
+                <div class="flex gap-6 p-8 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-16 h-16 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-house-chimney-window"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-gray-800 mb-2">Protección Patrimonial</h4>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> En caso de incapacidad total y permanente de la titular, se cubren las primas de la póliza.</li>
+                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-smnyl-gold mt-1"></i> Si la póliza cuenta con dependientes en el futuro (cónyuge/hijos), se cubren sus primas por 5 años en caso de fallecimiento o incapacidad de la titular.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-14 border-t-4 border-smnyl-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-2 justify-center md:justify-start mb-4">
+                        <i class="fa-solid fa-building-shield text-smnyl-light text-3xl"></i>
+                        <span class="font-heading font-bold text-2xl tracking-wide">Seguros Monterrey</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-medium">New York Life</p>
+                    <p class="text-gray-500 text-xs mt-6 max-w-xl leading-relaxed">
+                        * Fecha en que se elaboró la cotización: 07 de septiembre de 2026. Cotizador Web Versión: 2.18.5.0.
+                        Este es un estudio ilustrativo cuyo objeto es mostrar el posible comportamiento del producto. En todo caso, la emisión de una póliza estará sujeta a las Condiciones Generales y Particulares registradas ante CNSF para cada plan.
+                    </p>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700 w-full md:w-auto shadow-2xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl text-white group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <p class="text-smnyl-gold text-xs font-bold uppercase tracking-widest mb-3">Tu Asesora Profesional</p>
+                        <p class="font-heading text-xl font-bold mb-1">Marisol Aceval Chavez</p>
+                        <p class="text-gray-400 text-sm mb-6">Protegiendo Mejor® tu salud y patrimonio.</p>
+                        
+                        <div class="flex flex-col gap-3 text-sm text-gray-300">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
+                                    <i class="fa-solid fa-shield"></i>
+                                </div>
+                                SMNYL Asesoría Autorizada
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-xs text-gray-600">Propuesta confidencial elaborada exclusivamente para Itzel Lustre.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animaciones de revelado al hacer scroll (Scroll Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 120;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        setTimeout(reveal, 200); // Trigger inicial
+
+        // Efecto de cristal en el Navbar al hacer scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+    </script>
+</body>
+</html>
