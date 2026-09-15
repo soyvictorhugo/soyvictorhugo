@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategia de Retiro - Dra. Itzel Lustre | Imagina Ser®</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        smnyl: {
+                            blue: '#003366',
+                            light: '#0055A5',
+                            gold: '#D4AF37',
+                            amber: '#F59E0B',
+                            emerald: '#10B981',
+                            teal: '#0F766E',
+                            violet: '#8B5CF6',
+                            dark: '#0F172A',
+                            gray: '#F8FAFC'
+                        }
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: all 0.7s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 51, 102, 0.08);
+        }
+
+        .bg-gradient-smnyl {
+            background: linear-gradient(135deg, #002244 0%, #003366 50%, #0055A5 100%);
+        }
+
+        .table-container::-webkit-scrollbar { height: 6px; width: 6px; }
+        .table-container::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .table-container::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Custom input styling for live exchange rates */
+        .rate-input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s;
+        }
+        .rate-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #D4AF37;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-smnyl-gold selection:text-white">
+
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-smnyl-blue flex items-center justify-center text-smnyl-gold shadow-md">
+                        <i class="fa-solid fa-shield-halved text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-lg text-smnyl-blue tracking-tight block leading-none">SEGUROS MONTERREY</span>
+                        <span class="font-sans text-xs text-gray-500 font-medium tracking-wider uppercase">NEW YORK LIFE</span>
+                    </div>
+                </div>
+
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="#inicio" class="text-sm font-semibold text-gray-600 hover:text-smnyl-light transition">Inicio</a>
+                    <a href="#perfil" class="text-sm font-semibold text-gray-600 hover:text-smnyl-light transition">Perfil Dra. Itzel</a>
+                    <a href="#estrategias" class="text-sm font-semibold text-gray-600 hover:text-smnyl-light transition">Escenarios de Retiro</a>
+                    <a href="#proyeccion" class="text-sm font-semibold text-gray-600 hover:text-smnyl-light transition">Proyección</a>
+                    <a href="#proteccion" class="text-sm font-semibold text-gray-600 hover:text-smnyl-light transition">Coberturas</a>
+                </div>
+
+                <!-- Live Exchange Rate Indicators & Inputs -->
+                <div class="flex items-center gap-2">
+                    <div class="bg-gray-50 border border-gray-200 p-1.5 rounded-xl flex items-center gap-2 shadow-inner text-xs">
+                        <div class="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-800 rounded-lg border border-emerald-200 font-medium">
+                            <i class="fa-solid fa-dollar-sign text-emerald-600"></i>
+                            <span class="hidden sm:inline">USD:</span>
+                            <span class="text-gray-500">$</span>
+                            <input type="number" id="tc-dolar" value="16.97" step="0.01" class="w-14 font-bold bg-transparent text-gray-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded text-center">
+                        </div>
+
+                        <div class="flex items-center gap-1.5 px-2 py-1 bg-amber-50 text-amber-800 rounded-lg border border-amber-200 font-medium">
+                            <i class="fa-solid fa-coins text-smnyl-gold"></i>
+                            <span class="hidden sm:inline">UDI:</span>
+                            <span class="text-gray-500">$</span>
+                            <input type="number" id="tc-udi" value="8.82" step="0.01" class="w-14 font-bold bg-transparent text-gray-900 focus:outline-none focus:ring-1 focus:ring-amber-500 rounded text-center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="relative pt-28 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-gradient-smnyl">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <defs>
+                    <pattern id="pattern_grid_itzel" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#pattern_grid_itzel)" />
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center py-1.5 px-5 rounded-full bg-white/10 text-white text-xs md:text-sm font-semibold tracking-wider mb-6 border border-white/20 backdrop-blur-md shadow-lg uppercase">
+                <i class="fa-solid fa-award text-smnyl-gold mr-2 text-sm"></i> Propuesta Patrimonial Exclusiva
+            </span>
+
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
+                Diseñando tu independencia <br class="hidden sm:inline">
+                financiera, <span class="text-smnyl-gold relative inline-block">Dra. Itzel Lustre.</span>
+            </h1>
+
+            <p class="mt-4 text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-light leading-relaxed">
+                Estrategias de Retiro <strong>Imagina Ser®</strong> diseñadas en <strong>Dólares y UDIS</strong>. Compara la flexibilidad de pagos limitados a 15 años contra la constancia acumulativa hasta la edad de 65 años.
+            </p>
+
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <a href="#estrategias" class="px-8 py-4 rounded-full bg-smnyl-gold text-smnyl-blue font-bold hover:bg-yellow-400 transition-all shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Comparar 4 Escenarios
+                </a>
+                <a href="#proyeccion" class="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-md border border-white/30 transition-all shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line"></i> Proyección Visual
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="perfil" class="py-16 bg-white relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <span class="text-smnyl-gold font-bold uppercase tracking-widest text-xs">Planificación Personalizada</span>
+                <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-1">Perfil de la Titular</h2>
+                <div class="w-20 h-1 bg-smnyl-gold mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-8 reveal border border-gray-100 hover:shadow-xl transition-shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-blue-50/70 rounded-bl-full -z-10 opacity-80 pointer-events-none"></div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-28 h-28 mx-auto md:mx-0 bg-gradient-to-tr from-smnyl-blue to-smnyl-light rounded-full flex items-center justify-center shrink-0 shadow-lg text-white border-4 border-white relative">
+                        <i class="fa-solid fa-user-doctor text-4xl"></i>
+                        <div class="absolute -bottom-1 -right-1 bg-smnyl-gold text-smnyl-blue w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center md:text-left flex-grow space-y-3">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                            <div>
+                                <h3 class="font-heading font-extrabold text-3xl text-gray-900">Dra. Itzel Lustre</h3>
+                                <p class="text-sm text-gray-500 font-medium">Titular del Plan de Retiro Imagina Ser®</p>
+                            </div>
+                            <span class="self-center md:self-start px-4 py-1.5 bg-smnyl-blue text-white rounded-full text-xs font-semibold shadow-sm tracking-wide">
+                                Contratante & Asegurada
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                            <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                                <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Edad Actual</span>
+                                <span class="font-heading font-bold text-gray-800 text-lg">32 años</span>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                                <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Edad de Retiro</span>
+                                <span class="font-heading font-bold text-smnyl-blue text-lg">65 años</span>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                                <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Horizonte</span>
+                                <span class="font-heading font-bold text-smnyl-gold text-lg">33 años</span>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                                <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block">Estatus</span>
+                                <span class="font-heading font-bold text-emerald-600 text-lg"><i class="fa-solid fa-leaf text-xs mr-1"></i>No Fumadora</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="estrategias" class="py-20 bg-smnyl-gray relative overflow-hidden">
+        <div class="max-w-[92rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="text-center mb-10 reveal">
+                <span class="text-smnyl-gold font-bold uppercase tracking-widest text-xs"><i class="fa-solid fa-bullseye mr-2"></i>Análisis Comparativo</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-extrabold text-smnyl-blue mt-1">4 Alternativas Estructuradas</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl mx-auto text-sm md:text-base">
+                    Compara el balance entre Dólares y UDIS, así como la modalidad de pago limitante en 15 años versus aportar de forma continua hasta los 65 años.
+                </p>
+
+                <!-- Filter Controls -->
+                <div class="flex flex-wrap justify-center gap-2 mt-6" id="filter-buttons">
+                    <button onclick="filterCards('all')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-bold bg-smnyl-blue text-white shadow-md transition">Todas (4)</button>
+                    <button onclick="filterCards('usd')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-700 hover:bg-emerald-50 border border-gray-200 transition">Solo Dólares (USD)</button>
+                    <button onclick="filterCards('udi')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-700 hover:bg-amber-50 border border-gray-200 transition">Solo UDIS</button>
+                    <button onclick="filterCards('15')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-700 hover:bg-blue-50 border border-gray-200 transition">Pagos 15 Años</button>
+                    <button onclick="filterCards('65')" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-gray-700 hover:bg-purple-50 border border-gray-200 transition">Aportación hasta 65</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Cards Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal mb-16" id="strategy-cards-grid">
+                <!-- Javascript will populate cards here dynamically -->
+            </div>
+
+        </div>
+    </section>
+
+    <section id="proyeccion" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-6 md:p-10 rounded-3xl shadow-xl border border-gray-100 reveal relative overflow-hidden">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                    <div>
+                        <span class="text-smnyl-gold font-bold uppercase tracking-widest text-xs">Simulación Financiera</span>
+                        <h3 class="font-heading text-2xl md:text-3xl font-extrabold text-smnyl-blue">Crecimiento Proyectado del Fondo</h3>
+                        <p class="text-gray-500 text-xs md:text-sm mt-1">Evolución del capital en la divisa original del plan a lo largo de los 33 años.</p>
+                    </div>
+
+                    <!-- Plan Selector for Chart -->
+                    <div class="flex items-center gap-2">
+                        <label for="chartPlanSelect" class="text-xs font-bold text-gray-600">Visualizar:</label>
+                        <select id="chartPlanSelect" onchange="switchChartPlan(this.value)" class="bg-gray-50 border border-gray-300 rounded-xl px-3 py-2 text-xs font-bold text-smnyl-blue focus:outline-none focus:ring-2 focus:ring-smnyl-light">
+                            <option value="all">Comparar Todos los Escenarios</option>
+                            <option value="dolar_15">IS 15 - Dólares ($30,000 SA)</option>
+                            <option value="udi_15">IS 15 - UDI (75,000 UDI SA)</option>
+                            <option value="dolar_65">IS 65 - Dólares ($50,000 SA)</option>
+                            <option value="udi_65">IS 65 - UDI (100,000 UDI SA)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Canvas Chart -->
+                <div class="relative w-full z-10" style="height: 420px;">
+                    <canvas id="projectionChart"></canvas>
+                </div>
+
+                <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center border-t border-gray-100 pt-6" id="summary-metrics">
+                    <!-- Metrics populated by JS -->
+                </div>
+            </div>
+
+            <!-- Detailed Table View Section -->
+            <div id="detailed-table-container" class="mt-12 bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100 reveal">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 border-b border-gray-100 pb-4">
+                    <div>
+                        <h4 class="font-heading font-bold text-xl text-smnyl-blue" id="table-plan-title">Desglose Detallado del Seguro</h4>
+                        <p class="text-xs text-gray-500" id="table-plan-subtitle">Proyección basada en el estudio oficial Solucionline</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-medium text-gray-500">Seleccionar Plan:</span>
+                        <select id="tablePlanSelect" onchange="renderTable(this.value)" class="bg-gray-50 border border-gray-300 rounded-xl px-3 py-1.5 text-xs font-bold text-smnyl-blue focus:outline-none">
+                            <option value="dolar_15">IS 15 - Dólares</option>
+                            <option value="udi_15" selected>IS 15 - UDI</option>
+                            <option value="dolar_65">IS 65 - Dólares</option>
+                            <option value="udi_65">IS 65 - UDI</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-container overflow-x-auto rounded-2xl border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-xs sm:text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-4 py-3 text-left font-bold text-gray-600 uppercase">Año</th>
+                                <th scope="col" class="px-4 py-3 text-left font-bold text-gray-600 uppercase">Edad</th>
+                                <th scope="col" class="px-4 py-3 text-right font-bold text-gray-600 uppercase">Prima Anual Base</th>
+                                <th scope="col" class="px-4 py-3 text-right font-bold text-gray-600 uppercase">Equivalente MXN</th>
+                                <th scope="col" class="px-4 py-3 text-right font-bold text-gray-600 uppercase">Suma Asegurada</th>
+                                <th scope="col" class="px-4 py-3 text-right font-bold text-smnyl-blue uppercase">Fondo Reserva</th>
+                                <th scope="col" class="px-4 py-3 text-right font-bold text-emerald-600 uppercase">Valor en Efectivo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="bg-white divide-y divide-gray-200">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 p-4 bg-amber-50 rounded-2xl border border-amber-200 flex items-start gap-3 text-xs text-amber-900">
+                    <i class="fa-solid fa-circle-info text-amber-600 text-base mt-0.5 shrink-0"></i>
+                    <div>
+                        <strong>Nota de Referencia Financiera:</strong> Los rendimientos ilustrativos proyectados corresponden a <strong>4.16% en USD</strong> y <strong>3.95% en UDI</strong>. El Fondo de Reserva constituye la cantidad disponible en caso de liquidación o cancelación a edad 65.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="proteccion" class="py-20 bg-smnyl-gray">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <span class="text-smnyl-gold font-bold uppercase tracking-widest text-xs">Protección Integral</span>
+                <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-1">Beneficios Incluidos en tu Plan</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-sm">Más allá del ahorro para el retiro, Imagina Ser® blinda tu capacidad de generar ingresos.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
+                
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100 flex flex-col justify-between hover:shadow-xl transition">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-smnyl-blue flex items-center justify-center text-xl mb-4 font-bold shadow-sm">
+                            <i class="fa-solid fa-wheelchair"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-lg text-gray-900 mb-2">Exención de Pago por Invalidez (BIT)</h3>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Si sufres invalidez total y permanente, Seguros Monterrey absorbe las primas restantes de tu plan. Tu ahorro continuará creciendo hacia los 65 años sin que realices más aportaciones.
+                        </p>
+                    </div>
+                    <span class="mt-4 inline-block text-[11px] font-bold text-smnyl-blue bg-blue-50 py-1 px-3 rounded-full w-fit">Incluido en Base</span>
+                </div>
+
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100 flex flex-col justify-between hover:shadow-xl transition">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-smnyl-amber flex items-center justify-center text-xl mb-4 font-bold shadow-sm">
+                            <i class="fa-solid fa-hand-holding-medical"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-lg text-gray-900 mb-2">Suma Asegurada por Invalidez (BAIT)</h3>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Al diagnosticarse invalidez total y permanente, se te entrega el 100% de la Suma Asegurada de manera inmediata en vida para respaldar tu estabilidad económica.
+                        </p>
+                    </div>
+                    <span class="mt-4 inline-block text-[11px] font-bold text-amber-700 bg-amber-50 py-1 px-3 rounded-full w-fit">Beneficio Sugerido</span>
+                </div>
+
+                <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100 flex flex-col justify-between hover:shadow-xl transition">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-smnyl-emerald flex items-center justify-center text-xl mb-4 font-bold shadow-sm">
+                            <i class="fa-solid fa-car-burst"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-lg text-gray-900 mb-2">Muerte Accidental (BMA)</h3>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            En caso de fallecimiento accidental del asegurado, tus beneficiarios designados reciben una suma indemnizatoria adicional equivalente al monto contratado.
+                        </p>
+                    </div>
+                    <span class="mt-4 inline-block text-[11px] font-bold text-emerald-700 bg-emerald-50 py-1 px-3 rounded-full w-fit">Incluido en Base</span>
+                </div>
+
+            </div>
+
+            <!-- Tax Benefits Callout -->
+            <div class="mt-10 bg-gradient-to-r from-smnyl-blue to-smnyl-light text-white rounded-3xl p-8 shadow-xl reveal relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 text-9xl -mr-10 -mt-10"><i class="fa-solid fa-receipt"></i></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="space-y-2 text-center md:text-left">
+                        <span class="bg-smnyl-gold text-smnyl-blue font-bold text-xs uppercase px-3 py-1 rounded-full">Eficiencia Fiscal SAT</span>
+                        <h4 class="font-heading font-bold text-2xl">Beneficios de Deducibilidad y Exención</h4>
+                        <p class="text-xs md:text-sm text-blue-100 max-w-2xl">
+                            Tu plan Imagina Ser® te permite deducir aportaciones ISR conforme al Art. 151 o diferir impuestos. Además, al llegar a la edad de 65 años, obtienes tu capital acumulado libre de impuestos (Art. 93 LISR).
+                        </p>
+                    </div>
+                    <a href="#inicio" class="shrink-0 bg-white text-smnyl-blue font-bold px-6 py-3 rounded-2xl text-xs hover:bg-gray-100 transition shadow">
+                        Consultar Asesoría Fiscal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-white py-14 border-t-4 border-smnyl-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+                
+                <div class="text-center md:text-left">
+                    <div class="flex items-center gap-3 justify-center md:justify-start mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-smnyl-blue border border-white/20 flex items-center justify-center text-smnyl-gold font-bold">
+                            <i class="fa-solid fa-building-columns text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="font-heading font-extrabold text-xl tracking-wide text-white block leading-none">SEGUROS MONTERREY</span>
+                            <span class="text-xs text-gray-400 tracking-widest uppercase font-light">NEW YORK LIFE</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-xs max-w-xl leading-relaxed">
+                        * Propuesta personalizada elaborada para la Dra. Itzel Lustre el 14 de Septiembre de 2026. Los valores ilustrativos se apegan a los estudios de Solucionline v2.18.5.0. Rendimientos proyectados no garantizados (Tasa USD 4.16%, Tasa UDI 3.95%).
+                    </p>
+                </div>
+                
+                <!-- Advisor Card -->
+                <div class="bg-slate-800/90 backdrop-blur-md p-6 rounded-3xl border border-slate-700 w-full md:w-auto shadow-2xl relative overflow-hidden group min-w-[320px]">
+                    <div class="absolute -right-8 -bottom-8 opacity-10 text-8xl text-white group-hover:scale-110 transition-transform duration-500">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="text-smnyl-gold text-[11px] font-bold uppercase tracking-widest block mb-1"><i class="fa-solid fa-circle-check mr-1"></i> Asesor Profesional de Seguros</span>
+                        <h4 class="font-heading text-xl font-bold text-white mb-1">Marisol Aceval Chavez</h4>
+                        <p class="text-gray-400 text-xs mb-4">Seguros Monterrey New York Life</p>
+                        
+                        <div class="space-y-2 text-xs text-gray-300 border-t border-slate-700 pt-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-shield-halved text-smnyl-gold"></i>
+                                <span>Agente Certificado ante CNSF</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-smnyl-light"></i>
+                                <span>Atención Personalizada & Seguimiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- COMPLETE PDF DATA DEFINITION ---
+        const plansData = {
+            "dolar_15": {
+                id: "dolar_15",
+                title: "Imagina Ser 15",
+                subtitle: "Pagos Limitados (15 Años)",
+                currency: "USD",
+                currencySymbol: "$",
+                tasa: "4.16%",
+                primaAnualBase: 1431,
+                primaSugerida: 1524,
+                sumaAsegurada: 30000,
+                plazoPago: "15 Años",
+                color: "#10B981", // Emerald
+                badgeBg: "bg-emerald-50",
+                badgeBorder: "border-emerald-200",
+                badgeText: "text-emerald-800",
+                projection: [
+                    { year: 1, age: 32, prima: 1431, sa: 30000, fondo: 447, efectivo: 0 },
+                    { year: 2, age: 33, prima: 1431, sa: 30000, fondo: 910, efectivo: 0 },
+                    { year: 3, age: 34, prima: 1431, sa: 30000, fondo: 1941, efectivo: 0 },
+                    { year: 4, age: 35, prima: 1431, sa: 30000, fondo: 3009, efectivo: 863 },
+                    { year: 5, age: 36, prima: 1431, sa: 30000, fondo: 4116, efectivo: 1970 },
+                    { year: 10, age: 41, prima: 1431, sa: 30000, fondo: 10284, efectivo: 8137 },
+                    { year: 15, age: 46, prima: 1431, sa: 30000, fondo: 17668, efectivo: 15522 },
+                    { year: 20, age: 51, prima: 0, sa: 30000, fondo: 19978, efectivo: 19978 },
+                    { year: 25, age: 56, prima: 0, sa: 30000, fondo: 22719, efectivo: 22719 },
+                    { year: 30, age: 61, prima: 0, sa: 30000, fondo: 26000, efectivo: 26000 },
+                    { year: 33, age: 64, prima: 0, sa: 30000, fondo: 28293, efectivo: 28293 }
+                ]
+            },
+            "udi_15": {
+                id: "udi_15",
+                title: "Imagina Ser 15",
+                subtitle: "Pagos Limitados (15 Años)",
+                currency: "UDI",
+                currencySymbol: "",
+                tasa: "3.95%",
+                primaAnualBase: 3540,
+                primaSugerida: 3773,
+                sumaAsegurada: 75000,
+                plazoPago: "15 Años",
+                color: "#D4AF37", // Gold / Amber
+                badgeBg: "bg-amber-50",
+                badgeBorder: "border-amber-200",
+                badgeText: "text-amber-800",
+                projection: [
+                    { year: 1, age: 32, prima: 3540, sa: 75000, fondo: 1561, efectivo: 0 },
+                    { year: 2, age: 33, prima: 3540, sa: 75000, fondo: 3171, efectivo: 0 },
+                    { year: 3, age: 34, prima: 3540, sa: 75000, fondo: 5950, efectivo: 640 },
+                    { year: 4, age: 35, prima: 3540, sa: 75000, fondo: 8822, efectivo: 3512 },
+                    { year: 5, age: 36, prima: 3540, sa: 75000, fondo: 11792, efectivo: 6483 },
+                    { year: 10, age: 41, prima: 3540, sa: 75000, fondo: 28246, efectivo: 22936 },
+                    { year: 15, age: 46, prima: 3540, sa: 75000, fondo: 47759, efectivo: 42449 },
+                    { year: 20, age: 51, prima: 0, sa: 75000, fondo: 54171, efectivo: 54171 },
+                    { year: 25, age: 56, prima: 0, sa: 75000, fondo: 61744, efectivo: 61744 },
+                    { year: 30, age: 61, prima: 0, sa: 75000, fondo: 70776, efectivo: 70776 },
+                    { year: 33, age: 64, prima: 0, sa: 81076, fondo: 77023, efectivo: 77023 }
+                ]
+            },
+            "dolar_65": {
+                id: "dolar_65",
+                title: "Imagina Ser 65",
+                subtitle: "Aportación Continuada hasta 65",
+                currency: "USD",
+                currencySymbol: "$",
+                tasa: "4.16%",
+                primaAnualBase: 1047,
+                primaSugerida: 1219,
+                sumaAsegurada: 50000,
+                plazoPago: "33 Años",
+                color: "#0055A5", // Blue
+                badgeBg: "bg-blue-50",
+                badgeBorder: "border-blue-200",
+                badgeText: "text-blue-800",
+                projection: [
+                    { year: 1, age: 32, prima: 1047, sa: 50000, fondo: 308, efectivo: 26 },
+                    { year: 2, age: 33, prima: 1047, sa: 50000, fondo: 625, efectivo: 375 },
+                    { year: 3, age: 34, prima: 1047, sa: 50000, fondo: 1372, efectivo: 823 },
+                    { year: 4, age: 35, prima: 1047, sa: 50000, fondo: 2144, efectivo: 1667 },
+                    { year: 5, age: 36, prima: 1047, sa: 50000, fondo: 2942, efectivo: 2537 },
+                    { year: 10, age: 41, prima: 1047, sa: 50000, fondo: 7364, efectivo: 7297 },
+                    { year: 15, age: 46, prima: 1047, sa: 50000, fondo: 12602, efectivo: 12602 },
+                    { year: 20, age: 51, prima: 1047, sa: 50000, fondo: 18789, efectivo: 18789 },
+                    { year: 25, age: 56, prima: 1047, sa: 50000, fondo: 26110, efectivo: 26110 },
+                    { year: 30, age: 61, prima: 1047, sa: 50000, fondo: 34836, efectivo: 34836 },
+                    { year: 33, age: 64, prima: 1047, sa: 50000, fondo: 40912, efectivo: 40912 }
+                ]
+            },
+            "udi_65": {
+                id: "udi_65",
+                title: "Imagina Ser 65",
+                subtitle: "Aportación Continuada hasta 65",
+                currency: "UDI",
+                currencySymbol: "",
+                tasa: "3.95%",
+                primaAnualBase: 2450,
+                primaSugerida: 2795,
+                sumaAsegurada: 100000,
+                plazoPago: "33 Años",
+                color: "#8B5CF6", // Violet
+                badgeBg: "bg-purple-50",
+                badgeBorder: "border-purple-200",
+                badgeText: "text-purple-800",
+                projection: [
+                    { year: 1, age: 32, prima: 2450, sa: 100000, fondo: 701, efectivo: 58 },
+                    { year: 2, age: 33, prima: 2450, sa: 100000, fondo: 1421, efectivo: 850 },
+                    { year: 3, age: 34, prima: 2450, sa: 100000, fondo: 3273, efectivo: 1900 },
+                    { year: 4, age: 35, prima: 2450, sa: 100000, fondo: 5184, efectivo: 3991 },
+                    { year: 5, age: 36, prima: 2450, sa: 100000, fondo: 7158, efectivo: 6142 },
+                    { year: 10, age: 41, prima: 2450, sa: 100000, fondo: 18047, efectivo: 17877 },
+                    { year: 15, age: 46, prima: 2450, sa: 100000, fondo: 30858, efectivo: 30858 },
+                    { year: 20, age: 51, prima: 2450, sa: 100000, fondo: 45919, efectivo: 45919 },
+                    { year: 25, age: 56, prima: 2450, sa: 100000, fondo: 63684, efectivo: 63684 },
+                    { year: 30, age: 61, prima: 2450, sa: 100000, fondo: 84835, efectivo: 84835 },
+                    { year: 33, age: 64, prima: 2450, sa: 104790, fondo: 99550, efectivo: 99550 }
+                ]
+            }
+        };
+
+        let activeChart = null;
+
+        // --- HELPER FUNCTIONS ---
+        function getExchangeRate(currency) {
+            if (currency === 'USD') return parseFloat(document.getElementById('tc-dolar').value) || 16.97;
+            if (currency === 'UDI') return parseFloat(document.getElementById('tc-udi').value) || 8.82;
+            return 1;
+        }
+
+        function formatCurrency(val, currency) {
+            const num = Math.round(val);
+            if (currency === 'USD') {
+                return '$' + new Intl.NumberFormat('es-MX').format(num) + ' USD';
+            } else if (currency === 'UDI') {
+                return new Intl.NumberFormat('es-MX').format(num) + ' UDI';
+            } else {
+                return '$' + new Intl.NumberFormat('es-MX').format(num) + ' MXN';
+            }
+        }
+
+        // --- RENDER STRATEGY CARDS ---
+        function renderStrategyCards(filter = 'all') {
+            const grid = document.getElementById('strategy-cards-grid');
+            grid.innerHTML = '';
+
+            Object.values(plansData).forEach(plan => {
+                // Apply filters
+                if (filter === 'usd' && plan.currency !== 'USD') return;
+                if (filter === 'udi' && plan.currency !== 'UDI') return;
+                if (filter === '15' && !plan.id.includes('15')) return;
+                if (filter === '65' && !plan.id.includes('65')) return;
+
+                const rate = getExchangeRate(plan.currency);
+                const primaMensualOriginal = plan.primaAnualBase / 12;
+                const primaMensualMXN = primaMensualOriginal * rate;
+                const primaAnualMXN = plan.primaAnualBase * rate;
+                
+                const fondoFinalOriginal = plan.projection[plan.projection.length - 1].fondo;
+                const fondoFinalMXN = fondoFinalOriginal * rate;
+
+                const cardHTML = `
+                    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden flex flex-col group hover:-translate-y-2 transition-all duration-300 relative">
+                        <div class="p-6 pb-4 border-b border-gray-100 relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase ${plan.badgeBg} ${plan.badgeText} border ${plan.badgeBorder}">
+                                    ${plan.currency} | ${plan.plazoPago}
+                                </span>
+                                <span class="text-xs text-gray-400 font-semibold"><i class="fa-solid fa-chart-line mr-1 text-smnyl-gold"></i>${plan.tasa}</span>
+                            </div>
+                            <h3 class="font-heading font-extrabold text-xl text-smnyl-blue leading-tight">${plan.title}</h3>
+                            <p class="text-xs text-gray-500 font-medium">${plan.subtitle}</p>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-6">
+                            
+                            <!-- Monthly Investment -->
+                            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Inversión Mensual Base</span>
+                                <p class="font-heading text-2xl font-extrabold text-smnyl-blue mt-1">
+                                    ${formatCurrency(primaMensualMXN, 'MXN')}
+                                </p>
+                                <p class="text-xs text-gray-500 font-semibold mt-0.5">
+                                    (${formatCurrency(primaMensualOriginal, plan.currency)} / mes)
+                                </p>
+                            </div>
+
+                            <!-- Key Specs -->
+                            <ul class="space-y-3 text-xs text-gray-600">
+                                <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500"><i class="fa-solid fa-shield-halved text-smnyl-gold mr-1.5"></i>Suma Asegurada:</span>
+                                    <strong class="text-gray-900">${formatCurrency(plan.sumaAsegurada, plan.currency)}</strong>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-500"><i class="fa-solid fa-calendar text-smnyl-light mr-1.5"></i>Prima Anual Base:</span>
+                                    <strong class="text-gray-900">${formatCurrency(plan.primaAnualBase, plan.currency)}</strong>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span class="text-gray-500"><i class="fa-solid fa-wand-magic-sparkles text-amber-500 mr-1.5"></i>Con Sugeridos:</span>
+                                    <strong class="text-gray-900">${formatCurrency(plan.primaSugerida, plan.currency)}/año</strong>
+                                </li>
+                            </ul>
+
+                            <!-- Projection Target at 65 -->
+                            <div class="${plan.badgeBg} p-4 rounded-2xl border ${plan.badgeBorder} text-center">
+                                <span class="text-[10px] font-bold ${plan.badgeText} uppercase tracking-widest block">Fondo Estimado a los 65 Años</span>
+                                <p class="font-heading text-xl font-extrabold text-gray-900 mt-1">
+                                    ${formatCurrency(fondoFinalMXN, 'MXN')}
+                                </p>
+                                <p class="text-xs text-gray-600 font-semibold">
+                                    (${formatCurrency(fondoFinalOriginal, plan.currency)})
+                                </p>
+                            </div>
+
+                            <button onclick="selectPlanForDetails('${plan.id}')" class="w-full py-3 rounded-2xl bg-gray-50 hover:bg-smnyl-blue hover:text-white text-smnyl-blue font-bold text-xs transition border border-gray-200 flex items-center justify-center gap-2">
+                                Ver Tabla Desglosada <i class="fa-solid fa-arrow-down text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // --- FILTER BUTTON LOGIC ---
+        function filterCards(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-smnyl-blue', 'text-white', 'active');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+            event.currentTarget.classList.remove('bg-white', 'text-gray-700');
+            event.currentTarget.classList.add('bg-smnyl-blue', 'text-white', 'active');
+
+            renderStrategyCards(type);
+        }
+
+        // --- CHART RENDERING ---
+        function renderChart(planKey = 'all') {
+            const ctx = document.getElementById('projectionChart').getContext('2d');
+            if (activeChart) activeChart.destroy();
+
+            let datasets = [];
+            const yearsLabels = ['Año 1 (32a)', 'Año 5 (36a)', 'Año 10 (41a)', 'Año 15 (46a)', 'Año 20 (51a)', 'Año 25 (56a)', 'Año 30 (61a)', 'Año 33 (64a)'];
+
+            if (planKey === 'all') {
+                Object.values(plansData).forEach(plan => {
+                    const rate = getExchangeRate(plan.currency);
+                    const dataPoints = plan.projection.map(p => p.fondo * rate); // Convert to MXN for multi-comparison
+                    
+                    datasets.push({
+                        label: `${plan.title} (${plan.currency} - ${plan.plazoPago})`,
+                        data: dataPoints,
+                        borderColor: plan.color,
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointHoverRadius: 7
+                    });
+                });
+            } else {
+                const plan = plansData[planKey];
+                const rate = getExchangeRate(plan.currency);
+
+                const dataFondo = plan.projection.map(p => p.fondo);
+                const dataEfectivo = plan.projection.map(p => p.efectivo);
+
+                datasets = [
+                    {
+                        label: `Fondo de Reserva (${plan.currency})`,
+                        data: dataFondo,
+                        borderColor: plan.color,
+                        backgroundColor: plan.color.replace('rgb', 'rgba').replace(')', ', 0.1)'),
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5
+                    },
+                    {
+                        label: `Valor en Efectivo (${plan.currency})`,
+                        data: dataEfectivo,
+                        borderColor: '#94a3b8',
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3
+                    }
+                ];
+            }
+
+            activeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: yearsLabels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { family: 'Inter', size: 12 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.parsed.y !== null) {
+                                        if (planKey === 'all') {
+                                            label += '$' + new Intl.NumberFormat('es-MX').format(Math.round(context.parsed.y)) + ' MXN (equiv.)';
+                                        } else {
+                                            const curr = plansData[planKey].currency;
+                                            label += formatCurrency(context.parsed.y, curr);
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: {
+                                callback: function(val) {
+                                    return (val / 1000).toFixed(0) + 'k';
+                                }
+                            }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            renderSummaryMetrics(planKey);
+        }
+
+        function switchChartPlan(val) {
+            renderChart(val);
+        }
+
+        function renderSummaryMetrics(planKey) {
+            const container = document.getElementById('summary-metrics');
+            container.innerHTML = '';
+
+            const keysToRender = planKey === 'all' ? Object.keys(plansData) : [planKey];
+
+            keysToRender.forEach(key => {
+                const plan = plansData[key];
+                const rate = getExchangeRate(plan.currency);
+                const fondoFinal = plan.projection[plan.projection.length - 1].fondo;
+                const fondoMXN = fondoFinal * rate;
+
+                container.innerHTML += `
+                    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">${plan.title} (${plan.currency})</span>
+                        <p class="font-heading font-extrabold text-gray-900 text-lg mt-1">${formatCurrency(fondoFinal, plan.currency)}</p>
+                        <p class="text-xs text-smnyl-blue font-bold">~ ${formatCurrency(fondoMXN, 'MXN')}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- RENDER DETAILED TABLE ---
+        function renderTable(planKey) {
+            const plan = plansData[planKey];
+            const rate = getExchangeRate(plan.currency);
+
+            document.getElementById('table-plan-title').textContent = `${plan.title} - ${plan.subtitle}`;
+            document.getElementById('table-plan-subtitle').textContent = `Moneda: ${plan.currency} | Suma Asegurada Inicial: ${formatCurrency(plan.sumaAsegurada, plan.currency)} | Rendimiento Proyectado: ${plan.tasa}`;
+
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            plan.projection.forEach(row => {
+                const primaMXN = row.prima * rate;
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-blue-50/50 transition border-b border-gray-100";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-gray-900">Año ${row.year}</td>
+                    <td class="px-4 py-3 text-gray-500">${row.age} años</td>
+                    <td class="px-4 py-3 text-right font-semibold text-gray-800">${row.prima > 0 ? formatCurrency(row.prima, plan.currency) : '<span class="text-emerald-600 font-bold">Pagado</span>'}</td>
+                    <td class="px-4 py-3 text-right text-gray-500">${row.prima > 0 ? formatCurrency(primaMXN, 'MXN') : '-'}</td>
+                    <td class="px-4 py-3 text-right text-gray-600">${formatCurrency(row.sa, plan.currency)}</td>
+                    <td class="px-4 py-3 text-right font-extrabold text-smnyl-blue">${formatCurrency(row.fondo, plan.currency)}</td>
+                    <td class="px-4 py-3 text-right font-semibold text-emerald-600">${formatCurrency(row.efectivo, plan.currency)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function selectPlanForDetails(planKey) {
+            document.getElementById('tablePlanSelect').value = planKey;
+            document.getElementById('chartPlanSelect').value = planKey;
+            renderTable(planKey);
+            renderChart(planKey);
+            
+            document.getElementById('detailed-table-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- REVEAL ON SCROLL ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStrategyCards('all');
+            renderChart('all');
+            renderTable('udi_15');
+
+            window.addEventListener("scroll", reveal);
+            setTimeout(reveal, 150);
+
+            // Re-render when exchange rates change
+            ['tc-dolar', 'tc-udi'].forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    const activeFilterBtn = document.querySelector('.filter-btn.active');
+                    const activeFilter = activeFilterBtn ? activeFilterBtn.getAttribute('onclick').match(/'([^']+)'/)[1] : 'all';
+                    
+                    renderStrategyCards(activeFilter);
+                    renderChart(document.getElementById('chartPlanSelect').value);
+                    renderTable(document.getElementById('tablePlanSelect').value);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
