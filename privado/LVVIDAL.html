@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- STREAMING_CHUNK:Inicializando estructura base y configuraciones de estilo... -->
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- STREAMING_CHUNK:Configurando tema premium en Tailwind... -->
     <script>
         tailwind.config = {
             theme: {
@@ -51,7 +49,6 @@
         }
     </script>
     
-    <!-- STREAMING_CHUNK:Aplicando estilos CSS personalizados... -->
     <style>
         body { background-color: #0A0A0A; color: #E5E5E5; overflow-x: hidden; }
         
@@ -106,7 +103,6 @@
 </head>
 <body class="antialiased selection:bg-luxury-gold selection:text-black">
 
-    <!-- STREAMING_CHUNK:Construyendo la barra de navegación exclusiva... -->
     <nav class="fixed w-full z-50 bg-luxury-black/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
@@ -134,7 +130,6 @@
         </div>
     </nav>
 
-    <!-- STREAMING_CHUNK:Creando la sección Hero con fuerte impacto emocional... -->
     <section id="inicio" class="relative pt-40 pb-32 min-h-[95vh] flex items-center overflow-hidden">
         <div class="absolute inset-0 z-0">
             <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-luxury-gold/5 rounded-full blur-[100px] animate-pulse-slow"></div>
@@ -165,7 +160,6 @@
                     </div>
                 </div>
                 
-                <!-- STREAMING_CHUNK:Construyendo la tarjeta de perfil del cliente... -->
                 <div class="lg:col-span-5 animate-fade-in-up" style="animation-delay: 0.3s;">
                     <div class="glass-panel p-8 relative">
                         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent"></div>
@@ -211,7 +205,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Renderizando la sección de la filosofía del proyecto... -->
     <section id="concepto" class="py-24 relative border-t border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 reveal premium-border pb-6">
@@ -258,7 +251,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Integrando las opciones de cotización (3M y 900k)... -->
     <section id="estrategias" class="py-24 relative bg-luxury-dark border-t border-white/5">
         <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
         
@@ -279,28 +271,38 @@
                 
                 <!-- Opción 1 ($900k USD) -->
                 <div class="glass-panel p-10 flex flex-col hover:-translate-y-2 transition-transform duration-500 border border-white/10 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 bg-gray-500 text-white text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest">
+                    
+                    <!-- MARCA DE AGUA X (Tachado sutil) -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                        <i class="fa-solid fa-xmark text-[25rem] text-red-500/10 blur-[4px] opacity-60 group-hover:opacity-100 transition-opacity duration-700"></i>
+                    </div>
+
+                    <div class="absolute top-0 right-0 bg-gray-500 text-white text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest z-10">
                         Nivel Básico
                     </div>
                     
-                    <div class="flex justify-between items-start mb-8 mt-2">
+                    <div class="flex justify-between items-start mb-8 mt-2 relative z-10">
                         <div>
                             <p class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Propuesta 900 MIL .PDF</p>
-                            <h3 class="font-serif text-3xl text-white group-hover:text-luxury-gold transition-colors">El Escudo <span class="text-luxury-gold">Esencial</span></h3>
+                            <h3 class="font-serif text-3xl text-white group-hover:text-gray-300 transition-colors">El Escudo <span class="text-gray-400">Esencial</span></h3>
                         </div>
                         <div class="w-12 h-12 bg-luxury-gray rounded-full flex items-center justify-center text-gray-300 text-xl border border-white/10">
                             <i class="fa-solid fa-shield"></i>
                         </div>
                     </div>
                     
-                    <p class="text-sm text-gray-400 mb-6 font-light">Esta es la red de seguridad fundamental. Garantiza que no dejes deudas, cubre la educación de los tres niños y le da a Karla un respiro financiero vital para reorganizar la vida de la familia.</p>
+                    <p class="text-sm text-gray-400 mb-6 font-light relative z-10">Esta es la red de seguridad fundamental. Garantiza que no dejes deudas, cubre la educación de los tres niños y le da a Karla un respiro financiero vital para reorganizar la vida de la familia.</p>
 
-                    <div class="mb-10 text-center py-8 border-y border-white/5 bg-black/30 rounded-lg">
+                    <div class="mb-10 text-center py-8 border-y border-white/5 bg-black/30 rounded-lg relative z-10">
                         <p class="text-sm text-gray-400 uppercase tracking-widest mb-2 font-light">Legado de Protección Inmediata</p>
-                        <p class="font-serif text-5xl font-bold text-white">$900,000 <span class="text-xl font-normal text-luxury-gold">USD</span></p>
+                        <p class="font-serif text-5xl font-bold text-white relative inline-block">
+                            <!-- Línea de tachado sutil directamente en el texto para complementar -->
+                            <span class="absolute left-0 top-1/2 w-full h-[2px] bg-red-500/30 -rotate-2 rounded-full"></span>
+                            $900,000 <span class="text-xl font-normal text-gray-500">USD</span>
+                        </p>
                     </div>
 
-                    <div class="space-y-4 mb-10 flex-grow">
+                    <div class="space-y-4 mb-10 flex-grow relative z-10">
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-gray-400 font-light">Compromiso:</span>
                             <span class="text-white font-medium">6 Pagos Anuales</span>
@@ -315,19 +317,25 @@
                         </div>
                     </div>
 
-                    <div class="bg-luxury-gray p-6 text-center border border-white/5 rounded">
+                    <div class="bg-luxury-gray p-6 text-center border border-white/5 rounded relative z-10">
                         <p class="text-[10px] uppercase tracking-widest text-gray-400 mb-1">Impacto Final</p>
                         <p class="text-sm text-gray-300 font-light">Aportas poco más de $337 mil, pero <strong class="text-white">garantizas casi 1 Millón de dólares</strong> intocables para ellos.</p>
                     </div>
                 </div>
 
                 <!-- Opción 2 ($3M USD) -->
-                <div class="glass-panel p-10 flex flex-col hover:-translate-y-2 transition-transform duration-500 relative animate-glow border border-luxury-gold/30">
-                    <div class="absolute top-0 right-0 bg-luxury-gold text-luxury-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest shadow-lg">
+                <div class="glass-panel p-10 flex flex-col hover:-translate-y-2 transition-transform duration-500 relative animate-glow border border-luxury-gold/30 group overflow-hidden">
+                    
+                    <!-- MARCA DE AGUA PALOMITA (Aprobación difuminada) -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                        <i class="fa-solid fa-check text-[25rem] text-luxury-gold/20 blur-[4px] opacity-60 group-hover:opacity-100 transition-opacity duration-700"></i>
+                    </div>
+
+                    <div class="absolute top-0 right-0 bg-luxury-gold text-luxury-black text-[10px] font-bold px-4 py-1.5 uppercase tracking-widest shadow-lg z-10">
                         Recomendado para Luis Vidal
                     </div>
                     
-                    <div class="flex justify-between items-start mb-8 mt-2">
+                    <div class="flex justify-between items-start mb-8 mt-2 relative z-10">
                         <div>
                             <p class="text-xs uppercase tracking-[0.2em] text-luxury-gold mb-2">Propuesta 3 MILLONES .PDF</p>
                             <h3 class="font-serif text-3xl text-white">El Blindaje <span class="text-luxury-gold font-bold">Absoluto</span></h3>
@@ -337,14 +345,18 @@
                         </div>
                     </div>
 
-                    <p class="text-sm text-gray-300 mb-6 font-light">La garantía de que <strong class="text-luxury-gold">ABSOLUTAMENTE NADA CAMBIA</strong>. La casa, los viajes, las maestrías. Es mantener viva tu figura de proveedor supremo, asegurando su mismo estilo de vida a perpetuidad.</p>
+                    <p class="text-sm text-gray-300 mb-6 font-light relative z-10">La garantía de que <strong class="text-luxury-gold">ABSOLUTAMENTE NADA CAMBIA</strong>. La casa, los viajes, las maestrías. Es mantener viva tu figura de proveedor supremo, asegurando su mismo estilo de vida a perpetuidad.</p>
                     
-                    <div class="mb-10 text-center py-8 border-y border-luxury-gold/30 bg-luxury-gold/5 rounded-lg shadow-inner">
+                    <div class="mb-10 text-center py-8 border-y border-luxury-gold/30 bg-luxury-gold/5 rounded-lg shadow-inner relative z-10 backdrop-blur-sm">
                         <p class="text-sm text-luxury-gold uppercase tracking-widest mb-2 font-light">Fortuna Garantizada a tu Familia</p>
-                        <p class="font-serif text-5xl font-bold text-white shadow-luxury-gold/20">$3,000,000 <span class="text-xl font-normal text-luxury-gold">USD</span></p>
+                        <p class="font-serif text-5xl font-bold text-white shadow-luxury-gold/20 flex items-center justify-center gap-3">
+                            $3,000,000 <span class="text-xl font-normal text-luxury-gold">USD</span>
+                            <!-- Pequeña palomita extra al lado del texto para reforzar la idea -->
+                            <i class="fa-solid fa-circle-check text-2xl text-luxury-gold opacity-80"></i>
+                        </p>
                     </div>
 
-                    <div class="space-y-4 mb-10 flex-grow">
+                    <div class="space-y-4 mb-10 flex-grow relative z-10">
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-gray-400 font-light">Compromiso:</span>
                             <span class="text-white font-medium">6 Pagos Anuales (y no más)</span>
@@ -359,7 +371,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-luxury-gold/20 to-luxury-gold/5 p-6 text-center border border-luxury-gold/40 rounded">
+                    <div class="bg-gradient-to-r from-luxury-gold/20 to-luxury-gold/5 p-6 text-center border border-luxury-gold/40 rounded relative z-10 backdrop-blur-md">
                         <p class="text-[10px] uppercase tracking-widest text-luxury-gold mb-1 text-shadow">Certeza Inquebrantable</p>
                         <p class="text-sm text-white font-medium">"Los amo tanto, que incluso si el destino nos separa, me aseguré de que nunca les falte nada."</p>
                     </div>
@@ -369,7 +381,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Agregando gráfica de valores garantizados (La recompensa en vida)... -->
     <section id="proyeccion" class="py-24 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal premium-border pb-6">
@@ -413,7 +424,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Detallando las coberturas y beneficios adicionales... -->
     <section class="py-24 bg-luxury-dark relative border-t border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
@@ -460,7 +470,6 @@
         </div>
     </section>
 
-    <!-- STREAMING_CHUNK:Construyendo el pie de página y datos de contacto... -->
     <footer class="bg-luxury-black border-t border-luxury-gold/30 pt-16 pb-8 relative overflow-hidden">
         <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-luxury-gold/5 rounded-t-full blur-3xl pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -498,7 +507,6 @@
         </div>
     </footer>
 
-    <!-- STREAMING_CHUNK:Inicializando scripts interactivos y la configuración de Chart.js... -->
     <script>
         // Animaciones al hacer scroll
         function reveal() {
