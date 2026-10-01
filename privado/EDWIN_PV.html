@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
         tailwind.config = {
@@ -87,9 +88,10 @@
                     <a href="#vida" class="text-sm font-medium text-gray-600 hover:text-smnyl-light transition">Vida</a>
                 </div>
                 <div class="flex items-center">
+                    <!-- ACTUALIZACIÓN: Tipo de cambio a $18.07 -->
                     <div class="bg-blue-50 px-4 py-2 rounded-full border border-blue-100 flex items-center gap-2">
                         <i class="fa-solid fa-dollar-sign text-green-600"></i>
-                        <span class="text-xs font-semibold text-gray-700">TC Dolar hoy: $17.05 MXN</span>
+                        <span class="text-xs font-semibold text-gray-700">TC Dolar hoy: $18.07 MXN</span>
                     </div>
                 </div>
             </div>
@@ -344,19 +346,19 @@
             <div class="text-center mb-16 reveal">
                 <span class="text-smnyl-gold font-semibold uppercase tracking-wider text-sm">Fondo Universitario</span>
                 <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-2">SeguBeca para Alexander Emery</h2>
-                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Garantiza el capital para su universidad. Este plan está estructurado en <strong>Dólares</strong> para proteger tu ahorro contra la inflación.</p>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Garantiza el capital para su universidad. Este plan está estructurado en <strong>UDIS (Unidades de Inversión)</strong> para proteger tu ahorro contra la inflación y garantizar que el poder adquisitivo crezca con el tiempo.</p>
                 <p class="inline-block mt-3 px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold border border-green-200">
-                    Tipo de Cambio Aplicado: $17.06 MXN
+                    Valor UDI Actual: ~$8.83 MXN (Se proyecta a $13.71 a los 18 años)
                 </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal">
-                <!-- SeguBeca 20k -->
+                <!-- SeguBeca 80k -->
                 <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-200 p-8 hover:-translate-y-2 transition-transform duration-300">
                     <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
                         <div>
                             <h3 class="font-heading text-2xl font-bold text-gray-800">Plan Universitario Base</h3>
-                            <p class="text-smnyl-light font-medium mt-1">SeguBeca 18</p>
+                            <p class="text-smnyl-light font-medium mt-1">SeguBeca 18 (80,000 UDIS)</p>
                         </div>
                         <div class="w-14 h-14 bg-blue-100 text-smnyl-blue rounded-full flex items-center justify-center text-2xl">
                             <i class="fa-solid fa-graduation-cap"></i>
@@ -365,53 +367,64 @@
                     
                     <div class="mb-8">
                         <p class="text-sm text-gray-500 uppercase tracking-wide">Fondo Garantizado a los 18 años</p>
-                        <p class="font-heading text-4xl font-bold text-smnyl-blue mt-1">$20,000 <span class="text-xl text-gray-500 font-normal">USD</span></p>
-                        <p class="text-sm text-gray-500 mt-2">Aprox. $341,000 MXN</p>
+                        <p class="font-heading text-4xl font-bold text-smnyl-blue mt-1">80,000 <span class="text-xl text-gray-500 font-normal">UDIS</span></p>
+                        <p class="text-sm text-gray-500 mt-2">Estimado a recibir: <strong>$1,097,526 MXN</strong></p>
                     </div>
 
                     <ul class="space-y-3 mb-8 text-sm text-gray-600">
+                        <li class="flex items-start"><i class="fa-solid fa-flag-checkered text-smnyl-gold mt-1 mr-3"></i> <strong>Fondo Único:</strong> Se entrega el capital a los 18 años y el plan concluye.</li>
                         <li class="flex items-start"><i class="fa-solid fa-shield-heart text-smnyl-gold mt-1 mr-3"></i> Cobertura por fallecimiento/invalidez del contratante (Edwin).</li>
                         <li class="flex items-start"><i class="fa-solid fa-hand-holding-medical text-smnyl-gold mt-1 mr-3"></i> Beneficio de Asistencia Médica y Apoyo en Vida.</li>
                     </ul>
 
                     <div class="bg-white rounded-xl p-4 border border-gray-100 text-center">
-                        <p class="text-xs text-gray-500 uppercase">Inversión Anual Total</p>
-                        <p class="text-2xl font-bold text-gray-800 mt-1">$2,188.25 <span class="text-sm text-gray-500 font-normal">USD</span></p>
-                        <p class="text-xs text-gray-400 mt-1">(Equivalente a ~$37,309 MXN/año)</p>
+                        <p class="text-xs text-gray-500 uppercase">Inversión Anual Constante</p>
+                        <p class="text-2xl font-bold text-gray-800 mt-1">8,951 <span class="text-sm text-gray-500 font-normal">UDIS</span></p>
+                        <p class="text-xs text-gray-400 mt-1">(Aprox. $79,073 MXN el primer año)</p>
                     </div>
                 </div>
 
-                <!-- SeguBeca 40k -->
+                <!-- SeguBeca 60k + Vitalicio -->
                 <div class="bg-gradient-to-br from-smnyl-blue to-smnyl-light rounded-2xl shadow-xl border border-smnyl-light p-8 hover:-translate-y-2 transition-transform duration-300 text-white relative">
-                    <div class="absolute top-0 right-0 bg-smnyl-gold text-smnyl-blue text-xs font-bold px-4 py-1 rounded-bl-xl shadow-md">Recomendado</div>
+                    <div class="absolute top-0 right-0 bg-smnyl-gold text-smnyl-blue text-xs font-bold px-4 py-1 rounded-bl-xl shadow-md">2 Seguros en 1</div>
                     
                     <div class="flex items-center justify-between border-b border-blue-700 pb-4 mb-6">
                         <div>
-                            <h3 class="font-heading text-2xl font-bold text-white">Plan Universitario Élite</h3>
-                            <p class="text-blue-200 font-medium mt-1">SeguBeca 18</p>
+                            <h3 class="font-heading text-2xl font-bold text-white">Plan Integral (Universitario + Vida)</h3>
+                            <p class="text-blue-200 font-medium mt-1">SeguBeca 18 + CPA (60,000 UDIS)</p>
                         </div>
                         <div class="w-14 h-14 bg-white/10 text-white rounded-full flex items-center justify-center text-2xl backdrop-blur-sm">
-                            <i class="fa-solid fa-university"></i>
+                            <i class="fa-solid fa-infinity"></i>
                         </div>
                     </div>
                     
                     <div class="mb-8">
                         <p class="text-sm text-blue-200 uppercase tracking-wide">Fondo Garantizado a los 18 años</p>
-                        <p class="font-heading text-4xl font-bold text-white mt-1">$40,000 <span class="text-xl text-blue-200 font-normal">USD</span></p>
-                        <p class="text-sm text-blue-200 mt-2">Aprox. $682,000 MXN</p>
+                        <p class="font-heading text-4xl font-bold text-white mt-1">60,000 <span class="text-xl text-blue-200 font-normal">UDIS</span></p>
+                        <p class="text-sm text-blue-200 mt-2">Estimado a recibir: <strong>$823,144 MXN</strong></p>
                     </div>
 
                     <ul class="space-y-3 mb-8 text-sm text-blue-100">
-                        <li class="flex items-start"><i class="fa-solid fa-shield-heart text-smnyl-gold mt-1 mr-3"></i> Doble capital para asegurar una universidad de prestigio.</li>
-                        <li class="flex items-start"><i class="fa-solid fa-hand-holding-medical text-smnyl-gold mt-1 mr-3"></i> Coberturas completas de invalidez y fallecimiento.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-infinity text-smnyl-gold mt-1 mr-3"></i> <strong>Protección Vitalicia:</strong> Recuperas el fondo a los 18, pero el Seguro de Vida sigue vigente <strong>de por vida sin pagar más</strong>.</li>
+                        <li class="flex items-start"><i class="fa-solid fa-shield-heart text-smnyl-gold mt-1 mr-3"></i> Cobertura por fallecimiento e invalidez del contratante incluida.</li>
                     </ul>
 
                     <div class="bg-white/10 rounded-xl p-4 border border-white/20 text-center backdrop-blur-sm">
-                        <p class="text-xs text-blue-200 uppercase">Inversión Anual Total</p>
-                        <p class="text-2xl font-bold text-white mt-1">$4,111.81 <span class="text-sm text-blue-200 font-normal">USD</span></p>
-                        <p class="text-xs text-blue-300 mt-1">(Equivalente a ~$70,093 MXN/año)</p>
+                        <p class="text-xs text-blue-200 uppercase">Inversión Anual Constante</p>
+                        <p class="text-2xl font-bold text-white mt-1">8,607 <span class="text-sm text-blue-200 font-normal">UDIS</span></p>
+                        <p class="text-xs text-blue-300 mt-1">(Aprox. $76,035 MXN el primer año)</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Proyección Gráfica -->
+            <div class="mt-16 bg-white rounded-2xl p-6 md:p-10 shadow-lg border border-gray-100 reveal">
+                <h3 class="font-heading text-2xl font-bold text-smnyl-blue mb-2 text-center">Proyección de Aportaciones vs Beneficios (a los 18 años)</h3>
+                <p class="text-sm text-gray-500 text-center mb-8">Comparativa visual del esfuerzo de ahorro frente a los beneficios económicos proyectados en pesos.</p>
+                <div class="relative w-full h-96">
+                    <canvas id="segubecaChart"></canvas>
+                </div>
+                <p class="text-xs text-gray-400 text-center mt-6">* Proyección estimada basada en inflación promedio. La suma asegurada vitalicia del Plan Integral continuará creciendo con la inflación después de los 18 años sin necesidad de hacer más aportaciones.</p>
             </div>
         </div>
     </section>
@@ -421,7 +434,7 @@
             <div class="text-center mb-16 reveal">
                 <span class="text-smnyl-gold font-semibold uppercase tracking-wider text-sm">Protección Patrimonial</span>
                 <h2 class="font-heading text-3xl font-bold text-smnyl-blue mt-2">Seguro de Vida para Edwin</h2>
-                <p class="text-gray-600 mt-2">Dos estrategias diferentes para asegurar la tranquilidad financiera de tu familia.</p>
+                <p class="text-gray-600 mt-2">Dos estrategias vitalicias con diferentes esquemas de aportación para asegurar la tranquilidad financiera de tu familia.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
@@ -448,27 +461,28 @@
                     </div>
                 </div>
 
-                <!-- Temporal 20 -->
+                <!-- ORVI 99 10 UDIS -->
                 <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col">
                     <div class="bg-smnyl-light p-6 text-white text-center">
-                        <h3 class="font-heading text-xl font-bold">Plan Temporal 20 Años</h3>
-                        <p class="text-blue-100 text-sm mt-1">Alta protección a bajo costo durante la etapa crítica.</p>
+                        <h3 class="font-heading text-xl font-bold">Plan Vitalicio (ORVI 99 a 10 años)</h3>
+                        <p class="text-blue-100 text-sm mt-1">Pagas por 10 años, protegido para toda la vida.</p>
                     </div>
                     <div class="p-8 flex-grow">
                         <div class="text-center mb-6">
-                            <p class="text-gray-500 text-sm">Suma Asegurada por 20 años</p>
-                            <p class="font-heading text-3xl font-bold text-gray-800">$200,000 USD</p>
+                            <p class="text-gray-500 text-sm">Suma Asegurada Vitalicia (En UDIS)</p>
+                            <p class="font-heading text-3xl font-bold text-gray-800">115,000 UDIS</p>
                         </div>
                         <ul class="space-y-3 text-sm text-gray-600 mb-8">
-                            <li class="flex gap-3"><i class="fa-solid fa-shield text-smnyl-light mt-1"></i> Máxima suma asegurada para cubrir hipotecas o manutención.</li>
-                            <li class="flex gap-3"><i class="fa-solid fa-wheelchair text-smnyl-light mt-1"></i> Pago adelantado de $200,000 USD por Invalidez Total.</li>
-                            <li class="flex gap-3"><i class="fa-solid fa-car-burst text-smnyl-light mt-1"></i> Beneficio por Muerte Accidental.</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-clock-rotate-left text-smnyl-light mt-1"></i> Aportaciones limitadas a solo 10 pagos anuales.</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-wheelchair text-smnyl-light mt-1"></i> Exención de primas y pago de suma asegurada por Invalidez (BITAE).</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-car-burst text-smnyl-light mt-1"></i> Beneficio por Muerte Accidental (BMA) incluido.</li>
+                            <li class="flex gap-3"><i class="fa-solid fa-chart-line text-smnyl-light mt-1"></i> Tu ahorro y protección crecen a la par de la inflación.</li>
                         </ul>
                     </div>
                     <div class="p-6 bg-gray-50 border-t border-gray-100 text-center">
-                        <p class="text-xs text-gray-500 uppercase">Prima Anual Constante</p>
-                        <p class="text-2xl font-bold text-smnyl-blue">$1,243.51 USD</p>
-                        <p class="text-xs text-gray-400 mt-1">Opción de pago mensual: $108.72 USD</p>
+                        <p class="text-xs text-gray-500 uppercase">Prima Total Anual</p>
+                        <p class="text-2xl font-bold text-smnyl-blue">5,152.66 UDIS</p>
+                        <p class="text-xs text-gray-400 mt-1">Incluye Asistencia Médica y Apoyo en Vida</p>
                     </div>
                 </div>
             </div>
@@ -485,7 +499,8 @@
                     </div>
                     <p class="text-gray-400 text-sm">Protegiendo Mejor® a las familias mexicanas.</p>
                     <p class="text-gray-500 text-xs mt-4 max-w-lg">
-                        * Los valores mostrados son ilustrativos basados en la cotización generada el 13 de agosto de 2026. La emisión está sujeta a las condiciones generales de la aseguradora. Tipo de cambio referencial $17.06 MXN.
+                        <!-- ACTUALIZACIÓN: Tipo de cambio referencial a $18.07 -->
+                        * Los valores mostrados son ilustrativos basados en la cotización generada el 13 de agosto de 2026. La emisión está sujeta a las condiciones generales de la aseguradora. Tipo de cambio referencial $18.07 MXN.
                     </p>
                 </div>
                 
@@ -555,6 +570,72 @@
             } else {
                 nav.classList.remove('shadow-md');
                 nav.classList.replace('bg-white', 'bg-white/90');
+            }
+        });
+
+        // Gráfica de Proyección SeguBeca
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('segubecaChart');
+            if(ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Plan Base (80,000 UDIS)', 'Plan Integral (60,000 UDIS + Vitalicio)'],
+                        datasets: [
+                            {
+                                label: 'Total Aportado Estimado (MXN)',
+                                data: [971677, 934334],
+                                backgroundColor: '#9ca3af',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Fondo Recuperado a los 18 (MXN)',
+                                data: [1097526, 823144],
+                                backgroundColor: '#0055A5',
+                                borderRadius: 6
+                            },
+                            {
+                                label: 'Valor Seguro Vitalicio Conservado (MXN)',
+                                data: [0, 823144],
+                                backgroundColor: '#D4AF37',
+                                borderRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + (value / 1000) + 'k';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }
         });
     </script>
