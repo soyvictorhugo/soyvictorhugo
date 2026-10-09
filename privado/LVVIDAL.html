@@ -6,7 +6,7 @@
     <title>Legado Vidal Caballero - Propuesta Privada</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -19,14 +19,14 @@
                         serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        luxury: {
-                            black: '#0A0A0A',
-                            dark: '#121212',
-                            gray: '#1F1F1F',
-                            gold: '#D4AF37',
-                            goldlight: '#F3E5AB',
-                            golddark: '#997A00',
-                            text: '#E5E5E5'
+                        brand: {
+                            navy: '#0A2540',       // Azul institucional (Stripe/Banca Privada)
+                            'navy-light': '#1A365D', // Azul secundario
+                            green: '#10B981',      // Verde Esmeralda
+                            'green-light': '#34D399',
+                            'green-dark': '#059669',
+                            surface: '#F8FAFC',    // Fondo principal ultra claro
+                            card: '#FFFFFF'        // Blanco puro para tarjetas
                         }
                     },
                     animation: {
@@ -36,8 +36,8 @@
                     },
                     keyframes: {
                         glow: {
-                            '0%': { boxShadow: '0 0 10px rgba(212, 175, 55, 0.1)' },
-                            '100%': { boxShadow: '0 0 30px rgba(212, 175, 55, 0.4)' }
+                            '0%': { boxShadow: '0 0 10px rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.3)' },
+                            '100%': { boxShadow: '0 0 25px rgba(16, 185, 129, 0.3)', borderColor: 'rgba(16, 185, 129, 0.6)' }
                         },
                         fadeInUp: {
                             '0%': { opacity: '0', transform: 'translateY(30px)' },
@@ -50,7 +50,7 @@
     </script>
     
     <style>
-        body { background-color: #0A0A0A; color: #E5E5E5; overflow-x: hidden; }
+        body { background-color: #F8FAFC; color: #334155; overflow-x: hidden; }
         
         .reveal {
             opacity: 0;
@@ -62,16 +62,17 @@
             transform: translateY(0);
         }
         
-        /* Glassmorphism para el Dark Theme */
+        /* Glassmorphism para tema claro */
         .glass-panel {
-            background: rgba(31, 31, 31, 0.6);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
         }
 
-        .gold-gradient-text {
-            background: linear-gradient(to right, #D4AF37, #F3E5AB, #D4AF37);
+        .green-gradient-text {
+            background: linear-gradient(to right, #059669, #10B981, #059669);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -84,9 +85,9 @@
         }
 
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0A0A0A; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10B981; }
         
         .premium-border { position: relative; }
         .premium-border::after {
@@ -97,84 +98,84 @@
             transform: translateX(-50%);
             width: 50px;
             height: 2px;
-            background: #D4AF37;
+            background: #10B981;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-luxury-gold selection:text-black">
+<body class="antialiased selection:bg-brand-green selection:text-white">
 
-    <nav class="fixed w-full z-50 bg-luxury-black/80 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full border border-luxury-gold flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                        <i class="fa-solid fa-shield-halved text-luxury-gold text-lg"></i>
+                    <div class="w-10 h-10 rounded-full border border-brand-green flex items-center justify-center bg-brand-green/10 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        <i class="fa-solid fa-shield-halved text-brand-green text-lg"></i>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-serif font-bold text-xl tracking-widest text-white">VIDAL CABALLERO</span>
-                        <span class="text-[9px] uppercase tracking-[0.3em] text-luxury-gold">Proyecto de Trascendencia</span>
+                        <span class="font-serif font-bold text-xl tracking-widest text-brand-navy">VIDAL CABALLERO</span>
+                        <span class="text-[9px] uppercase tracking-[0.3em] text-brand-green-dark font-medium">Proyecto de Trascendencia</span>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-10">
-                    <a href="#concepto" class="text-xs uppercase tracking-widest font-medium text-gray-400 hover:text-luxury-gold transition-colors">El Propósito</a>
-                    <a href="#estrategias" class="text-xs uppercase tracking-widest font-medium text-gray-400 hover:text-luxury-gold transition-colors">El Blindaje</a>
-                    <a href="#proyeccion" class="text-xs uppercase tracking-widest font-medium text-gray-400 hover:text-luxury-gold transition-colors">Tranquilidad en Vida</a>
+                    <a href="#concepto" class="text-xs uppercase tracking-widest font-semibold text-slate-500 hover:text-brand-green transition-colors">El Propósito</a>
+                    <a href="#estrategias" class="text-xs uppercase tracking-widest font-semibold text-slate-500 hover:text-brand-green transition-colors">El Blindaje</a>
+                    <a href="#proyeccion" class="text-xs uppercase tracking-widest font-semibold text-slate-500 hover:text-brand-green transition-colors">Tranquilidad en Vida</a>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="text-right">
-                        <p class="text-[9px] uppercase tracking-widest text-gray-500">Sesión Privada para</p>
-                        <p class="text-sm font-serif text-white">Luis Vidal</p>
+                        <p class="text-[9px] uppercase tracking-widest text-slate-500 font-medium">Sesión Privada para</p>
+                        <p class="text-sm font-serif font-bold text-brand-navy">Luis Vidal</p>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <section id="inicio" class="relative pt-40 pb-32 min-h-[95vh] flex items-center overflow-hidden">
+    <section id="inicio" class="relative pt-40 pb-32 min-h-[95vh] flex items-center overflow-hidden bg-brand-surface">
         <div class="absolute inset-0 z-0">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-luxury-gold/5 rounded-full blur-[100px] animate-pulse-slow"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-luxury-gold/10 rounded-full blur-[120px]"></div>
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-green/5 rounded-full blur-[120px] animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-brand-navy/5 rounded-full blur-[150px]"></div>
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
                 <div class="lg:col-span-7 text-left animate-fade-in-up">
-                    <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full border border-luxury-gold/30 text-luxury-gold text-xs uppercase tracking-[0.2em] mb-8 font-medium bg-luxury-gold/5">
+                    <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full border border-brand-green/30 text-brand-green-dark text-xs uppercase tracking-[0.2em] mb-8 font-semibold bg-brand-green/10">
                         <i class="fa-solid fa-heart"></i> Una declaración de amor absoluta
                     </span>
-                    <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]">
+                    <h1 class="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-brand-navy mb-6 leading-[1.1]">
                         El privilegio de hacer a tu familia <br>
-                        <span class="gold-gradient-text italic">financieramente intocable.</span>
+                        <span class="green-gradient-text italic">financieramente intocable.</span>
                     </h1>
-                    <p class="text-lg text-gray-400 mb-10 font-light max-w-xl leading-relaxed">
-                        Luis, has construido un patrimonio increíble. Hoy no hablamos de ganar más dinero, hablamos de asegurar que el mundo de <strong class="text-white">Karla y tus 3 hijos</strong> jamás se derrumbe. Estés tú o no estés.
+                    <p class="text-lg text-slate-600 mb-10 font-light max-w-xl leading-relaxed">
+                        Luis, has construido un patrimonio increíble. Hoy no hablamos de ganar más dinero, hablamos de asegurar que el mundo de <strong class="text-brand-navy font-semibold">Karla y tus 3 hijos</strong> jamás se derrumbe. Estés tú o no estés.
                     </p>
                     <div class="flex flex-wrap gap-6">
-                        <a href="#estrategias" class="px-8 py-4 bg-luxury-gold text-luxury-black font-semibold uppercase tracking-wider text-sm hover:bg-luxury-goldlight transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:-translate-y-1">
+                        <a href="#estrategias" class="px-8 py-4 bg-brand-green text-white font-bold uppercase tracking-wider text-sm hover:bg-brand-green-dark transition-all duration-300 shadow-[0_4px_15px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_25px_rgba(16,185,129,0.4)] hover:-translate-y-1 rounded-sm">
                             Ver Opciones de Blindaje
                         </a>
-                        <a href="#concepto" class="px-8 py-4 border border-white/20 text-white font-semibold uppercase tracking-wider text-sm hover:border-luxury-gold hover:text-luxury-gold transition-colors duration-300">
+                        <a href="#concepto" class="px-8 py-4 border border-brand-navy text-brand-navy font-semibold uppercase tracking-wider text-sm hover:bg-brand-navy hover:text-white transition-colors duration-300 rounded-sm">
                             Entender el Propósito
                         </a>
                     </div>
                 </div>
                 
                 <div class="lg:col-span-5 animate-fade-in-up" style="animation-delay: 0.3s;">
-                    <div class="glass-panel p-8 relative">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent"></div>
+                    <div class="glass-panel p-8 relative rounded-xl border border-slate-200">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-green to-transparent rounded-t-xl"></div>
                         
-                        <p class="text-[10px] uppercase tracking-[0.2em] text-luxury-gold mb-6 text-center">El Arquitecto del Patrimonio</p>
+                        <p class="text-[10px] uppercase tracking-[0.2em] text-brand-green-dark mb-6 text-center font-semibold">El Arquitecto del Patrimonio</p>
                         
-                        <div class="flex items-center gap-5 mb-8 pb-8 border-b border-white/10">
-                            <div class="w-16 h-16 rounded-full bg-luxury-gray border border-luxury-gold/30 flex items-center justify-center text-luxury-gold text-2xl shrink-0">
+                        <div class="flex items-center gap-5 mb-8 pb-8 border-b border-slate-200">
+                            <div class="w-16 h-16 rounded-full bg-slate-50 border border-brand-green/30 flex items-center justify-center text-brand-green text-2xl shrink-0 shadow-sm">
                                 <i class="fa-solid fa-user-shield"></i>
                             </div>
                             <div>
-                                <h3 class="font-serif text-2xl text-white">Luis Vidal</h3>
-                                <div class="flex items-center gap-3 mt-1 text-sm text-gray-400">
+                                <h3 class="font-serif text-2xl text-brand-navy font-bold">Luis Vidal</h3>
+                                <div class="flex items-center gap-3 mt-1 text-sm text-slate-500 font-medium">
                                     <span>41 años</span>
-                                    <span class="w-1 h-1 rounded-full bg-luxury-gold"></span>
+                                    <span class="w-1 h-1 rounded-full bg-brand-green"></span>
                                     <span>Padre & Proveedor</span>
                                 </div>
                             </div>
@@ -182,20 +183,20 @@
 
                         <div class="space-y-5">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400 font-light">Estrategia</span>
-                                <span class="text-sm text-white font-medium">Fideicomiso ORVI 99</span>
+                                <span class="text-sm text-slate-500">Estrategia</span>
+                                <span class="text-sm text-brand-navy font-bold">Fideicomiso ORVI 99</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400 font-light">Fuerza de la Moneda</span>
-                                <span class="text-sm text-luxury-gold font-medium"><i class="fa-solid fa-dollar-sign mr-1"></i>Dólares (USD)</span>
+                                <span class="text-sm text-slate-500">Fuerza de la Moneda</span>
+                                <span class="text-sm text-brand-green-dark font-bold bg-brand-green/10 px-2 py-1 rounded"><i class="fa-solid fa-dollar-sign mr-1"></i>Dólares (USD)</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-400 font-light">El Sacrificio (Plazo)</span>
-                                <span class="text-sm text-white font-medium bg-white/10 px-2 py-1 rounded">Solo 6 Años de esfuerzo</span>
+                                <span class="text-sm text-slate-500">El Compromiso (Plazo)</span>
+                                <span class="text-sm text-brand-navy font-bold bg-slate-100 border border-slate-200 px-2 py-1 rounded">Solo 6 Años de esfuerzo</span>
                             </div>
-                            <div class="flex justify-between items-center pt-2 border-t border-white/5">
-                                <span class="text-sm text-gray-400 font-light">Protección Núcleo</span>
-                                <span class="text-sm text-luxury-gold font-medium"><i class="fa-solid fa-ring text-xs mr-1"></i> Incluye a Karla (ADAPTA)</span>
+                            <div class="flex justify-between items-center pt-2 border-t border-slate-200">
+                                <span class="text-sm text-slate-500">Protección Núcleo</span>
+                                <span class="text-sm text-brand-green-dark font-bold"><i class="fa-solid fa-ring text-xs mr-1"></i> Incluye a Karla (ADAPTA)</span>
                             </div>
                         </div>
                     </div>
@@ -205,45 +206,45 @@
         </div>
     </section>
 
-    <section id="concepto" class="py-24 relative border-t border-white/5">
+    <section id="concepto" class="py-24 relative bg-white border-t border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 reveal premium-border pb-6">
-                <span class="text-luxury-gold text-xs uppercase tracking-[0.2em] font-medium">La Filosofía</span>
-                <h2 class="font-serif text-4xl text-white mt-4">¿Por qué esto no es un seguro más?</h2>
+                <span class="text-brand-green-dark text-xs uppercase tracking-[0.2em] font-bold">La Filosofía</span>
+                <h2 class="font-serif text-4xl text-brand-navy mt-4 font-bold">¿Por qué esto no es un seguro más?</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 reveal">
                 
-                <div class="p-8 border border-white/10 hover:border-luxury-gold/50 transition-colors duration-500 group bg-luxury-dark relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-luxury-gold/5 rounded-full blur-xl group-hover:bg-luxury-gold/20 transition-all duration-500"></div>
-                    <div class="w-12 h-12 mb-6 text-luxury-gold text-3xl group-hover:scale-110 transition-transform relative z-10">
+                <div class="p-8 border border-slate-200 hover:border-brand-green/50 transition-all duration-500 group bg-slate-50 relative overflow-hidden rounded-xl hover:shadow-lg">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-brand-green/10 rounded-full blur-xl group-hover:bg-brand-green/20 transition-all duration-500"></div>
+                    <div class="w-12 h-12 mb-6 text-brand-green text-3xl group-hover:scale-110 transition-transform relative z-10">
                         <i class="fa-solid fa-house-chimney-window"></i>
                     </div>
-                    <h3 class="font-serif text-xl text-white mb-4 relative z-10">Estilo de Vida Garantizado</h3>
-                    <p class="text-gray-400 text-sm font-light leading-relaxed relative z-10">
+                    <h3 class="font-serif text-xl text-brand-navy font-bold mb-4 relative z-10">Estilo de Vida Garantizado</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed relative z-10">
                         Este plan asegura que Karla nunca tenga que preocuparse por cómo pagar las cuentas o malbaratar el patrimonio. Las escuelas, las universidades y el nivel de vida de los niños quedan completamente pagados hoy.
                     </p>
                 </div>
 
-                <div class="p-8 border border-white/10 hover:border-luxury-gold/50 transition-colors duration-500 group bg-luxury-dark relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-luxury-gold/5 rounded-full blur-xl group-hover:bg-luxury-gold/20 transition-all duration-500"></div>
-                    <div class="w-12 h-12 mb-6 text-luxury-gold text-3xl group-hover:scale-110 transition-transform relative z-10">
+                <div class="p-8 border border-slate-200 hover:border-brand-green/50 transition-all duration-500 group bg-slate-50 relative overflow-hidden rounded-xl hover:shadow-lg">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-brand-green/10 rounded-full blur-xl group-hover:bg-brand-green/20 transition-all duration-500"></div>
+                    <div class="w-12 h-12 mb-6 text-brand-green text-3xl group-hover:scale-110 transition-transform relative z-10">
                         <i class="fa-solid fa-calendar-check"></i>
                     </div>
-                    <h3 class="font-serif text-xl text-white mb-4 relative z-10">Un Sacrificio de Solo 6 Años</h3>
-                    <p class="text-gray-400 text-sm font-light leading-relaxed relative z-10">
+                    <h3 class="font-serif text-xl text-brand-navy font-bold mb-4 relative z-10">Un compromiso de Solo 6 Años</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed relative z-10">
                         Aprovechamos tu momento de mayor éxito. Durante los próximos 6 años concentras tu esfuerzo. Al llegar a los 47 años, <strong>cierras la chequera para siempre</strong>, pero tu familia queda blindada por el resto de su vida.
                     </p>
                 </div>
 
-                <div class="p-8 border border-white/10 hover:border-luxury-gold/50 transition-colors duration-500 group bg-luxury-dark relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-luxury-gold/5 rounded-full blur-xl group-hover:bg-luxury-gold/20 transition-all duration-500"></div>
-                    <div class="w-12 h-12 mb-6 text-luxury-gold text-3xl group-hover:scale-110 transition-transform relative z-10">
+                <div class="p-8 border border-slate-200 hover:border-brand-green/50 transition-all duration-500 group bg-slate-50 relative overflow-hidden rounded-xl hover:shadow-lg">
+                    <div class="absolute -right-4 -top-4 w-24 h-24 bg-brand-green/10 rounded-full blur-xl group-hover:bg-brand-green/20 transition-all duration-500"></div>
+                    <div class="w-12 h-12 mb-6 text-brand-green text-3xl group-hover:scale-110 transition-transform relative z-10">
                         <i class="fa-solid fa-hand-holding-heart"></i>
                     </div>
-                    <h3 class="font-serif text-xl text-white mb-4 relative z-10">Certeza Pase lo que Pase</h3>
-                    <p class="text-gray-400 text-sm font-light leading-relaxed relative z-10">
-                        Si tú faltas, entregamos una fortuna en efectivo. Si una invalidez te frena, el plan se paga solo y te entregamos el capital en vida. Y si todo sale bien, recuperas tu dinero con rendimientos para tu propio retiro. Tú siempre ganas.
+                    <h3 class="font-serif text-xl text-brand-navy font-bold mb-4 relative z-10">Certeza Pase lo que Pase</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed relative z-10">
+                        Si tú faltas, entregamos 1 millon de dólares a Karla. Si una invalidez te frena, el plan se paga solo y te entregamos el capital en vida. Y si todo sale bien, recuperas tu dinero con rendimientos para tu propio Retiro. Tú siempre ganas.
                     </p>
                 </div>
 
@@ -251,168 +252,121 @@
         </div>
     </section>
 
-    <section id="estrategias" class="py-24 relative bg-luxury-dark border-t border-white/5">
-        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
+    <section id="estrategias" class="py-24 relative bg-brand-surface border-t border-slate-200">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
                 <div>
-                    <span class="text-luxury-gold text-xs uppercase tracking-[0.2em] font-medium">Dimensiones del Castillo</span>
-                    <h2 class="font-serif text-3xl md:text-4xl text-white mt-3">Tú decides el tamaño del legado</h2>
+                    <span class="text-brand-green-dark text-xs uppercase tracking-[0.2em] font-bold">Dimensiones del Castillo</span>
+                    <h2 class="font-serif text-3xl md:text-4xl text-brand-navy font-bold mt-3">Tú decides el tamaño del legado</h2>
                 </div>
                 <div class="mt-4 md:mt-0">
-                    <p class="text-gray-400 text-sm font-light max-w-md text-right">
-                        Basado en tus cotizaciones exclusivas ("600 MIL .PDF", "1 MILLON .PDF" y "3 MILLONES .PDF"). Ninguna opción es incorrecta, es decidir qué nivel de certeza quieres heredar.
+                    <p class="text-slate-600 text-sm font-medium max-w-md text-right">
+                        Ninguna opción es incorrecta, solo es decidir qué nivel de certeza quieres heredar.
                     </p>
                 </div>
             </div>
 
-            <!-- Cambio a 3 columnas para mostrar las 3 opciones -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+            <!-- 2 columnas centradas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 reveal max-w-6xl mx-auto">
                 
                 <!-- Opción 1 ($600k USD) -->
-                <div class="glass-panel p-8 flex flex-col hover:-translate-y-2 transition-transform duration-500 border border-white/10 relative overflow-hidden group">
+                <div class="bg-white p-8 flex flex-col hover:-translate-y-2 transition-transform duration-500 border border-slate-200 shadow-lg relative overflow-hidden group rounded-2xl">
                     
-                    <div class="absolute top-0 right-0 bg-gray-600 text-white text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest z-10">
+                    <div class="absolute top-0 right-0 bg-slate-500 text-white text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest z-10 rounded-bl-lg">
                         Nivel Básico
                     </div>
                     
                     <div class="flex justify-between items-start mb-6 mt-2 relative z-10">
                         <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2">Propuesta 600 MIL .PDF</p>
-                            <h3 class="font-serif text-2xl text-white group-hover:text-gray-300 transition-colors">El Escudo <span class="text-gray-400">Esencial</span></h3>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">Propuesta 600 MIL .PDF</p>
+                            <h3 class="font-serif text-2xl text-brand-navy group-hover:text-brand-navy-light transition-colors font-bold">El Escudo <span class="text-slate-400">Esencial</span></h3>
                         </div>
-                        <div class="w-10 h-10 bg-luxury-gray rounded-full flex items-center justify-center text-gray-300 text-lg border border-white/10 shrink-0">
+                        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-xl border border-slate-200 shrink-0">
                             <i class="fa-solid fa-shield"></i>
                         </div>
                     </div>
                     
-                    <p class="text-sm text-gray-400 mb-6 font-light relative z-10 leading-relaxed">Esta es la red de seguridad fundamental. Garantiza que no dejes deudas y le da a Karla un respiro vital para reorganizar la familia sin presiones inmediatas.</p>
+                    <p class="text-sm text-slate-600 mb-6 relative z-10 leading-relaxed">Esta es la red de seguridad fundamental. Garantiza que no dejes deudas y le da a Karla un respiro vital para reorganizar la familia sin presiones inmediatas.</p>
 
-                    <div class="mb-8 text-center py-6 border-y border-white/5 bg-black/30 rounded-lg relative z-10">
-                        <p class="text-[11px] text-gray-400 uppercase tracking-widest mb-2 font-light">Legado de Protección</p>
-                        <p class="font-serif text-4xl font-bold text-white relative inline-block">
-                            $600,000 <span class="text-lg font-normal text-gray-500">USD</span>
+                    <div class="mb-8 text-center py-6 border-y border-slate-100 bg-slate-50 rounded-lg relative z-10">
+                        <p class="text-[11px] text-slate-500 uppercase tracking-widest mb-2 font-bold">Legado de Protección</p>
+                        <p class="font-serif text-4xl font-bold text-brand-navy relative inline-block">
+                            $600,000 <span class="text-lg font-normal text-slate-400">USD</span>
                         </p>
                     </div>
 
                     <div class="space-y-4 mb-8 flex-grow relative z-10">
                         <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Compromiso:</span>
-                            <span class="text-white font-medium">6 Pagos Anuales</span>
+                            <span class="text-slate-500">Compromiso:</span>
+                            <span class="text-brand-navy font-bold">6 Pagos Anuales</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Traslado de Riqueza:</span>
-                            <span class="text-white font-medium">$39,344 USD</span>
+                            <span class="text-slate-500">Traslado de Riqueza:</span>
+                            <span class="text-brand-navy font-bold">$39,344 USD</span>
                         </div>
-                        <div class="flex justify-between items-center text-sm pt-4 border-t border-white/5">
-                            <span class="text-gray-400 font-light">Inversión en 6 Años:</span>
-                            <span class="text-gray-300 font-medium">~$236,063 USD</span>
+                        <div class="flex justify-between items-center text-sm pt-4 border-t border-slate-100">
+                            <span class="text-slate-500">Inversión en 6 Años:</span>
+                            <span class="text-brand-navy font-bold">~$236,063 USD</span>
                         </div>
                     </div>
 
-                    <div class="bg-luxury-gray p-5 text-center border border-white/5 rounded relative z-10 mt-auto">
-                        <p class="text-[9px] uppercase tracking-widest text-gray-400 mb-1">Impacto Final</p>
-                        <p class="text-xs text-gray-300 font-light">Aportas ~$236 mil y dejas garantizados <strong class="text-white">$600 Mil dólares</strong> intocables para ellos.</p>
+                    <div class="bg-slate-50 p-5 text-center border border-slate-200 rounded-lg relative z-10 mt-auto">
+                        <p class="text-[9px] uppercase tracking-widest text-slate-500 font-bold mb-1">Impacto Final</p>
+                        <p class="text-xs text-slate-600">Aportas ~$236 mil y dejas garantizados <strong class="text-brand-navy font-bold">$600 Mil dólares</strong> intocables para ellos.</p>
                     </div>
                 </div>
 
-                <!-- Opción 2 ($1M USD) -->
-                <div class="glass-panel p-8 flex flex-col hover:-translate-y-2 transition-transform duration-500 border border-white/20 relative overflow-hidden group shadow-lg">
+                <!-- Opción 2 ($1M USD) - IDEAL RECOMENDADO -->
+                <div class="bg-white p-8 flex flex-col hover:-translate-y-2 transition-transform duration-500 relative animate-glow group overflow-hidden transform lg:scale-105 z-20 rounded-2xl">
                     
-                    <div class="absolute top-0 right-0 bg-gray-400 text-luxury-black text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest z-10">
-                        Nivel Intermedio
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-6 mt-2 relative z-10">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-2">Propuesta 1 MILLON .PDF</p>
-                            <h3 class="font-serif text-2xl text-white group-hover:text-gray-200 transition-colors">El Escudo <span class="text-gray-300">Avanzado</span></h3>
-                        </div>
-                        <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 text-lg border border-gray-500 shrink-0">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                    </div>
-                    
-                    <p class="text-sm text-gray-400 mb-6 font-light relative z-10 leading-relaxed">Un nivel de protección sólido que asegura la universidad de tus tres hijos y brinda a Karla estabilidad financiera a largo plazo.</p>
-
-                    <div class="mb-8 text-center py-6 border-y border-gray-600/30 bg-gray-800/30 rounded-lg relative z-10">
-                        <p class="text-[11px] text-gray-300 uppercase tracking-widest mb-2 font-light">Legado de Protección</p>
-                        <p class="font-serif text-4xl font-bold text-white relative inline-block">
-                            $1,000,000 <span class="text-lg font-normal text-gray-400">USD</span>
-                        </p>
-                    </div>
-
-                    <div class="space-y-4 mb-8 flex-grow relative z-10">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Compromiso:</span>
-                            <span class="text-white font-medium">6 Pagos Anuales</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Traslado de Riqueza:</span>
-                            <span class="text-white font-medium">$65,439 USD</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm pt-4 border-t border-white/5">
-                            <span class="text-gray-400 font-light">Inversión en 6 Años:</span>
-                            <span class="text-gray-200 font-medium">~$392,633 USD</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-800/50 p-5 text-center border border-gray-600/30 rounded relative z-10 mt-auto">
-                        <p class="text-[9px] uppercase tracking-widest text-gray-400 mb-1">Impacto Final</p>
-                        <p class="text-xs text-gray-300 font-light">Aportas ~$392 mil, consolidando <strong class="text-white">Un Millón de dólares</strong> directos a su futuro.</p>
-                    </div>
-                </div>
-
-                <!-- Opción 3 ($3M USD) -->
-                <div class="glass-panel p-8 flex flex-col hover:-translate-y-2 transition-transform duration-500 relative animate-glow border border-luxury-gold/40 group overflow-hidden md:col-span-2 lg:col-span-1 transform lg:scale-105 z-20 bg-luxury-black/90">
-                    
-                    <!-- MARCA DE AGUA PALOMITA (Aprobación difuminada) -->
+                    <!-- MARCA DE AGUA PALOMITA -->
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-                        <i class="fa-solid fa-check text-[20rem] text-luxury-gold/10 blur-[4px] opacity-60 group-hover:opacity-100 transition-opacity duration-700"></i>
+                        <i class="fa-solid fa-check text-[15rem] text-brand-green/5 blur-[2px] opacity-60 group-hover:opacity-100 transition-opacity duration-700"></i>
                     </div>
 
-                    <div class="absolute top-0 right-0 bg-luxury-gold text-luxury-black text-[9px] font-bold px-4 py-1.5 uppercase tracking-widest shadow-lg z-10">
+                    <div class="absolute top-0 right-0 bg-brand-green text-white text-[10px] font-bold px-5 py-2 uppercase tracking-widest shadow-lg z-10 rounded-bl-lg">
                         Ideal Recomendado
                     </div>
                     
                     <div class="flex justify-between items-start mb-6 mt-2 relative z-10">
                         <div>
-                            <p class="text-[10px] uppercase tracking-[0.2em] text-luxury-gold mb-2">Propuesta 3 MILLONES .PDF</p>
-                            <h3 class="font-serif text-2xl text-white">El Blindaje <span class="text-luxury-gold font-bold">Absoluto</span></h3>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-brand-green-dark font-bold mb-2">Propuesta 1 MILLON .PDF</p>
+                            <h3 class="font-serif text-3xl text-brand-navy font-bold">El Blindaje <span class="text-brand-green">Absoluto</span></h3>
                         </div>
-                        <div class="w-10 h-10 bg-luxury-gold/10 rounded-full flex items-center justify-center text-luxury-gold text-lg border border-luxury-gold/50 shadow-[0_0_15px_rgba(212,175,55,0.5)] shrink-0">
+                        <div class="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green-dark text-xl border border-brand-green/30 shadow-[0_0_15px_rgba(16,185,129,0.2)] shrink-0">
                             <i class="fa-solid fa-chess-king"></i>
                         </div>
                     </div>
-
-                    <p class="text-sm text-gray-300 mb-6 font-light relative z-10 leading-relaxed">La garantía de que <strong class="text-luxury-gold">NADA CAMBIA</strong>. La casa, los viajes, las maestrías. Es asegurar su mismo estilo de vida a perpetuidad.</p>
                     
-                    <div class="mb-8 text-center py-6 border-y border-luxury-gold/30 bg-luxury-gold/5 rounded-lg shadow-inner relative z-10 backdrop-blur-sm">
-                        <p class="text-[11px] text-luxury-gold uppercase tracking-widest mb-2 font-light">Fortuna Garantizada</p>
-                        <p class="font-serif text-4xl font-bold text-white shadow-luxury-gold/20 flex items-center justify-center gap-2">
-                            $3,000,000 <span class="text-lg font-normal text-luxury-gold">USD</span>
+                    <p class="text-sm text-slate-600 mb-6 relative z-10 leading-relaxed">Un nivel de protección sólido que asegura la universidad de tus tres hijos y brinda a Karla estabilidad financiera a largo plazo. Es asegurar su mismo estilo de vida.</p>
+
+                    <div class="mb-8 text-center py-6 border-y border-brand-green/20 bg-brand-green/5 rounded-lg relative z-10">
+                        <p class="text-[11px] text-brand-green-dark font-bold uppercase tracking-widest mb-2">Gran Fondo Garantizado</p>
+                        <p class="font-serif text-5xl font-bold text-brand-navy flex items-center justify-center gap-2">
+                            $1,000,000 <span class="text-xl font-normal text-slate-400">USD</span>
                         </p>
                     </div>
 
                     <div class="space-y-4 mb-8 flex-grow relative z-10">
                         <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Compromiso:</span>
-                            <span class="text-white font-medium">6 Pagos Anuales</span>
+                            <span class="text-slate-500">Compromiso:</span>
+                            <span class="text-brand-navy font-bold">6 Pagos Anuales</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-400 font-light">Traslado de Riqueza:</span>
-                            <span class="text-white font-medium">$183,883 USD</span>
+                            <span class="text-slate-500">Traslado de Riqueza:</span>
+                            <span class="text-brand-navy font-bold">$65,439 USD</span>
                         </div>
-                        <div class="flex justify-between items-center text-sm pt-4 border-t border-white/5">
-                            <span class="text-gray-400 font-light">Inversión en 6 Años:</span>
-                            <span class="text-luxury-gold font-bold">~$1,103,300 USD</span>
+                        <div class="flex justify-between items-center text-sm pt-4 border-t border-slate-100">
+                            <span class="text-slate-500">Inversión en 6 Años:</span>
+                            <span class="text-brand-green-dark font-bold text-base">~$392,633 USD</span>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-luxury-gold/20 to-luxury-gold/5 p-5 text-center border border-luxury-gold/40 rounded relative z-10 backdrop-blur-md mt-auto">
-                        <p class="text-[9px] uppercase tracking-widest text-luxury-gold mb-1 text-shadow">Certeza Inquebrantable</p>
-                        <p class="text-xs text-white font-medium">"Me aseguré de que nunca les falte nada."</p>
+                    <div class="bg-gradient-to-r from-brand-green/10 to-brand-green/5 p-5 text-center border border-brand-green/30 rounded-lg relative z-10 mt-auto">
+                        <p class="text-[10px] uppercase tracking-widest text-brand-green-dark mb-1 font-bold">Certeza Inquebrantable</p>
+                        <p class="text-sm text-brand-navy font-semibold">"Me aseguré de que nunca les falte nada."</p>
                     </div>
                 </div>
 
@@ -420,20 +374,20 @@
         </div>
     </section>
 
-    <section id="proyeccion" class="py-24 relative">
+    <section id="proyeccion" class="py-24 relative bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal premium-border pb-6">
-                <span class="text-luxury-gold text-xs uppercase tracking-[0.2em] font-medium">El Escenario Ideal</span>
-                <h2 class="font-serif text-4xl text-white mt-4">La Recompensa de Verte Envejecer</h2>
-                <p class="text-gray-400 font-light mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
-                    Luis, este plan está hecho para protegerlos si tú no estás. Pero, <strong>si la vida te permite ver crecer a tus hijos y jubilarte al lado de Karla</strong>, este mismo fondo te devuelve cada centavo que pusiste, con creces. Mira cómo crece tu dinero en el <span class="text-white">Plan Ideal de 3 Millones</span>:
+                <span class="text-brand-green-dark text-xs uppercase tracking-[0.2em] font-bold">El Escenario Ideal</span>
+                <h2 class="font-serif text-4xl text-brand-navy mt-4 font-bold">La Recompensa de verte bien Siempre </h2>
+                <p class="text-slate-600 mt-4 max-w-3xl mx-auto text-lg leading-relaxed">
+                    Luis, este plan está hecho para protegerlos si tú no estás. Pero, <strong>si la vida te permite ver crecer a tus hijos y jubilarte al lado de Karla</strong>, este mismo fondo te devuelve cada centavo que pusiste, con creces. Mira cómo crece tu dinero en el <span class="text-brand-navy font-bold">Plan Ideal de 1 Millón</span>:
                 </p>
             </div>
 
-            <div class="glass-panel p-8 md:p-10 reveal border border-luxury-gold/20 shadow-2xl">
+            <div class="bg-white p-8 md:p-10 reveal border border-slate-200 shadow-xl rounded-2xl">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                    <h3 class="font-serif text-2xl text-white"><i class="fa-solid fa-chart-line text-luxury-gold mr-3"></i> Evolución de tus Valores en Efectivo</h3>
-                    <div class="px-4 py-2 bg-luxury-gold/10 text-xs text-luxury-gold uppercase tracking-widest border border-luxury-gold/30 rounded">
+                    <h3 class="font-serif text-2xl text-brand-navy font-bold"><i class="fa-solid fa-chart-line text-brand-green mr-3"></i> Evolución de tus valores en Efectivo</h3>
+                    <div class="px-4 py-2 bg-brand-green/10 text-xs text-brand-green-dark font-bold uppercase tracking-widest border border-brand-green/20 rounded-md">
                         Valores Reales Garantizados (USD)
                     </div>
                 </div>
@@ -442,66 +396,66 @@
                     <canvas id="crecimientoOrviChart"></canvas>
                 </div>
                 
-                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center border-t border-white/10 pt-8">
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center border-t border-slate-200 pt-8">
                     <div>
-                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Año 12 (Tienes 52 Años)</p>
-                        <p class="text-2xl font-serif text-white">$1,107,963 <span class="text-sm">USD</span></p>
-                        <p class="text-xs text-luxury-gold mt-1">Superas lo que pagaste (101.8% Recuperado)</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">Año 15 (Tienes 55 Años)</p>
+                        <p class="text-2xl font-serif text-brand-navy font-bold">$400,800 <span class="text-sm font-normal text-slate-500">USD</span></p>
+                        <p class="text-xs text-brand-green-dark font-bold mt-1">Superas lo que pagaste (102.1% Recuperado)</p>
                     </div>
-                    <div class="border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0">
-                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Año 25 (Tienes 65 Años)</p>
-                        <p class="text-2xl font-serif text-white">$1,541,160 <span class="text-sm">USD</span></p>
-                        <p class="text-xs text-luxury-gold mt-1">Un Retiro Dorado (141.7% Recuperado)</p>
+                    <div class="border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0">
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">Año 25 (Tienes 65 Años)</p>
+                        <p class="text-2xl font-serif text-brand-navy font-bold">$513,720 <span class="text-sm font-normal text-slate-500">USD</span></p>
+                        <p class="text-xs text-brand-green-dark font-bold mt-1">Un Retiro Dorado (130.8% Recuperado)</p>
                     </div>
-                    <div class="border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0">
-                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Año 45 (Tienes 85 Años)</p>
-                        <p class="text-2xl font-serif text-white">$2,228,853 <span class="text-sm">USD</span></p>
-                        <p class="text-xs text-luxury-gold mt-1">Legado en Vida (204.9% Recuperado)</p>
+                    <div class="border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0">
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mb-2">Año 45 (Tienes 85 Años)</p>
+                        <p class="text-2xl font-serif text-brand-navy font-bold">$742,951 <span class="text-sm font-normal text-slate-500">USD</span></p>
+                        <p class="text-xs text-brand-green-dark font-bold mt-1">Legado en Vida (189.2% Recuperado)</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 bg-luxury-dark relative border-t border-white/5">
+    <section class="py-24 bg-brand-surface relative border-t border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <h2 class="font-serif text-3xl text-white">Un Blindaje Sin Fisuras</h2>
-                <p class="text-gray-400 font-light mt-3 text-lg">Porque el amor verdadero protege contra cualquier tormenta.</p>
+                <h2 class="font-serif text-3xl text-brand-navy font-bold">Un Blindaje sin Fisuras</h2>
+                <p class="text-slate-600 mt-3 text-lg">Porque el amor verdadero protege contra cualquier tormenta.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
                 
-                <div class="p-6 border border-white/10 hover:border-luxury-gold/50 transition-all duration-300 bg-luxury-black rounded hover:-translate-y-1">
-                    <i class="fa-solid fa-person-walking-with-cane text-3xl text-luxury-gold mb-4"></i>
-                    <h4 class="text-white font-medium mb-2 text-lg">Invalidez (BAIT)</h4>
-                    <p class="text-sm text-gray-400 font-light leading-relaxed">
+                <div class="p-6 border border-slate-200 hover:border-brand-green/50 transition-all duration-300 bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <i class="fa-solid fa-person-walking-with-cane text-3xl text-brand-green mb-4"></i>
+                    <h4 class="text-brand-navy font-bold mb-2 text-lg">Invalidez (BAIT)</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Si una enfermedad o accidente te impide trabajar, te entregamos tu suma asegurada total en efectivo, en vida. Tu familia no quiebra.
                     </p>
                 </div>
 
-                <div class="p-6 border border-white/10 hover:border-luxury-gold/50 transition-all duration-300 bg-luxury-black rounded hover:-translate-y-1">
-                    <i class="fa-solid fa-file-circle-check text-3xl text-luxury-gold mb-4"></i>
-                    <h4 class="text-white font-medium mb-2 text-lg">Exención (BIT)</h4>
-                    <p class="text-sm text-gray-400 font-light leading-relaxed">
+                <div class="p-6 border border-slate-200 hover:border-brand-green/50 transition-all duration-300 bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <i class="fa-solid fa-file-circle-check text-3xl text-brand-green mb-4"></i>
+                    <h4 class="text-brand-navy font-bold mb-2 text-lg">Exención (BIT)</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
                         Si se declara la invalidez, además de darte el dinero, cancelamos todos los pagos que te falten. Tu plan queda pagado de por vida.
                     </p>
                 </div>
 
-                <div class="p-6 border border-white/10 hover:border-luxury-gold/50 transition-all duration-300 bg-luxury-black rounded hover:-translate-y-1">
-                    <i class="fa-solid fa-car-burst text-3xl text-luxury-gold mb-4"></i>
-                    <h4 class="text-white font-medium mb-2 text-lg">Accidentes (BMA)</h4>
-                    <p class="text-sm text-gray-400 font-light leading-relaxed">
-                        Si llegas a faltar por un accidente repentino, entregamos la suma asegurada base íntegra de forma adicional a tu familia.
+                <div class="p-6 border border-slate-200 hover:border-brand-green/50 transition-all duration-300 bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1">
+                    <i class="fa-solid fa-car-burst text-3xl text-brand-green mb-4"></i>
+                    <h4 class="text-brand-navy font-bold mb-2 text-lg">Accidentes (BMA)</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Si llegas a faltar por un accidente repentino, entregamos hasta la suma asegurada adicional íntegra a Karla y tus hijos.
                     </p>
                 </div>
 
-                <div class="p-6 border border-luxury-gold/40 hover:border-luxury-gold transition-all duration-300 bg-gradient-to-br from-luxury-black to-luxury-gold/10 relative overflow-hidden rounded hover:-translate-y-1 shadow-[0_0_15px_rgba(212,175,55,0.15)]">
-                    <div class="absolute top-0 right-0 bg-luxury-gold text-luxury-black text-[9px] font-bold px-3 py-1 uppercase tracking-widest">Núcleo Familiar</div>
-                    <i class="fa-solid fa-ring text-3xl text-luxury-gold mb-4 mt-2"></i>
-                    <h4 class="text-white font-medium mb-2 text-lg">Cobertura Conyugal (ADAPTA)</h4>
-                    <p class="text-sm text-gray-300 font-light leading-relaxed">
-                        Karla queda protegida automáticamente bajo el mismo plan, blindando el pilar dual de la familia con cobertura completa.
+                <div class="p-6 border border-brand-green/30 hover:border-brand-green transition-all duration-300 bg-brand-green/5 relative overflow-hidden rounded-xl hover:-translate-y-1 shadow-sm hover:shadow-md">
+                    <div class="absolute top-0 right-0 bg-brand-green text-white text-[9px] font-bold px-3 py-1 uppercase tracking-widest rounded-bl-lg">Núcleo Familiar</div>
+                    <i class="fa-solid fa-ring text-3xl text-brand-green-dark mb-4 mt-2"></i>
+                    <h4 class="text-brand-navy font-bold mb-2 text-lg">Cobertura Conyugal (ADAPTA)</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Karla queda protegida automáticamente bajo el mismo plan, blindando el pilar dual de la casa con cobertura completa.
                     </p>
                 </div>
 
@@ -509,31 +463,31 @@
         </div>
     </section>
 
-    <footer class="bg-luxury-black border-t border-luxury-gold/30 pt-16 pb-8 relative overflow-hidden">
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-luxury-gold/5 rounded-t-full blur-3xl pointer-events-none"></div>
+    <footer class="bg-brand-navy border-t border-brand-green/30 pt-16 pb-8 relative overflow-hidden">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-brand-green/10 rounded-t-full blur-3xl pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
                 
                 <div>
                     <div class="flex items-center gap-3 mb-4">
-                        <i class="fa-solid fa-building-columns text-luxury-gold text-3xl drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]"></i>
+                        <i class="fa-solid fa-building-columns text-brand-green text-3xl"></i>
                         <span class="font-serif text-2xl text-white tracking-wide">Seguros Monterrey New York Life</span>
                     </div>
-                    <p class="text-gray-500 text-xs font-light max-w-lg leading-relaxed">
+                    <p class="text-slate-400 text-xs font-light max-w-lg leading-relaxed">
                         * Los valores mostrados son estrictamente de carácter ilustrativo, basados en los estudios oficiales generados en octubre de 2026. Todas las cantidades están expresadas en Dólares (USD).
                     </p>
                 </div>
                 
                 <div class="text-left md:text-right">
-                    <p class="text-[10px] uppercase tracking-widest text-luxury-gold mb-2">Tu Aliado en Protección Patrimonial</p>
+                    <p class="text-[10px] uppercase tracking-widest text-brand-green mb-2 font-bold">Tu Aliado en Protección Patrimonial</p>
                     <p class="font-serif text-2xl text-white mb-4">Victor Hugo Diaz Martinez de Escobar</p>
                     
-                    <div class="flex flex-col md:items-end gap-2 text-sm text-gray-400 font-light">
-                        <a href="mailto:vhdiazme@gmail.com" class="hover:text-luxury-gold transition-colors flex items-center justify-start md:justify-end gap-2">
-                            <i class="fa-solid fa-envelope text-luxury-gold"></i> vhdiazme@gmail.com
+                    <div class="flex flex-col md:items-end gap-2 text-sm text-slate-300 font-light">
+                        <a href="mailto:vhdiazme@gmail.com" class="hover:text-brand-green-light transition-colors flex items-center justify-start md:justify-end gap-2">
+                            <i class="fa-solid fa-envelope text-brand-green"></i> vhdiazme@gmail.com
                         </a>
                         <span class="flex items-center justify-start md:justify-end gap-2">
-                            <i class="fa-solid fa-hashtag text-luxury-gold"></i> Clave Profesional: 76175
+                            <i class="fa-solid fa-hashtag text-brand-green"></i> Clave Profesional: 76175
                         </span>
                     </div>
                 </div>
@@ -541,7 +495,7 @@
             </div>
             
             <div class="text-center border-t border-white/10 pt-8 mt-4">
-                <p class="text-xs text-luxury-gold uppercase tracking-[0.3em] font-medium">Documento Estrictamente Confidencial - Uso Exclusivo L.N.V.H.</p>
+                <p class="text-xs text-brand-green uppercase tracking-[0.3em] font-medium">Documento Estrictamente Confidencial - Uso Exclusivo L.N.V.H.</p>
             </div>
         </div>
     </footer>
@@ -568,50 +522,48 @@
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                nav.classList.add('shadow-[0_4px_30px_rgba(0,0,0,0.5)]');
-                nav.classList.replace('bg-luxury-black/80', 'bg-luxury-black/95');
-                nav.style.borderBottom = '1px solid rgba(212, 175, 55, 0.2)';
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-white/80', 'bg-white/95');
+                nav.style.borderBottom = '1px solid rgba(16, 185, 129, 0.2)';
             } else {
-                nav.classList.remove('shadow-[0_4px_30px_rgba(0,0,0,0.5)]');
-                nav.classList.replace('bg-luxury-black/95', 'bg-luxury-black/80');
-                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-white/95', 'bg-white/80');
+                nav.style.borderBottom = '1px solid rgba(226, 232, 240, 1)';
             }
         });
 
-        // Configuración de Chart.js para lucir espectacular en tema oscuro
+        // Configuración de Chart.js para tema Claro
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('crecimientoOrviChart');
             
-            Chart.defaults.color = '#888';
+            Chart.defaults.color = '#64748b'; // slate-500
             Chart.defaults.font.family = "'Inter', sans-serif";
             
             if(ctx) {
                 new Chart(ctx.getContext('2d'), {
                     type: 'line',
                     data: {
-                        labels: ['Hoy (41)', 'Año 6 (46)', 'Año 12 (52)', 'Año 25 (65)', 'Año 35 (75)', 'Año 45 (85)'],
+                        labels: ['Hoy (41)', 'Año 6 (46)', 'Año 15 (55)', 'Año 25 (65)', 'Año 35 (75)', 'Año 45 (85)'],
                         datasets: [
                             {
                                 label: 'Fondo de Recuperación Garantizado (USD)',
-                                // Valores exactos tomados del PDF 3 MILLONES para los años ilustrados
-                                data: [0, 690423, 1107963, 1541160, 1893963, 2228853],
-                                borderColor: '#D4AF37', 
-                                backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                                data: [0, 230141, 400800, 513720, 631321, 742951],
+                                borderColor: '#10B981', // brand-green
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
                                 borderWidth: 4,
                                 fill: true,
                                 tension: 0.4,
-                                pointBackgroundColor: '#D4AF37',
-                                pointBorderColor: '#0A0A0A',
+                                pointBackgroundColor: '#10B981',
+                                pointBorderColor: '#FFFFFF', 
                                 pointBorderWidth: 2,
                                 pointRadius: 6,
                                 pointHoverRadius: 9,
-                                pointHoverBackgroundColor: '#FFF'
+                                pointHoverBackgroundColor: '#0A2540' // brand-navy
                             },
                             {
-                                label: 'Tu Sacrificio Total Acumulado (Plan 3 Millones)',
-                                // Manteniendo plano después del año 6 (183,883 * 6 = 1,103,298 aprox)
-                                data: [183883, 1103298, 1103298, 1103298, 1103298, 1103298],
-                                borderColor: 'rgba(255, 255, 255, 0.3)',
+                                label: 'Tu Sacrificio Total Acumulado (Plan 1 Millón)',
+                                data: [65439, 392633, 392633, 392633, 392633, 392633],
+                                borderColor: '#0A2540', // brand-navy para resaltar en fondo claro
                                 borderDash: [6, 6],
                                 borderWidth: 2,
                                 fill: false,
@@ -630,14 +582,16 @@
                         },
                         plugins: {
                             tooltip: {
-                                backgroundColor: 'rgba(10, 10, 10, 0.95)',
-                                titleColor: '#D4AF37',
-                                titleFont: { size: 14, family: "'Playfair Display', serif" },
-                                bodyColor: '#FFF',
-                                bodyFont: { size: 13 },
-                                borderColor: 'rgba(212, 175, 55, 0.4)',
+                                backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                                titleColor: '#059669', // green-dark
+                                titleFont: { size: 14, family: "'Playfair Display', serif", weight: 'bold' },
+                                bodyColor: '#334155', // slate-700
+                                bodyFont: { size: 13, weight: '500' },
+                                borderColor: 'rgba(16, 185, 129, 0.3)',
                                 borderWidth: 1,
                                 padding: 15,
+                                boxPadding: 6,
+                                titleShadowBlur: 0,
                                 callbacks: {
                                     label: function(context) {
                                         let label = context.dataset.label || '';
@@ -648,6 +602,9 @@
                                             label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(context.parsed.y);
                                         }
                                         return label;
+                                    },
+                                    labelTextColor: function(context) {
+                                        return '#0F172A'; // Texto del tooltip oscuro
                                     }
                                 }
                             },
@@ -656,8 +613,8 @@
                                 labels: {
                                     usePointStyle: true,
                                     padding: 25,
-                                    color: '#E5E5E5',
-                                    font: { size: 13 }
+                                    color: '#0A2540', // brand-navy
+                                    font: { size: 13, weight: '600' }
                                 }
                             }
                         },
@@ -668,19 +625,19 @@
                                     callback: function(value) {
                                         return '$' + (value / 1000).toFixed(0) + 'k';
                                     },
-                                    color: '#888',
-                                    font: { size: 12 }
+                                    color: '#64748b',
+                                    font: { size: 12, weight: '500' }
                                 },
                                 grid: { 
-                                    color: 'rgba(255, 255, 255, 0.05)',
+                                    color: '#E2E8F0', // slate-200
                                     drawBorder: false
                                 }
                             },
                             x: {
                                 grid: { display: false },
                                 ticks: { 
-                                    color: '#AAA',
-                                    font: { size: 12, weight: '500' }
+                                    color: '#475569', // slate-600
+                                    font: { size: 12, weight: '600' }
                                 }
                             }
                         }
